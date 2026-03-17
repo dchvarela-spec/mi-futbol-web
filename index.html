@@ -1,104 +1,107 @@
+code
+Html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Línea de Cal | Análisis y Clasificación</title>
+    <title>Línea de Cal | Diario de Análisis Deportivo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Public+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Public Sans', sans-serif; background-color: #f4f4f4; color: #1a1a1a; }
+        body { font-family: 'Public Sans', sans-serif; background-color: #fcfcfc; color: #1a1a1a; }
         h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
-        .accent-line { border-left: 5px solid #be123c; } /* Rojo Línea de Cal */
+        .accent-line { border-left: 5px solid #be123c; }
         .navy-bg { background-color: #020617; }
         .card { background: white; border: 1px solid #e5e7eb; border-radius: 2px; }
-        .table-header { background-color: #f9fafb; font-size: 0.65rem; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; }
-        .points-col { background-color: #f1f5f9; font-weight: 800; color: #0f172a; }
+        .table-header { background-color: #f9fafb; font-size: 0.7rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.05em; }
+        .points-col { background-color: #f8fafc; font-weight: 800; color: #be123c; }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Top Bar -->
-    <div class="navy-bg text-white py-2 px-6 text-[10px] font-bold uppercase tracking-widest flex justify-between">
-        <span>Análisis de Datos Pro v1.0</span>
+    <!-- Top Bar Prensa -->
+    <div class="navy-bg text-white py-2 px-6 text-[10px] font-bold uppercase tracking-[0.3em] flex justify-between">
+        <span>Edición Digital Pro</span>
         <span id="dateText"></span>
     </div>
 
-    <!-- Nav -->
+    <!-- Navegación Principal -->
     <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="text-2xl font-black italic tracking-tighter text-slate-900 uppercase">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center">
+            <div class="text-3xl font-black italic tracking-tighter text-slate-900 uppercase">
                 LÍNEA DE <span class="text-rose-700">CAL</span>
             </div>
-            <div class="flex items-center gap-4">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">Seleccionar Competición:</span>
-                <select id="leagueSelect" class="bg-slate-100 border-none rounded text-xs font-bold py-2 px-4 outline-none focus:ring-2 ring-rose-600">
-                    <option value="esp.1">La Liga (España)</option>
-                    <option value="eng.1">Premier League (Inglaterra)</option>
-                    <option value="ita.1">Serie A (Italia)</option>
-                    <option value="ger.1">Bundesliga (Alemania)</option>
-                </select>
+            <div class="hidden md:flex gap-8 text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
+                <a href="#" class="text-rose-700">Clasificación</a>
+                <a href="#" class="hover:text-rose-700 transition">Análisis xG</a>
+                <a href="#" class="hover:text-rose-700 transition">Pizarra</a>
             </div>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
             
             <!-- Columna Tabla -->
             <div class="lg:col-span-2">
-                <div class="accent-line pl-5 mb-8">
-                    <h1 id="leagueName" class="text-4xl font-extrabold text-slate-900 uppercase tracking-tighter">Cargando Competición...</h1>
-                    <p class="text-slate-500 text-sm font-medium mt-1 uppercase tracking-widest">Temporada Regular 2023/24</p>
+                <div class="accent-line pl-6 mb-10">
+                    <h1 class="text-4xl font-extrabold text-slate-900 uppercase tracking-tighter">Primera División</h1>
+                    <p class="text-slate-400 text-sm font-bold mt-1 uppercase tracking-[0.2em]">Temporada 2023 / 2024</p>
                 </div>
 
-                <div class="card overflow-hidden shadow-sm">
+                <div class="card overflow-hidden shadow-sm border-t-2 border-t-slate-900">
                     <table class="w-full text-left">
                         <thead>
                             <tr class="table-header border-b border-gray-200">
                                 <th class="p-4 w-12 text-center">Pos</th>
-                                <th class="p-4">Club</th>
+                                <th class="p-4">Equipo</th>
                                 <th class="p-4 text-center">PJ</th>
                                 <th class="p-4 text-center">PG</th>
-                                <th class="p-4 text-center text-slate-400 font-normal">PE</th>
-                                <th class="p-4 text-center text-slate-400 font-normal">PP</th>
+                                <th class="p-4 text-center">PE</th>
+                                <th class="p-4 text-center">PP</th>
                                 <th class="p-4 text-center points-col italic">PTS</th>
                             </tr>
                         </thead>
-                        <tbody id="standingsTable" class="divide-y divide-gray-100">
-                            <!-- Datos mediante JS -->
+                        <tbody id="standingsTable" class="divide-y divide-gray-100 text-sm">
+                            <!-- Los datos se cargan por JS -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Columna Lateral (Editorial) -->
-            <div class="space-y-8">
-                <div class="bg-rose-700 p-8 text-white">
-                    <h3 class="font-bold uppercase text-xs tracking-widest mb-4 opacity-80 underline underline-offset-8">Nota Editorial</h3>
-                    <p class="text-lg leading-snug font-semibold italic">
-                        "La consistencia defensiva del líder está marcando una diferencia histórica en el modelo de goles esperados de esta temporada."
+            <!-- Columna Lateral Editorial -->
+            <div class="space-y-10">
+                <div class="bg-slate-900 p-8 text-white relative">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-rose-700"></div>
+                    <h3 class="font-bold uppercase text-[10px] tracking-widest mb-4 text-rose-500">El Análisis de la Jornada</h3>
+                    <p class="text-xl leading-tight font-bold italic mb-6">
+                        "La efectividad del área rival define un liderato que parece inalcanzable para los perseguidores."
                     </p>
-                    <p class="mt-4 text-[10px] font-bold uppercase tracking-tighter">— Equipo de Análisis, Línea de Cal</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-rose-700 rounded-full flex items-center justify-center font-black">LC</div>
+                        <div>
+                            <p class="text-[10px] font-bold uppercase tracking-tighter">Redacción Línea de Cal</p>
+                            <p class="text-[9px] text-slate-400">Analista de Big Data</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="card p-6">
-                    <h3 class="font-bold uppercase text-xs tracking-widest mb-6 text-slate-400 flex items-center gap-2">
-                        <span class="w-2 h-2 bg-rose-700"></span> Goleadores Provisionales
-                    </h3>
+                <div class="border-t border-gray-200 pt-6">
+                    <h3 class="font-extrabold uppercase text-xs tracking-widest mb-6 text-slate-900">Máximos Goleadores</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-50 pb-2">
-                            <span class="text-sm font-bold text-slate-700">A. Griezmann</span>
-                            <span class="bg-slate-100 text-[10px] font-black px-2 py-1">11 Gls</span>
+                        <div class="flex justify-between items-baseline border-b border-slate-100 pb-2">
+                            <span class="text-sm font-bold">1. Jude Bellingham</span>
+                            <span class="text-xs font-black text-rose-700">16</span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-slate-50 pb-2">
-                            <span class="text-sm font-bold text-slate-700">Jude Bellingham</span>
-                            <span class="bg-slate-100 text-[10px] font-black px-2 py-1">10 Gls</span>
+                        <div class="flex justify-between items-baseline border-b border-slate-100 pb-2">
+                            <span class="text-sm font-bold text-slate-600">2. Borja Mayoral</span>
+                            <span class="text-xs font-black text-slate-400">15</span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-slate-50 pb-2">
-                            <span class="text-sm font-bold text-slate-700">R. Lewandowski</span>
-                            <span class="bg-slate-100 text-[10px] font-black px-2 py-1">9 Gls</span>
+                        <div class="flex justify-between items-baseline border-b border-slate-100 pb-2 text-slate-400">
+                            <span class="text-sm font-bold">3. Artem Dovbyk</span>
+                            <span class="text-xs font-black">14</span>
                         </div>
                     </div>
                 </div>
@@ -107,66 +110,56 @@
         </div>
     </main>
 
-    <footer class="mt-20 py-10 border-t border-gray-200 text-center">
-        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Línea de Cal &copy; 2024 - Football Data System</p>
+    <footer class="bg-white border-t border-gray-200 py-12 mt-20">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-xl font-black italic text-slate-300 uppercase">LÍNEA DE CAL</div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">
+                © 2024 - Visualización de Datos Avanzada para Fútbol Profesional
+            </p>
+        </div>
     </footer>
 
     <script>
-        const leagueSelect = document.getElementById('leagueSelect');
-        const tableBody = document.getElementById('standingsTable');
-        const leagueNameText = document.getElementById('leagueName');
+        // DATOS DE PRUEBA (MOCK DATA) para que la web funcione SIEMPRE
+        const mockData = [
+            { pos: 1, name: "Real Madrid", pj: 28, pg: 21, pe: 6, pp: 1, pts: 69, logo: "https://crests.football-data.org/86.svg" },
+            { pos: 2, name: "Girona FC", pj: 28, pg: 19, pe: 5, pp: 4, pts: 62, logo: "https://crests.football-data.org/298.svg" },
+            { pos: 3, name: "FC Barcelona", pj: 28, pg: 18, pe: 7, pp: 3, pts: 61, logo: "https://crests.football-data.org/81.svg" },
+            { pos: 4, name: "Atlético de Madrid", pj: 28, pg: 17, pe: 4, pp: 7, pts: 55, logo: "https://crests.football-data.org/78.svg" },
+            { pos: 5, name: "Athletic Club", pj: 28, pg: 15, pe: 8, pp: 5, pts: 53, logo: "https://crests.football-data.org/77.svg" },
+            { pos: 6, name: "Real Sociedad", pj: 28, pg: 11, pe: 10, pp: 7, pts: 43, logo: "https://crests.football-data.org/92.svg" },
+            { pos: 7, name: "Real Betis", pj: 28, pg: 10, pe: 12, pp: 6, pts: 42, logo: "https://crests.football-data.org/90.svg" },
+            { pos: 8, name: "Valencia CF", pj: 27, pg: 11, pe: 7, pp: 9, pts: 40, logo: "https://crests.football-data.org/95.svg" }
+        ];
 
-        async function updateData() {
-            const id = leagueSelect.value;
-            const url = `https://api-football-standings.azharimm.site/leagues/${id}/standings?season=2023&sort=asc`;
-            
-            tableBody.innerHTML = `<tr><td colspan="7" class="p-20 text-center text-xs font-bold uppercase text-slate-300 tracking-[0.2em] animate-pulse">Analizando Datos...</td></tr>`;
-
-            try {
-                const res = await fetch(url);
-                const json = await res.json();
-                
-                if (json.status) {
-                    leagueNameText.innerText = json.data.name;
-                    renderTable(json.data.standings);
-                }
-            } catch (e) {
-                tableBody.innerHTML = `<tr><td colspan="7" class="p-20 text-center text-rose-600 font-bold">Error de conexión con la base de datos.</td></tr>`;
-            }
-        }
-
-        function renderTable(data) {
+        function renderMockTable() {
+            const tableBody = document.getElementById('standingsTable');
             tableBody.innerHTML = '';
-            data.forEach((row, i) => {
-                const s = row.stats;
-                const pj = s.find(x => x.name === 'gamesPlayed')?.value || 0;
-                const pg = s.find(x => x.name === 'wins')?.value || 0;
-                const pe = s.find(x => x.name === 'ties')?.value || 0;
-                const pp = s.find(x => x.name === 'losses')?.value || 0;
-                const pts = s.find(x => x.name === 'points')?.value || 0;
-
+            
+            mockData.forEach((row) => {
                 tableBody.innerHTML += `
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="p-4 text-center font-bold text-slate-300 text-xs">${i+1}</td>
+                        <td class="p-4 text-center font-bold text-slate-300 text-xs">${row.pos}</td>
                         <td class="p-4">
-                            <div class="flex items-center gap-3">
-                                <img src="${row.team.logos[0].href}" class="w-6 h-6 grayscale opacity-80 hover:grayscale-0 transition-all">
-                                <span class="text-sm font-extrabold text-slate-800 uppercase tracking-tighter">${row.team.displayName}</span>
+                            <div class="flex items-center gap-4">
+                                <img src="${row.logo}" class="w-6 h-6 grayscale opacity-70 hover:grayscale-0 transition-all">
+                                <span class="text-sm font-extrabold text-slate-800 uppercase tracking-tighter">${row.name}</span>
                             </div>
                         </td>
-                        <td class="p-4 text-center text-xs font-bold text-slate-600">${pj}</td>
-                        <td class="p-4 text-center text-xs font-bold text-slate-600">${pg}</td>
-                        <td class="p-4 text-center text-xs text-slate-400">${pe}</td>
-                        <td class="p-4 text-center text-xs text-slate-400">${pp}</td>
-                        <td class="p-4 text-center points-col text-sm">${pts}</td>
+                        <td class="p-4 text-center text-xs font-bold text-slate-600">${row.pj}</td>
+                        <td class="p-4 text-center text-xs font-bold text-slate-600">${row.pg}</td>
+                        <td class="p-4 text-center text-xs text-slate-400">${row.pe}</td>
+                        <td class="p-4 text-center text-xs text-slate-400">${row.pp}</td>
+                        <td class="p-4 text-center points-col text-sm">${row.pts}</td>
                     </tr>
                 `;
             });
         }
 
         document.getElementById('dateText').innerText = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
-        leagueSelect.addEventListener('change', updateData);
-        updateData();
+        
+        // Ejecutar carga inmediata de datos demo
+        renderMockTable();
     </script>
 </body>
 </html>
