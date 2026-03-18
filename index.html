@@ -3,81 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Línea de Cal | AI Soccer Intelligence</title>
+    <title>Línea de Cal | Enciclopedia Mundialista</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Public+Sans:wght@800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; overflow: hidden; }
-        h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
-        .ai-card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); transition: all 0.3s ease; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
         .sidebar { background-color: #020617; color: white; }
-        .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #94a3b8; }
-        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
-        .entity-link { color: #2563eb; font-weight: 700; cursor: pointer; border-bottom: 1px dashed #2563eb; }
-        .entity-link:hover { color: #e11d48; border-bottom-color: #e11d48; background: #fff1f2; }
-        .search-box { box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.05); }
-        .search-box:focus-within { box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.2); border-color: #e11d48; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .nav-item { border-left: 4px solid transparent; cursor: pointer; transition: 0.2s; }
+        .nav-item:hover, .active-nav { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
+        .result-card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 1.5rem; }
+        .link-text { color: #2563eb; font-weight: 700; cursor: pointer; text-decoration: underline; }
+        .link-text:hover { color: #e11d48; }
+        th { background: #f1f5f9; padding: 12px; font-size: 10px; text-transform: uppercase; color: #64748b; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+        .search-ring:focus-within { ring: 3px solid #e11d48; }
     </style>
 </head>
-<body class="flex h-screen">
+<body class="flex h-screen overflow-hidden">
 
     <!-- SIDEBAR -->
-    <aside class="sidebar w-80 flex flex-col shrink-0 overflow-y-auto hidden md:flex">
+    <aside class="sidebar w-80 flex flex-col shrink-0 overflow-y-auto">
         <div class="p-8 border-b border-white/5">
-            <h1 class="text-2xl font-black italic tracking-tighter text-white">LÍNEA DE <span class="text-rose-600">CAL</span></h1>
-            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2">Historical AI Engine</p>
+            <h1 style="font-family: 'Public Sans';" class="text-2xl font-black italic text-white leading-none">
+                LÍNEA DE <span class="text-rose-600">CAL</span>
+            </h1>
+            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2">Database Histórica 1930-2026</p>
         </div>
 
         <nav class="flex-1 py-6">
-            <div onclick="render2026()" class="nav-item active px-8 py-4 text-sm font-bold flex items-center gap-3">
-                <i class="fas fa-satellite-dish text-rose-500"></i> UNITED 2026 LIVE
+            <div onclick="location.reload()" class="nav-item active-nav px-8 py-4 text-sm font-bold flex items-center gap-3">
+                <i class="fas fa-satellite-dish text-rose-600"></i> UNITED 2026 LIVE
             </div>
             
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Rankings de Oro</div>
+            <div class="px-8 py-6 text-[10px] font-black text-slate-600 uppercase tracking-widest">Los 10 Récords de Oro</div>
             <div id="goldMenu" class="space-y-1">
                 <!-- Inyectado por JS -->
             </div>
 
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Base de Datos</div>
-            <div onclick="showFullTable('editions')" class="nav-item px-8 py-3 text-sm font-semibold italic">Todos los Mundiales</div>
-            <div onclick="showFullTable('players')" class="nav-item px-8 py-3 text-sm font-semibold italic">Enciclopedia Jugadores</div>
+            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Archivo</div>
+            <div onclick="showTable('editions')" class="nav-item px-8 py-3 text-sm font-semibold italic">Todos los Mundiales</div>
+            <div onclick="showTable('players')" class="nav-item px-8 py-3 text-sm font-semibold italic">Enciclopedia Jugadores</div>
         </nav>
     </aside>
 
     <!-- MAIN -->
     <main class="flex-1 flex flex-col overflow-hidden">
-        
-        <!-- BARRA DE BÚSQUEDA TIPO IA -->
-        <header class="p-8 bg-white/80 backdrop-blur-md border-b border-slate-200 z-20">
-            <div class="max-w-3xl mx-auto flex gap-4">
-                <div class="flex-1 search-box bg-white border border-slate-200 rounded-2xl flex items-center px-6 py-4 transition-all">
-                    <i class="fas fa-magic text-rose-600 mr-4"></i>
-                    <input type="text" id="aiInput" placeholder="Hazme una pregunta: '¿Quién es Messi?', 'Final de 1986', 'Brasil en los mundiales'..." 
-                           class="bg-transparent w-full outline-none text-base font-medium">
-                </div>
-                <button onclick="askAI()" class="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all shadow-lg">
-                    Preguntar
-                </button>
+        <!-- BUSCADOR (FIXED) -->
+        <header class="h-24 bg-white border-b border-slate-200 flex items-center px-10 gap-4 shrink-0">
+            <div class="flex-1 search-ring bg-slate-100 rounded-xl flex items-center px-6 py-4">
+                <i class="fas fa-search text-slate-400 mr-4"></i>
+                <input type="text" id="searchInput" placeholder="Escribe cualquier nombre (ej: Messi, Brasil, 1986, Pelé)..." 
+                       class="bg-transparent w-full outline-none text-sm font-bold">
             </div>
+            <button onclick="searchEverything()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all">
+                BUSCAR
+            </button>
         </header>
 
-        <!-- AREA DE RESPUESTAS -->
-        <section id="responseArea" class="flex-1 overflow-y-auto p-8 bg-slate-50/50">
-            <!-- Respuesta por defecto -->
-            <div id="defaultMsg" class="max-w-2xl mx-auto mt-20 text-center">
-                <div class="w-20 h-20 bg-rose-100 rounded-3xl flex items-center justify-center mx-auto mb-6 text-rose-600">
-                    <i class="fas fa-robot text-3xl"></i>
-                </div>
-                <h2 class="text-3xl font-black italic text-slate-900 mb-4">¿Qué quieres saber hoy?</h2>
-                <p class="text-slate-500 font-medium">Busca cualquier dato histórico o consulta el estado del Mundial 2026.</p>
-                <div class="mt-8 flex flex-wrap justify-center gap-2">
-                    <span onclick="askAI('Maradona')" class="px-4 py-2 bg-white border border-slate-200 rounded-full text-xs font-bold cursor-pointer hover:border-rose-600 transition">Maradona</span>
-                    <span onclick="askAI('2022')" class="px-4 py-2 bg-white border border-slate-200 rounded-full text-xs font-bold cursor-pointer hover:border-rose-600 transition">Mundial 2022</span>
-                    <span onclick="askAI('Brasil')" class="px-4 py-2 bg-white border border-slate-200 rounded-full text-xs font-bold cursor-pointer hover:border-rose-600 transition">Brasil</span>
-                </div>
+        <!-- VIEWPORT -->
+        <section id="mainView" class="flex-1 overflow-y-auto p-10 bg-slate-50/50">
+            <!-- Contenido por defecto -->
+            <div class="max-w-3xl mx-auto text-center py-20">
+                <i class="fas fa-database text-6xl text-slate-200 mb-6"></i>
+                <h2 class="text-4xl font-black text-slate-900 uppercase italic">Enciclopedia Total</h2>
+                <p class="text-slate-400 mt-4 text-lg">Busca cualquier dato arriba para ver la información.</p>
             </div>
         </section>
     </main>
@@ -85,134 +75,118 @@
     <script>
         const API_KEY = '10e51efe3147485c9a4dcfe12ebfd655';
 
-        // BASE DE DATOS MAESTRA (1930-2022)
-        const database = {
+        // BASE DE DATOS MAESTRA
+        const db = {
             editions: [
-                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Balón_Oro: "Lionel Messi", Goles: "172" },
-                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Balón_Oro: "Luka Modric", Goles: "169" },
-                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Balón_Oro: "Lionel Messi", Goles: "171" },
-                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Balón_Oro: "Diego Forlán", Goles: "145" },
-                { Año: "2006", Sede: "Alemania", Campeón: "Italia", Final: "1-1", Balón_Oro: "Zinedine Zidane", Goles: "147" },
-                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Balón_Oro: "Diego Maradona", Goles: "132" },
-                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Balón_Oro: "Pelé", Goles: "95" },
-                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Balón_Oro: "José Nasazzi", Goles: "70" }
+                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Balón_Oro: "Lionel Messi" },
+                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Balón_Oro: "Luka Modric" },
+                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Balón_Oro: "Lionel Messi" },
+                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Balón_Oro: "Diego Forlán" },
+                { Año: "2006", Sede: "Alemania", Campeón: "Italia", Final: "1-1", Balón_Oro: "Zinedine Zidane" },
+                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Balón_Oro: "Diego Maradona" },
+                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Balón_Oro: "Pelé" },
+                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Balón_Oro: "José Nasazzi" }
             ],
             players: [
-                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Partidos: "26", Títulos: "1 (2022)", Info: "Considerado uno de los mejores de la historia. Ganó el mundial en Qatar 2022." },
-                { Nombre: "Miroslav Klose", País: "Alemania", Goles: "16", Partidos: "24", Títulos: "1 (2014)", Info: "Máximo goleador de la historia de los mundiales." },
-                { Nombre: "Pelé", País: "Brasil", Goles: "12", Partidos: "14", Títulos: "3 (1958, 1962, 1970)", Info: "El único jugador en ganar 3 copas del mundo." },
-                { Nombre: "Diego Maradona", País: "Argentina", Goles: "8", Partidos: "21", Títulos: "1 (1986)", Info: "Líder de la victoria argentina en 1986 y autor del 'Gol del Siglo'." },
-                { Nombre: "Kylian Mbappé", País: "Francia", Goles: "12", Partidos: "14", Títulos: "1 (2018)", Info: "Estrella francesa que anotó un hat-trick en la final de 2022." }
+                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Partidos: "26", Títulos: "1 (2022)" },
+                { Nombre: "Miroslav Klose", País: "Alemania", Goles: "16", Partidos: "24", Títulos: "1 (2014)" },
+                { Nombre: "Pelé", País: "Brasil", Goles: "12", Partidos: "14", Títulos: "3 (1958, 1962, 1970)" },
+                { Nombre: "Diego Maradona", País: "Argentina", Goles: "8", Partidos: "21", Títulos: "1 (1986)" },
+                { Nombre: "Kylian Mbappé", País: "Francia", Goles: "12", Partidos: "14", Títulos: "1 (2018)" }
             ],
-            records: {
-                fastestGoal: { Titulo: "Gol más rápido", Sujeto: "Hakan Sukur", Marca: "11 segundos", Partido: "Turquía vs Corea", Año: "2002" },
-                mostGoalsMatch: { Titulo: "Goles en un partido", Sujeto: "Oleg Salenko", Marca: "5 Goles", Partido: "Rusia vs Camerún", Año: "1994" },
-                avgGoals: { Titulo: "Mayor media goleadora", Sujeto: "Austria vs Suiza", Marca: "12 Goles", Partido: "7-5 (1954)", Año: "1954" },
-                redCard: { Titulo: "Expulsión más rápida", Sujeto: "Jose Batista", Marca: "56 segundos", Partido: "Uruguay vs Escocia", Año: "1986" },
-                duration: { Titulo: "Partido más largo", Sujeto: "Argentina vs Francia", Marca: "145 min", Partido: "Final 2022", Año: "2022" }
-            }
+            records: [
+                { Título: "Gol más rápido", Sujeto: "Hakan Sukur", Marca: "11 segundos", Año: "2002" },
+                { Título: "Más goles en un partido", Sujeto: "Oleg Salenko", Marca: "5 Goles", Año: "1994" },
+                { Título: "Media goleadora alta", Sujeto: "Austria vs Suiza", Marca: "12 Goles", Año: "1954" },
+                { Título: "Más penaltis en un partido", Sujeto: "Argentina vs Francia", Marca: "3 Penaltis", Año: "2022" },
+                { Título: "Expulsión más rápida", Sujeto: "Jose Batista", Marca: "56 segundos", Año: "1986" },
+                { Título: "Cambio más rápido", Sujeto: "Alessandro Nesta", Marca: "4 minutos", Año: "1998" },
+                { Título: "Partido más largo", Sujeto: "Argentina vs Francia", Marca: "145 min", Año: "2022" },
+                { Título: "Más faltas cometidas", Sujeto: "Javier Mascherano", Marca: "31 Faltas", Año: "2014" },
+                { Título: "Portero menos goleado", Sujeto: "Pascal Zuberbühler", Marca: "0 Goles", Año: "2006" },
+                { Título: "Máximo goleador histórico", Sujeto: "Miroslav Klose", Marca: "16 Goles", Año: "Varios" }
+            ]
         };
 
-        const responseArea = document.getElementById('responseArea');
+        const view = document.getElementById('mainView');
 
-        // MOTOR DE IA
-        function askAI(forcedQuery) {
-            const query = (forcedQuery || document.getElementById('aiInput').value).toLowerCase().trim();
+        // BUSCADOR UNIVERSAL (FUNCIONAL AL 100%)
+        function searchEverything(forcedQuery) {
+            const query = (forcedQuery || document.getElementById('searchInput').value).toLowerCase().trim();
             if (!query) return;
 
-            // Limpiar pantalla y mostrar "Pensando"
-            responseArea.innerHTML = `<div class="max-w-3xl mx-auto py-10 animate-pulse text-rose-600 font-bold">Generando respuesta de inteligencia...</div>`;
+            view.innerHTML = `<h2 class="text-2xl font-black uppercase italic mb-8">Resultados para: <span class="text-rose-600">"${query}"</span></h2>`;
+            let found = false;
 
-            setTimeout(() => {
-                let html = `<div class="max-w-3xl mx-auto space-y-6">`;
-                let found = false;
-
-                // 1. Buscar en JUGADORES (Formato Ficha)
-                const playerMatch = database.players.filter(p => p.Nombre.toLowerCase().includes(query) || p.País.toLowerCase().includes(query));
-                if (playerMatch.length > 0) {
+            // Buscar en RÉCORDS
+            db.records.forEach(r => {
+                if (JSON.stringify(r).toLowerCase().includes(query)) {
                     found = true;
-                    playerMatch.forEach(p => {
-                        html += `
-                        <div class="ai-card p-8">
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-2xl font-black">
-                                    ${p.Nombre.charAt(0)}
-                                </div>
-                                <div>
-                                    <h3 class="text-2xl font-black text-slate-900 uppercase">${p.Nombre}</h3>
-                                    <span class="text-xs font-bold text-rose-600 uppercase tracking-widest">${p.País}</span>
-                                </div>
-                            </div>
-                            <p class="text-slate-600 leading-relaxed mb-6">${linkify(p.Info)}</p>
-                            <div class="grid grid-cols-3 gap-4 border-t pt-6">
-                                <div><p class="text-[10px] font-bold text-slate-400 uppercase">Goles</p><p class="text-xl font-black">${p.Goles}</p></div>
-                                <div><p class="text-[10px] font-bold text-slate-400 uppercase">Partidos</p><p class="text-xl font-black">${p.Partidos}</p></div>
-                                <div><p class="text-[10px] font-bold text-slate-400 uppercase">Títulos</p><p class="text-xl font-black">${p.Títulos}</p></div>
+                    view.innerHTML += `
+                        <div class="result-card p-6 border-l-4 border-rose-600">
+                            <p class="text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Récord Mundial</p>
+                            <h3 class="text-xl font-black italic mb-4">${r.Título}</h3>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Sujeto</p><p class="text-sm font-bold">${linkify(r.Sujeto)}</p></div>
+                                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Marca</p><p class="text-sm font-bold">${r.Marca}</p></div>
+                                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Año</p><p class="text-sm font-bold">${r.Año}</p></div>
                             </div>
                         </div>`;
-                    });
                 }
-
-                // 2. Buscar en MUNDIALES (Formato Crónica)
-                const editionMatch = database.editions.filter(e => e.Año.includes(query) || e.Sede.toLowerCase().includes(query) || e.Campeón.toLowerCase().includes(query));
-                if (editionMatch.length > 0) {
-                    found = true;
-                    editionMatch.forEach(e => {
-                        html += `
-                        <div class="ai-card p-8 bg-slate-900 text-white">
-                            <h3 class="text-3xl font-black italic mb-2 uppercase tracking-tighter text-rose-500">Mundial ${e.Año}</h3>
-                            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Sede: ${e.Sede}</p>
-                            <div class="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
-                                <div class="text-center">
-                                    <p class="text-[10px] uppercase font-bold text-rose-500">Campeón</p>
-                                    <p class="text-2xl font-black">${linkify(e.Campeón)}</p>
-                                </div>
-                                <div class="text-center border-l border-white/10 pl-6">
-                                    <p class="text-[10px] uppercase font-bold text-slate-400">Final</p>
-                                    <p class="text-lg font-bold italic">${e.Final}</p>
-                                </div>
-                            </div>
-                            <div class="mt-6 text-sm text-slate-400 italic">
-                                Balón de Oro: <span class="text-white font-bold">${linkify(e.Balón_Oro)}</span> con un total de ${e.Goles} goles en el torneo.
-                            </div>
-                        </div>`;
-                    });
-                }
-
-                if (!found) {
-                    html += `<div class="ai-card p-12 text-center text-slate-400 italic font-medium">No he podido encontrar datos específicos sobre "${query}". Prueba con un nombre de jugador, país o año.</div>`;
-                }
-
-                html += `</div>`;
-                responseArea.innerHTML = html;
-            }, 500);
-        }
-
-        // CONVERTIR TEXTO EN LINKS
-        function linkify(text) {
-            if (!text || typeof text !== 'string' || !isNaN(text)) return text;
-            // Solo para nombres clave
-            const keywords = ["Messi", "Maradona", "Pelé", "Argentina", "Brasil", "Francia", "Alemania", "Qatar", "1986", "2022"];
-            let result = text;
-            keywords.forEach(word => {
-                const reg = new RegExp(word, "g");
-                result = result.replace(reg, `<span class="entity-link" onclick="askAI('${word}')">${word}</span>`);
             });
-            return result;
+
+            // Buscar en MUNDIALES
+            const editionsMatches = db.editions.filter(e => JSON.stringify(e).toLowerCase().includes(query));
+            if (editionsMatches.length > 0) {
+                found = true;
+                view.innerHTML += `<p class="text-[10px] font-black uppercase text-slate-400 mb-4 tracking-widest">Mundiales Encontrados</p>` + renderTable(editionsMatches);
+            }
+
+            // Buscar en JUGADORES
+            const playersMatches = db.players.filter(p => JSON.stringify(p).toLowerCase().includes(query));
+            if (playersMatches.length > 0) {
+                found = true;
+                view.innerHTML += `<p class="text-[10px] font-black uppercase text-slate-400 mt-8 mb-4 tracking-widest">Jugadores Encontrados</p>` + renderTable(playersMatches);
+            }
+
+            if (!found) {
+                view.innerHTML = `<div class="p-20 text-center text-slate-300 font-bold uppercase italic border-2 border-dashed border-slate-200 rounded-3xl">No hay datos para "${query}"</div>`;
+            }
         }
 
-        // --- NAVEGACIÓN ---
-        function render2026() {
-            responseArea.innerHTML = `<div class="max-w-3xl mx-auto py-10"><div class="ai-card p-12 text-center border-t-8 border-rose-600"><h2 class="text-4xl font-black mb-4 italic">United 2026</h2><p class="text-rose-600 font-bold uppercase tracking-widest mb-10">Live Signal: Active</p><div class="grid grid-cols-3 gap-4 mb-10"><div class="bg-slate-50 p-6 rounded-2xl"><p class="text-3xl font-black">48</p><p class="text-[10px] uppercase font-bold text-slate-400">Países</p></div><div class="bg-slate-50 p-6 rounded-2xl"><p class="text-3xl font-black">104</p><p class="text-[10px] uppercase font-bold text-slate-400">Partidos</p></div><div class="bg-slate-50 p-6 rounded-2xl"><p class="text-3xl font-black">16</p><p class="text-[10px] uppercase font-bold text-slate-400">Sedes</p></div></div><p class="text-sm text-slate-500 italic leading-relaxed">Conectado a la API. Los resultados en vivo aparecerán aquí durante el torneo.</p></div></div>`;
+        function linkify(text) {
+            if (!text || typeof text !== 'string' || !isNaN(text) || text.length < 3) return text;
+            return `<span class="link-text" onclick="searchEverything('${text}')">${text}</span>`;
+        }
+
+        function renderTable(data) {
+            const headers = Object.keys(data[0]);
+            let html = `<div class="result-card overflow-hidden"><table><thead><tr>`;
+            headers.forEach(h => html += `<th>${h}</th>`);
+            html += `</tr></thead><tbody>`;
+            data.forEach(row => {
+                html += `<tr>`;
+                headers.forEach(h => html += `<td>${linkify(row[h])}</td>`);
+                html += `</tr>`;
+            });
+            html += `</tbody></table></div>`;
+            return html;
+        }
+
+        function showTable(key) {
+            view.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">${key === 'editions' ? 'Todos los Mundiales' : 'Base de Jugadores'}</h2>`;
+            view.innerHTML += renderTable(db[key]);
         }
 
         function init() {
             const menu = document.getElementById('goldMenu');
-            Object.keys(database.records).forEach((k, i) => {
-                menu.innerHTML += `<div onclick="askAI('${database.records[k].Sujeto}')" class="nav-item px-8 py-2 text-[11px] font-bold italic"><span class="text-rose-600 mr-2">${i+1}.</span> ${database.records[k].Titulo}</div>`;
+            db.records.forEach((r, i) => {
+                menu.innerHTML += `<div onclick="searchEverything('${r.Sujeto}')" class="nav-item px-8 py-2 text-[11px] font-bold italic"><span class="text-rose-600 mr-2">${i+1}.</span> ${r.Título}</div>`;
             });
             // Tecla Enter
-            document.getElementById('aiInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') askAI(); });
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchEverything();
+            });
         }
 
         init();
