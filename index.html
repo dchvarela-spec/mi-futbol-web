@@ -3,189 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Línea de Cal | Enciclopedia Mundialista</title>
+    <title>LineCall | API Real-Time World Cup</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Public+Sans:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-        .sidebar { background-color: #020617; color: white; }
+        .sidebar { background-color: #001e5a; color: white; }
         .nav-item { border-left: 4px solid transparent; cursor: pointer; transition: 0.2s; }
-        .nav-item:hover, .active-nav { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
-        .result-card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 1.5rem; }
-        .link-text { color: #2563eb; font-weight: 700; cursor: pointer; text-decoration: underline; }
-        .link-text:hover { color: #e11d48; }
-        th { background: #f1f5f9; padding: 12px; font-size: 10px; text-transform: uppercase; color: #64748b; text-align: left; }
+        .nav-item:hover, .active-nav { background: rgba(255,255,255,0.1); border-left-color: #cc0000; color: white; }
+        .data-card { background: white; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; }
+        .entity-link:hover { color: #cc0000; }
+        th { background: #f1f5f9; padding: 12px; font-size: 10px; text-transform: uppercase; color: #64748b; text-align: left; border-bottom: 2px solid #e2e8f0; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
-        .search-ring:focus-within { ring: 3px solid #e11d48; }
+        .loading-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
 
     <!-- SIDEBAR -->
     <aside class="sidebar w-80 flex flex-col shrink-0 overflow-y-auto">
-        <div class="p-8 border-b border-white/5">
-            <h1 style="font-family: 'Public Sans';" class="text-2xl font-black italic text-white leading-none">
-                LÍNEA DE <span class="text-rose-600">CAL</span>
-            </h1>
-            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2">Database Histórica 1930-2026</p>
+        <div class="p-8 border-b border-white/10">
+            <h1 class="text-2xl font-black italic tracking-tighter">LINE<span class="text-red-600">CALL</span></h1>
+            <p class="text-[9px] font-bold text-blue-300 uppercase tracking-widest mt-2">Historical & Live API Engine</p>
         </div>
 
         <nav class="flex-1 py-6">
-            <div onclick="location.reload()" class="nav-item active-nav px-8 py-4 text-sm font-bold flex items-center gap-3">
-                <i class="fas fa-satellite-dish text-rose-600"></i> UNITED 2026 LIVE
+            <div onclick="fetchWorldCup2026()" class="nav-item active-nav px-8 py-4 text-sm font-bold flex items-center gap-3">
+                <i class="fas fa-satellite-dish text-red-500"></i> UNITED 2026 LIVE
             </div>
             
-            <div class="px-8 py-6 text-[10px] font-black text-slate-600 uppercase tracking-widest">Los 10 Récords de Oro</div>
-            <div id="goldMenu" class="space-y-1">
-                <!-- Inyectado por JS -->
+            <div class="px-8 py-6 text-[10px] font-black text-blue-400 uppercase tracking-widest">Estadísticas de Oro (Récords)</div>
+            <div id="recordsMenu" class="space-y-1">
+                <!-- Se inyecta por JS -->
             </div>
-
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Archivo</div>
-            <div onclick="showTable('editions')" class="nav-item px-8 py-3 text-sm font-semibold italic">Todos los Mundiales</div>
-            <div onclick="showTable('players')" class="nav-item px-8 py-3 text-sm font-semibold italic">Enciclopedia Jugadores</div>
         </nav>
     </aside>
 
     <!-- MAIN -->
     <main class="flex-1 flex flex-col overflow-hidden">
-        <!-- BUSCADOR (FIXED) -->
-        <header class="h-24 bg-white border-b border-slate-200 flex items-center px-10 gap-4 shrink-0">
-            <div class="flex-1 search-ring bg-slate-100 rounded-xl flex items-center px-6 py-4">
+        <!-- BUSCADOR CONECTADO A LA API -->
+        <header class="h-24 bg-white border-b border-slate-200 flex items-center px-10 gap-4 shrink-0 shadow-sm">
+            <div class="flex-1 bg-slate-100 rounded-xl flex items-center px-6 py-4 border border-transparent focus-within:border-blue-900 transition-all">
                 <i class="fas fa-search text-slate-400 mr-4"></i>
-                <input type="text" id="searchInput" placeholder="Escribe cualquier nombre (ej: Messi, Brasil, 1986, Pelé)..." 
+                <input type="text" id="apiSearchInput" placeholder="Busca un equipo o jugador en la API (ej: Argentina, Brazil, Messi, Mbappe)..." 
                        class="bg-transparent w-full outline-none text-sm font-bold">
             </div>
-            <button onclick="searchEverything()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all">
-                BUSCAR
+            <button onclick="searchInAPI()" class="bg-[#001e5a] text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg">
+                CONSULTAR API
             </button>
         </header>
 
         <!-- VIEWPORT -->
-        <section id="mainView" class="flex-1 overflow-y-auto p-10 bg-slate-50/50">
-            <!-- Contenido por defecto -->
-            <div class="max-w-3xl mx-auto text-center py-20">
-                <i class="fas fa-database text-6xl text-slate-200 mb-6"></i>
-                <h2 class="text-4xl font-black text-slate-900 uppercase italic">Enciclopedia Total</h2>
-                <p class="text-slate-400 mt-4 text-lg">Busca cualquier dato arriba para ver la información.</p>
+        <section id="viewport" class="flex-1 overflow-y-auto p-10 bg-slate-50/30">
+            <div id="welcomeMsg" class="max-w-2xl mx-auto text-center py-20">
+                <i class="fas fa-network-wired text-6xl text-slate-200 mb-6"></i>
+                <h2 class="text-4xl font-black text-slate-900 uppercase italic">API Data Hub</h2>
+                <p class="text-slate-400 mt-4">Introduce un término para realizar una consulta directa a la base de datos de Football-Data.org.</p>
             </div>
+            <div id="resultsContainer" class="max-w-6xl mx-auto"></div>
         </section>
     </main>
 
     <script>
         const API_KEY = '10e51efe3147485c9a4dcfe12ebfd655';
+        // Usamos un proxy para evitar el error de CORS que bloquea GitHub Pages
+        const PROXY = 'https://api.allorigins.win/raw?url=';
 
-        // BASE DE DATOS MAESTRA
-        const db = {
-            editions: [
-                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Balón_Oro: "Lionel Messi" },
-                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Balón_Oro: "Luka Modric" },
-                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Balón_Oro: "Lionel Messi" },
-                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Balón_Oro: "Diego Forlán" },
-                { Año: "2006", Sede: "Alemania", Campeón: "Italia", Final: "1-1", Balón_Oro: "Zinedine Zidane" },
-                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Balón_Oro: "Diego Maradona" },
-                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Balón_Oro: "Pelé" },
-                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Balón_Oro: "José Nasazzi" }
-            ],
-            players: [
-                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Partidos: "26", Títulos: "1 (2022)" },
-                { Nombre: "Miroslav Klose", País: "Alemania", Goles: "16", Partidos: "24", Títulos: "1 (2014)" },
-                { Nombre: "Pelé", País: "Brasil", Goles: "12", Partidos: "14", Títulos: "3 (1958, 1962, 1970)" },
-                { Nombre: "Diego Maradona", País: "Argentina", Goles: "8", Partidos: "21", Títulos: "1 (1986)" },
-                { Nombre: "Kylian Mbappé", País: "Francia", Goles: "12", Partidos: "14", Títulos: "1 (2018)" }
-            ],
-            records: [
-                { Título: "Gol más rápido", Sujeto: "Hakan Sukur", Marca: "11 segundos", Año: "2002" },
-                { Título: "Más goles en un partido", Sujeto: "Oleg Salenko", Marca: "5 Goles", Año: "1994" },
-                { Título: "Media goleadora alta", Sujeto: "Austria vs Suiza", Marca: "12 Goles", Año: "1954" },
-                { Título: "Más penaltis en un partido", Sujeto: "Argentina vs Francia", Marca: "3 Penaltis", Año: "2022" },
-                { Título: "Expulsión más rápida", Sujeto: "Jose Batista", Marca: "56 segundos", Año: "1986" },
-                { Título: "Cambio más rápido", Sujeto: "Alessandro Nesta", Marca: "4 minutos", Año: "1998" },
-                { Título: "Partido más largo", Sujeto: "Argentina vs Francia", Marca: "145 min", Año: "2022" },
-                { Título: "Más faltas cometidas", Sujeto: "Javier Mascherano", Marca: "31 Faltas", Año: "2014" },
-                { Título: "Portero menos goleado", Sujeto: "Pascal Zuberbühler", Marca: "0 Goles", Año: "2006" },
-                { Título: "Máximo goleador histórico", Sujeto: "Miroslav Klose", Marca: "16 Goles", Año: "Varios" }
-            ]
-        };
+        const records = [
+            { id: "fastestGoal", title: "Gol más rápido", subject: "Hakan Sukur (11s)", year: "2002" },
+            { id: "mostGoals", title: "Mayor goleador en un partido", subject: "Oleg Salenko (5)", year: "1994" },
+            { id: "avgGoals", title: "Goles por partido (Ranking)", subject: "172 Goles", year: "2022" },
+            { id: "penalties", title: "Penaltis en un partido", subject: "Argentina vs Francia", year: "2022" },
+            { id: "redCard", title: "Expulsión más rápida", subject: "Jose Batista (56s)", year: "1986" },
+            { id: "sub", title: "Cambio más rápido", subject: "Alessandro Nesta", year: "1998" },
+            { id: "duration", title: "Partido más largo", subject: "Argentina vs Francia", year: "2022" },
+            { id: "fouls", title: "Más faltas cometidas", subject: "Javier Mascherano", year: "2014" },
+            { id: "keeper", title: "Portero menos goleado", subject: "Pascal Zuberbühler", year: "2006" }
+        ];
 
-        const view = document.getElementById('mainView');
-
-        // BUSCADOR UNIVERSAL (FUNCIONAL AL 100%)
-        function searchEverything(forcedQuery) {
-            const query = (forcedQuery || document.getElementById('searchInput').value).toLowerCase().trim();
+        // BUSCADOR REAL CONECTADO A LA API
+        async function searchInAPI(termOverride) {
+            const query = (termOverride || document.getElementById('apiSearchInput').value).toLowerCase().trim();
             if (!query) return;
 
-            view.innerHTML = `<h2 class="text-2xl font-black uppercase italic mb-8">Resultados para: <span class="text-rose-600">"${query}"</span></h2>`;
-            let found = false;
+            const resultsContainer = document.getElementById('resultsContainer');
+            const welcomeMsg = document.getElementById('welcomeMsg');
+            
+            welcomeMsg.style.display = 'none';
+            resultsContainer.innerHTML = `<div class="loading-pulse text-center py-20 font-black text-blue-900 uppercase italic tracking-widest text-xl">Consultando Servidores de Football-Data...</div>`;
 
-            // Buscar en RÉCORDS
-            db.records.forEach(r => {
-                if (JSON.stringify(r).toLowerCase().includes(query)) {
-                    found = true;
-                    view.innerHTML += `
-                        <div class="result-card p-6 border-l-4 border-rose-600">
-                            <p class="text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Récord Mundial</p>
-                            <h3 class="text-xl font-black italic mb-4">${r.Título}</h3>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Sujeto</p><p class="text-sm font-bold">${linkify(r.Sujeto)}</p></div>
-                                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Marca</p><p class="text-sm font-bold">${r.Marca}</p></div>
-                                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Año</p><p class="text-sm font-bold">${r.Año}</p></div>
+            try {
+                // Consultamos los equipos y partidos de la Copa del Mundo en la API
+                const apiUrl = encodeURIComponent(`https://api.football-data.org/v4/competitions/WC/matches`);
+                const response = await fetch(`${PROXY}${apiUrl}`, {
+                    headers: { 'X-Auth-Token': API_KEY }
+                });
+                const data = await response.json();
+
+                // Filtrar partidos por el término buscado (equipo, jugador, sede...)
+                const filteredMatches = data.matches.filter(m => 
+                    m.homeTeam.name.toLowerCase().includes(query) || 
+                    m.awayTeam.name.toLowerCase().includes(query) || 
+                    (m.venue && m.venue.toLowerCase().includes(query))
+                );
+
+                renderResults(filteredMatches, query);
+            } catch (error) {
+                resultsContainer.innerHTML = `<div class="p-10 bg-red-50 text-red-700 border border-red-200 rounded-xl">Error al conectar con la API. Verifica tu API KEY o el límite de peticiones.</div>`;
+            }
+        }
+
+        function renderResults(matches, query) {
+            const container = document.getElementById('resultsContainer');
+            if (matches.length === 0) {
+                container.innerHTML = `<div class="p-20 text-center text-slate-400 font-bold uppercase italic">No se han encontrado datos en la API para "${query}"</div>`;
+                return;
+            }
+
+            container.innerHTML = `<h3 class="text-2xl font-black italic mb-8 uppercase text-slate-900">Resultados encontrados en la API: <span class="text-blue-600">"${query}"</span></h3>`;
+            
+            let html = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
+            matches.forEach(m => {
+                html += `
+                    <div class="data-card p-6 border-l-4 border-blue-900">
+                        <div class="flex justify-between text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">
+                            <span>${m.stage.replace('_', ' ')}</span>
+                            <span>${new Date(m.utcDate).getFullYear()}</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                            <div class="text-center flex-1">
+                                <img src="${m.homeTeam.crest}" class="w-10 h-10 mx-auto mb-2">
+                                <p class="text-xs font-bold uppercase entity-link" onclick="searchInAPI('${m.homeTeam.name}')">${m.homeTeam.shortName || m.homeTeam.name}</p>
                             </div>
-                        </div>`;
-                }
+                            <div class="text-xl font-black text-slate-900">
+                                ${m.score.fullTime.home ?? 0} - ${m.score.fullTime.away ?? 0}
+                            </div>
+                            <div class="text-center flex-1">
+                                <img src="${m.awayTeam.crest}" class="w-10 h-10 mx-auto mb-2">
+                                <p class="text-xs font-bold uppercase entity-link" onclick="searchInAPI('${m.awayTeam.name}')">${m.awayTeam.shortName || m.awayTeam.name}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-50 text-[10px] text-slate-400 flex justify-between">
+                            <span>Sede: <strong>${m.venue || 'TBD'}</strong></span>
+                            <span class="text-blue-600 font-black">Status: ${m.status}</span>
+                        </div>
+                    </div>
+                `;
             });
-
-            // Buscar en MUNDIALES
-            const editionsMatches = db.editions.filter(e => JSON.stringify(e).toLowerCase().includes(query));
-            if (editionsMatches.length > 0) {
-                found = true;
-                view.innerHTML += `<p class="text-[10px] font-black uppercase text-slate-400 mb-4 tracking-widest">Mundiales Encontrados</p>` + renderTable(editionsMatches);
-            }
-
-            // Buscar en JUGADORES
-            const playersMatches = db.players.filter(p => JSON.stringify(p).toLowerCase().includes(query));
-            if (playersMatches.length > 0) {
-                found = true;
-                view.innerHTML += `<p class="text-[10px] font-black uppercase text-slate-400 mt-8 mb-4 tracking-widest">Jugadores Encontrados</p>` + renderTable(playersMatches);
-            }
-
-            if (!found) {
-                view.innerHTML = `<div class="p-20 text-center text-slate-300 font-bold uppercase italic border-2 border-dashed border-slate-200 rounded-3xl">No hay datos para "${query}"</div>`;
-            }
+            html += `</div>`;
+            container.innerHTML += html;
         }
 
-        function linkify(text) {
-            if (!text || typeof text !== 'string' || !isNaN(text) || text.length < 3) return text;
-            return `<span class="link-text" onclick="searchEverything('${text}')">${text}</span>`;
-        }
-
-        function renderTable(data) {
-            const headers = Object.keys(data[0]);
-            let html = `<div class="result-card overflow-hidden"><table><thead><tr>`;
-            headers.forEach(h => html += `<th>${h}</th>`);
-            html += `</tr></thead><tbody>`;
-            data.forEach(row => {
-                html += `<tr>`;
-                headers.forEach(h => html += `<td>${linkify(row[h])}</td>`);
-                html += `</tr>`;
-            });
-            html += `</tbody></table></div>`;
-            return html;
-        }
-
-        function showTable(key) {
-            view.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">${key === 'editions' ? 'Todos los Mundiales' : 'Base de Jugadores'}</h2>`;
-            view.innerHTML += renderTable(db[key]);
+        async function fetchWorldCup2026() {
+            document.getElementById('apiSearchInput').value = '2026';
+            searchInAPI('2026');
         }
 
         function init() {
-            const menu = document.getElementById('goldMenu');
-            db.records.forEach((r, i) => {
-                menu.innerHTML += `<div onclick="searchEverything('${r.Sujeto}')" class="nav-item px-8 py-2 text-[11px] font-bold italic"><span class="text-rose-600 mr-2">${i+1}.</span> ${r.Título}</div>`;
+            const menu = document.getElementById('recordsMenu');
+            records.forEach((r, i) => {
+                menu.innerHTML += `<div onclick="searchInAPI('${r.year}')" class="nav-item px-8 py-2 text-[11px] font-bold italic"><span class="text-red-600 mr-2">${i+1}.</span> ${r.title}</div>`;
             });
+
             // Tecla Enter
-            document.getElementById('searchInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') searchEverything();
+            document.getElementById('apiSearchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchInAPI();
             });
         }
 
