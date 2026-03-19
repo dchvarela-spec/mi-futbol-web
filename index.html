@@ -3,216 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Línea de Cal | Enciclopedia Total Mundialista</title>
+    <title>Línea de Cal | La Enciclopedia del Mundial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Public+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; }
+        body { font-family: 'Public Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
         h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
-        .sidebar { background-color: #020617; color: white; }
-        .sidebar-active { background-color: #ffffff; border-left: 4px solid #be123c; color: #be123c; }
-        .nav-item:hover { color: #be123c; cursor: pointer; }
-        .data-card { background: white; border: 1px solid #e2e8f0; border-radius: 4px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        /* ESTILO DE LOS LINKS SOLICITADOS */
-        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; transition: 0.2s; }
-        .entity-link:hover { color: #be123c; background: #fff1f2; }
-        th { background: #f8fafc; padding: 12px; font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; text-align: left; border-bottom: 2px solid #e2e8f0; }
+        .sidebar { background-color: #020617; }
+        .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #94a3b8; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
+        .card { background: white; border: 1px solid #e2e8f0; border-radius: 4px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        /* LINKS CLICABLES */
+        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; }
+        .entity-link:hover { color: #e11d48; background: #fff1f2; }
+        th { background: #f1f5f9; padding: 12px; font-size: 10px; text-transform: uppercase; color: #64748b; text-align: left; border-bottom: 2px solid #e2e8f0; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
-        .live-dot { width: 8px; height: 8px; background: #be123c; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .search-box:focus-within { ring: 3px solid #e11d48; }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
 
-    <!-- Sidebar -->
-    <aside class="w-80 sidebar flex flex-col z-20 overflow-y-auto">
+    <!-- SIDEBAR -->
+    <aside class="sidebar w-80 flex flex-col shrink-0 overflow-y-auto">
         <div class="p-8 border-b border-white/5 bg-slate-950">
-            <h1 class="text-2xl font-black italic tracking-tighter text-white uppercase">
-                LÍNEA DE <span class="text-rose-700">CAL</span>
+            <h1 class="text-2xl font-black italic tracking-tighter text-white uppercase leading-none">
+                LÍNEA DE <span class="text-rose-600">CAL</span>
             </h1>
-            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2 italic">Encyclopedia Hub</p>
+            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2">Encyclopedia & Live 2026</p>
         </div>
-        
-        <nav class="flex-1 py-6 space-y-1">
-            <div class="px-8 py-4">
-                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Secciones</p>
-                <button onclick="render2026()" id="btn-2026" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold sidebar-active transition-all mb-2">
-                    <i class="fas fa-satellite"></i> United 2026 Live
-                </button>
-                <button onclick="showFullTable('editions')" id="btn-editions" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold nav-item">
-                    <i class="fas fa-award"></i> Historial Mundiales
-                </button>
-                <button onclick="showFullTable('players')" id="btn-players" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold nav-item">
-                    <i class="fas fa-users"></i> Base de Jugadores
-                </button>
+
+        <nav class="flex-1 py-6">
+            <div onclick="showTab('live')" id="btn-live" class="nav-item active px-8 py-4 text-sm font-bold flex items-center gap-3">
+                <i class="fas fa-satellite-dish text-rose-600"></i> UNITED 2026 LIVE
+            </div>
+            
+            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Rankings de Oro</div>
+            <div id="recordsMenu" class="space-y-1">
+                <!-- JS Inyecta Récords -->
             </div>
 
-            <div class="px-8 py-4">
-                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Los 10 Récords Oro</p>
-                <div id="goldMenu" class="space-y-1 text-xs font-bold italic text-slate-400">
-                    <!-- Inyectado por JS -->
-                </div>
-            </div>
+            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Archivo Maestro</div>
+            <div onclick="showTab('history')" id="btn-history" class="nav-item px-8 py-3 text-sm font-semibold italic"><i class="fas fa-history mr-3"></i> Historia 1930-2022</div>
+            <div onclick="showTab('players')" id="btn-players" class="nav-item px-8 py-3 text-sm font-semibold italic"><i class="fas fa-users mr-3"></i> Enciclopedia de Jugadores</div>
+            <div onclick="showTab('referees')" id="btn-referees" class="nav-item px-8 py-3 text-sm font-semibold italic"><i class="fas fa-stopwatch mr-3"></i> Árbitros de Finales</div>
         </nav>
     </aside>
 
-    <!-- Main -->
-    <main class="flex-1 flex flex-col overflow-hidden bg-slate-100/50">
+    <!-- MAIN -->
+    <main class="flex-1 flex flex-col overflow-hidden">
         <!-- BUSCADOR SUPERIOR -->
         <header class="h-24 bg-white border-b border-slate-200 flex items-center px-10 gap-6 shrink-0 shadow-sm">
-            <div class="flex-1 bg-slate-50 rounded-xl border border-slate-200 flex items-center px-6 py-4 transition-all focus-within:ring-2 ring-rose-700">
-                <i class="fas fa-search text-slate-400 mr-4 text-lg"></i>
-                <input type="text" id="masterSearch" placeholder="Busca cualquier nombre, país o año (ej: 'Messi', '1986', 'Pelé')..." 
-                       class="bg-transparent w-full outline-none text-base font-bold text-slate-700">
+            <div class="flex-1 search-box bg-slate-100 rounded-xl flex items-center px-6 py-4 transition-all">
+                <i class="fas fa-search text-slate-400 mr-4"></i>
+                <input type="text" id="masterSearch" placeholder="Busca cualquier jugador, país, árbitro, sede o año (ej: 'Maradona', 'México', '2022')..." 
+                       class="bg-transparent w-full outline-none text-sm font-bold">
             </div>
-            <button onclick="searchUniversal()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-700 transition-all shadow-xl">
+            <button onclick="executeSearch()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all shadow-xl">
                 Consultar
             </button>
         </header>
 
-        <!-- AREA DE DATOS -->
-        <section id="viewport" class="flex-1 overflow-y-auto p-10">
-            <!-- Dinámico -->
+        <!-- VIEWPORT -->
+        <section id="viewport" class="flex-1 overflow-y-auto p-10 bg-slate-50/50 italic font-medium">
+            <!-- Cargando contenido -->
         </section>
     </main>
 
     <script>
         const API_KEY = '10e51efe3147485c9a4dcfe12ebfd655';
 
-        // BASE DE DATOS MAESTRA
+        // --- LA GRAN BASE DE DATOS ENCICLOPÉDICA ---
         const db = {
             editions: [
-                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Balón_Oro: "Lionel Messi" },
-                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Balón_Oro: "Luka Modric" },
-                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Balón_Oro: "Lionel Messi" },
-                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Balón_Oro: "Diego Forlán" },
-                { Año: "2006", Sede: "Alemania", Campeón: "Italia", Final: "1-1", Balón_Oro: "Zinedine Zidane" },
-                { Año: "2002", Sede: "Corea/Japón", Campeón: "Brasil", Final: "2-0", Balón_Oro: "Oliver Kahn" },
-                { Año: "1998", Sede: "Francia", Campeón: "Francia", Final: "3-0", Balón_Oro: "Ronaldo Nazário" },
-                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Balón_Oro: "Diego Maradona" },
-                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Balón_Oro: "Pelé" },
-                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Balón_Oro: "José Nasazzi" }
+                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Balón_Oro: "Lionel Messi", Goles: "172", Árbitro: "Szymon Marciniak" },
+                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Balón_Oro: "Luka Modric", Goles: "169", Árbitro: "Néstor Pitana" },
+                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Balón_Oro: "Lionel Messi", Goles: "171", Árbitro: "Nicola Rizzoli" },
+                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Balón_Oro: "Diego Forlán", Goles: "145", Árbitro: "Howard Webb" },
+                { Año: "2006", Sede: "Alemania", Campeón: "Italia", Final: "1-1 (5-3 p.)", Balón_Oro: "Zinedine Zidane", Goles: "147", Árbitro: "Horacio Elizondo" },
+                { Año: "2002", Sede: "Corea/Japón", Campeón: "Brasil", Final: "2-0", Balón_Oro: "Oliver Kahn", Goles: "161", Árbitro: "Pierluigi Collina" },
+                { Año: "1998", Sede: "Francia", Campeón: "Francia", Final: "3-0", Balón_Oro: "Ronaldo", Goles: "171", Árbitro: "Said Belqola" },
+                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Balón_Oro: "Diego Maradona", Goles: "132", Árbitro: "Romualdo Arppi Filho" },
+                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Balón_Oro: "Pelé", Goles: "95", Árbitro: "Rudi Glöckner" },
+                { Año: "1950", Sede: "Brasil", Campeón: "Uruguay", Final: "2-1", Balón_Oro: "Zizinho", Goles: "88", Árbitro: "George Reader" },
+                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Balón_Oro: "José Nasazzi", Goles: "70", Árbitro: "Jean Langenus" }
             ],
             players: [
-                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Partidos: "26", Títulos: "1" },
-                { Nombre: "Miroslav Klose", País: "Alemania", Goles: "16", Partidos: "24", Títulos: "1" },
-                { Nombre: "Pelé", País: "Brasil", Goles: "12", Partidos: "14", Títulos: "3" },
-                { Nombre: "Diego Maradona", País: "Argentina", Goles: "8", Partidos: "21", Títulos: "1" },
-                { Nombre: "Kylian Mbappé", País: "Francia", Goles: "12", Partidos: "14", Títulos: "1" },
-                { Nombre: "Just Fontaine", País: "Francia", Goles: "13", Partidos: "6", Títulos: "0" }
+                { Nombre: "Miroslav Klose", País: "Alemania", Goles: "16", Partidos: "24", Récord: "Máximo goleador histórico" },
+                { Nombre: "Ronaldo Nazário", País: "Brasil", Goles: "15", Partidos: "19", Récord: "Bota de Oro 2002" },
+                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Partidos: "26", Récord: "Más partidos (26) y Balón Oro 2014/2022" },
+                { Nombre: "Just Fontaine", País: "Francia", Goles: "13", Partidos: "6", Récord: "Más goles en un solo torneo (1958)" },
+                { Nombre: "Pelé", País: "Brasil", Goles: "12", Partidos: "14", Récord: "Único con 3 títulos (58, 62, 70)" },
+                { Nombre: "Diego Maradona", País: "Argentina", Goles: "8", Partidos: "21", Récord: "Gol del Siglo y Campeón 1986" },
+                { Nombre: "Gerd Müller", País: "Alemania", Goles: "14", Partidos: "13", Récord: "Leyenda del Bayern y la selección" },
+                { Nombre: "Cristiano Ronaldo", País: "Portugal", Goles: "8", Partidos: "22", Récord: "Goleador en 5 mundiales distintos" }
+            ],
+            referees: [
+                { Nombre: "Szymon Marciniak", País: "Polonia", Final: "2022", Partidos: "5" },
+                { Nombre: "Pierluigi Collina", País: "Italia", Final: "2002", Partidos: "7" },
+                { Nombre: "Howard Webb", País: "Inglaterra", Final: "2010", Partidos: "6" },
+                { Nombre: "Nicola Rizzoli", País: "Italia", Final: "2014", Partidos: "4" },
+                { Nombre: "Horacio Elizondo", País: "Argentina", Final: "2006", Partidos: "5" }
             ],
             records: {
-                fastestGoal: { Titulo: "Gol más rápido", Sujeto: "Hakan Sukur", Dato: "11 segundos", Año: "2002" },
-                mostGoals: { Titulo: "Mayor goleador en un partido", Sujeto: "Oleg Salenko", Dato: "5 Goles", Año: "1994" },
-                avgGoals: { Titulo: "Media goleadora más alta", Sujeto: "Austria vs Suiza", Dato: "12 Goles", Año: "1954" },
-                penalties: { Titulo: "Más penaltis en un partido", Sujeto: "Argentina vs Francia", Dato: "3 Penaltis", Año: "2022" },
-                redCard: { Titulo: "Expulsión más rápida", Sujeto: "Jose Batista", Dato: "56 segundos", Año: "1986" },
-                sub: { Titulo: "Cambio de jugador más rápido", Sujeto: "Alessandro Nesta", Dato: "4 minutos", Año: "1998" },
-                duration: { Titulo: "Partido más largo", Sujeto: "Argentina vs Francia", Dato: "145 min", Año: "2022" },
-                fouls: { Titulo: "Más faltas cometidas", Sujeto: "Javier Mascherano", Dato: "31 Faltas", Año: "2014" },
-                keeper: { Titulo: "Portero menos goleado", Sujeto: "Pascal Zuberbühler", Dato: "0 Goles", Año: "2006" },
-                topScorer: { Titulo: "Máximo goleador histórico", Sujeto: "Miroslav Klose", Dato: "16 Goles", Año: "Varios" }
+                fastestGoal: { Titulo: "Gol más rápido", Sujeto: "Hakan Sukur", Marca: "11 segundos", Partido: "Turquía vs Corea 2002" },
+                mostGoalsMatch: { Titulo: "Goles en un partido", Sujeto: "Oleg Salenko", Marca: "5 Goles", Partido: "Rusia vs Camerún 1994" },
+                avgGoals: { Titulo: "Media goleadora alta", Sujeto: "Austria vs Suiza", Marca: "12 Goles (7-5)", Partido: "Mundial 1954" },
+                redCard: { Titulo: "Expulsión más rápida", Sujeto: "Jose Batista", Marca: "56 segundos", Partido: "Uruguay vs Escocia 1986" },
+                sub: { Titulo: "Cambio más rápido", Sujeto: "Alessandro Nesta", Marca: "4 minutos", Partido: "Italia vs Austria 1998" },
+                duration: { Titulo: "Partido más largo", Sujeto: "Argentina vs Francia", Marca: "145 minutos", Partido: "Final 2022" },
+                fouls: { Titulo: "Más faltas cometidas", Sujeto: "Javier Mascherano", Marca: "31 Faltas", Partido: "Mundial 2014" },
+                keeper: { Titulo: "Portero menos goleado", Sujeto: "Pascal Zuberbühler", Marca: "0 Goles recibidos", Partido: "Suiza 2006" },
+                penalties: { Titulo: "Más penaltis en final", Sujeto: "Argentina vs Francia", Marca: "3 Penaltis", Partido: "Final 2022" }
             }
         };
 
         const viewport = document.getElementById('viewport');
 
-        // FUNCIÓN PRINCIPAL DE BÚSQUEDA (MEJORADA)
-        function searchUniversal(forcedTerm) {
-            const query = (forcedTerm || document.getElementById('masterSearch').value).toLowerCase().trim();
+        // BUSCADOR UNIVERSAL (ARREGLADO DEFINITIVAMENTE)
+        function executeSearch(forcedQuery) {
+            const query = (forcedQuery || document.getElementById('masterSearch').value).toLowerCase().trim();
             if (!query) return;
 
-            viewport.innerHTML = `<h2 class="text-3xl font-black italic uppercase mb-10 italic">Resultados para: <span class="text-rose-700">"${query}"</span></h2>`;
+            viewport.innerHTML = `<h2 class="text-3xl font-black italic uppercase mb-10">Resultados para: <span class="text-rose-700">"${query}"</span></h2>`;
             let foundCount = 0;
 
-            // 1. Escanear Récords
+            // Escanear todas las tablas de la DB
+            ['editions', 'players', 'referees'].forEach(cat => {
+                const results = db[cat].filter(item => JSON.stringify(item).toLowerCase().includes(query));
+                if (results.length > 0) {
+                    foundCount++;
+                    viewport.innerHTML += `<h3 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-widest">${cat.toUpperCase()}</h3>`;
+                    viewport.innerHTML += buildTable(results);
+                }
+            });
+
+            // Escanear Récords
             Object.values(db.records).forEach(rec => {
                 if (JSON.stringify(rec).toLowerCase().includes(query)) {
                     foundCount++;
                     viewport.innerHTML += `
-                        <div class="data-card p-8 border-l-8 border-rose-700 mb-8 bg-white">
-                            <span class="text-[10px] font-black uppercase text-slate-400 mb-2 block">Dato Histórico / Récord</span>
-                            <h3 class="text-2xl font-black italic mb-4">${rec.Titulo}</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="card p-8 border-l-8 border-rose-600 mb-8 bg-white">
+                            <h3 class="text-xl font-black italic mb-4">${rec.Titulo}</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 ${Object.entries(rec).map(([k,v]) => `<div><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${k}</p><p class="text-sm font-bold text-slate-900">${linkify(v)}</p></div>`).join('')}
                             </div>
                         </div>`;
                 }
             });
 
-            // 2. Escanear Mundiales y Jugadores
-            ['editions', 'players'].forEach(key => {
-                const filtered = db[key].filter(item => JSON.stringify(item).toLowerCase().includes(query));
-                if (filtered.length > 0) {
-                    foundCount++;
-                    viewport.innerHTML += `<h3 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-widest">${key === 'editions' ? 'Mundiales Relacionados' : 'Fichas de Jugadores'}</h3>`;
-                    viewport.innerHTML += renderTable(filtered);
-                }
-            });
-
-            if (foundCount === 0) {
-                viewport.innerHTML = `<div class="p-20 text-center card bg-white border border-slate-200 italic font-bold text-slate-300">No hay datos en el archivo para "${query}"</div>`;
-            }
+            if (foundCount === 0) viewport.innerHTML = `<div class="p-20 text-center card italic font-bold text-slate-300">Sin datos para "${query}"</div>`;
         }
 
-        // FUNCIÓN CLAVE: CREA LOS LINKS SOLICITADOS
+        // CONVERTIR TEXTO EN ENLACES CLICABLES
         function linkify(text) {
             if (!text || typeof text !== 'string' || !isNaN(text) || text.length < 3) return text;
-            // Retorna un elemento span que al clicar ejecuta la búsqueda
-            return `<span class="entity-link" onclick="searchUniversal('${text}')">${text}</span>`;
+            return `<span class="entity-link" onclick="executeSearch('${text}')">${text}</span>`;
         }
 
-        function renderTable(data) {
-            const headers = Object.keys(data[0]);
-            let html = `<div class="data-card overflow-hidden shadow-xl mb-10 bg-white"><table><thead><tr>`;
-            headers.forEach(h => html += `<th>${h}</th>`);
+        // CONSTRUIR TABLAS DINÁMICAS
+        function buildTable(data) {
+            const keys = Object.keys(data[0]);
+            let html = `<div class="card overflow-hidden shadow-sm mb-10"><table><thead><tr>`;
+            keys.forEach(k => html += `<th>${k}</th>`);
             html += `</tr></thead><tbody>`;
             data.forEach(row => {
                 html += `<tr>`;
-                headers.forEach(h => html += `<td>${linkify(row[h])}</td>`);
+                keys.forEach(k => html += `<td>${linkify(row[k])}</td>`);
                 html += `</tr>`;
             });
             html += `</tbody></table></div>`;
             return html;
         }
 
-        function showFullTable(key) {
-            viewport.innerHTML = `<h2 class="text-3xl font-black italic uppercase mb-10">${key === 'editions' ? 'Todos los Mundiales' : 'Enciclopedia de Jugadores'}</h2>`;
-            viewport.innerHTML += renderTable(db[key]);
+        function showTab(id) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('btn-' + id)?.classList.add('active');
+            if (id === 'history') viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">Todos los Mundiales</h2>` + buildTable(db.editions);
+            if (id === 'players') viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">Leyendas</h2>` + buildTable(db.players);
+            if (id === 'referees') viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">Árbitros</h2>` + buildTable(db.referees);
+            if (id === 'live') render2026();
         }
 
-        function render2026() {
+        async function render2026() {
             viewport.innerHTML = `
                 <div class="max-w-4xl mx-auto py-12 text-center">
-                    <div class="data-card p-16 border-t-8 border-rose-700 bg-white shadow-2xl">
-                        <h2 class="text-5xl font-black italic mb-4 uppercase text-slate-900">United 2026</h2>
-                        <p class="text-rose-700 font-bold uppercase tracking-[0.3em] mb-12 italic flex items-center justify-center gap-3">
-                            <span class="live-dot"></span> Live Signal Connected
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                            <div class="p-8 bg-slate-50 border border-slate-100"><p class="text-4xl font-black italic">48</p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Equipos</p></div>
-                            <div class="p-8 bg-slate-50 border border-slate-100"><p class="text-4xl font-black italic">104</p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Partidos</p></div>
-                            <div class="p-8 bg-slate-50 border border-slate-100"><p class="text-4xl font-black italic">16</p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sedes</p></div>
+                    <div class="card p-16 border-t-8 border-rose-600 bg-white">
+                        <h2 class="text-5xl font-black italic mb-4 uppercase tracking-tighter">United 2026</h2>
+                        <p class="text-rose-600 font-bold tracking-[0.4em] uppercase mb-12 italic">Live Center Official Data</p>
+                        <div class="grid grid-cols-3 gap-6 mb-12 text-slate-900">
+                            <div class="p-8 bg-slate-50 border border-slate-100 rounded"> <p class="text-4xl font-black">48</p> <p class="text-[10px] uppercase font-bold text-slate-400">Equipos</p> </div>
+                            <div class="p-8 bg-slate-50 border border-slate-100 rounded"> <p class="text-4xl font-black">104</p> <p class="text-[10px] uppercase font-bold text-slate-400">Partidos</p> </div>
+                            <div class="p-8 bg-slate-50 border border-slate-100 rounded"> <p class="text-4xl font-black">16</p> <p class="text-[10px] uppercase font-bold text-slate-400">Sedes</p> </div>
                         </div>
-                        <p class="text-sm text-slate-400 italic font-medium leading-relaxed max-w-lg mx-auto">
-                            Sistema de escucha activo con API KEY 10e51e... Los resultados en tiempo real aparecerán aquí automáticamente durante el torneo.
-                        </p>
+                        <p class="text-sm text-slate-400 italic">Los resultados en vivo de 2026 aparecerán aquí en tiempo real mediante API.</p>
                     </div>
                 </div>`;
         }
 
         function init() {
-            const menu = document.getElementById('goldMenu');
+            const menu = document.getElementById('recordsMenu');
             Object.keys(db.records).forEach((k, index) => {
-                menu.innerHTML += `<div onclick="searchUniversal('${db.records[k].Sujeto}')" class="px-4 py-2 hover:text-rose-700 transition cursor-pointer"><span class="text-rose-700 font-black mr-2">${index+1}.</span> ${db.records[k].Titulo}</div>`;
+                menu.innerHTML += `<div onclick="executeSearch('${db.records[k].Sujeto}')" class="nav-item px-8 py-2 text-[11px] font-bold italic transition-all"><span class="text-rose-600 font-black mr-2">${index+1}.</span> ${db.records[k].Titulo}</div>`;
             });
-
-            // Escuchar tecla ENTER en la búsqueda
-            document.getElementById('masterSearch').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') searchUniversal();
-            });
-
+            document.getElementById('masterSearch').addEventListener('keypress', (e) => { if(e.key === 'Enter') executeSearch(); });
             render2026();
         }
 
