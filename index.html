@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Línea de Cal | Intelligence & News Hub</title>
+    <title>Línea de Cal | Football Intelligence Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Public+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -11,14 +11,14 @@
         body { font-family: 'Public Sans', sans-serif; background-color: #f1f5f9; color: #0f172a; overflow: hidden; }
         h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
         .sidebar-left { background-color: #020617; }
-        .sidebar-right { background-color: #ffffff; border-left: 1px solid #e2e8f0; width: 380px; }
+        .sidebar-right { background-color: #ffffff; border-left: 1px solid #e2e8f0; width: 400px; }
         .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #94a3b8; }
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
         .card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; }
         .entity-link:hover { color: #e11d48; background: #fff1f2; }
         .news-card { border-bottom: 1px solid #f1f5f9; padding: 15px; transition: 0.2s; }
-        .news-card:hover { background: #fafafa; }
+        .news-card:hover { background: #f8fafc; }
         .live-pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
         th { background: #f8fafc; padding: 10px; font-size: 10px; text-transform: uppercase; color: #64748b; text-align: left; }
@@ -27,10 +27,10 @@
 </head>
 <body class="flex h-screen">
 
-    <!-- COLUMNA IZQUIERDA: MENÚ Y RÉCORDS -->
+    <!-- IZQUIERDA: MENÚ -->
     <aside class="sidebar-left w-72 flex flex-col shrink-0 overflow-y-auto hidden lg:flex">
         <div class="p-8 border-b border-white/5 bg-slate-950 text-center">
-            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none">LÍNEA DE <span class="text-rose-600">CAL</span></h1>
+            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none italic">LÍNEA DE <span class="text-rose-600">CAL</span></h1>
             <div class="flex items-center justify-center gap-2 mt-3">
                 <div class="live-pulse"></div>
                 <span class="text-[9px] font-bold text-emerald-500 uppercase tracking-widest">Global Intelligence</span>
@@ -42,174 +42,13 @@
             </div>
             <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Rankings de Oro</div>
             <div id="recordsMenu" class="space-y-1"></div>
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Archivo Maestro</div>
+            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest text-slate-400 italic">Archivo Maestro</div>
             <div onclick="showTab('history')" id="btn-history" class="nav-item px-8 py-3 text-sm font-semibold italic">Mundiales 1930-2022</div>
             <div onclick="showTab('players')" id="btn-players" class="nav-item px-8 py-3 text-sm font-semibold italic">Enciclopedia Jugadores</div>
         </nav>
     </aside>
 
-    <!-- COLUMNA CENTRAL: BUSCADOR Y ENCICLOPEDIA -->
-    <main class="flex-1 flex flex-col overflow-hidden">
+    <!-- CENTRO: BUSCADOR Y DATOS -->
+    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
         <header class="h-20 bg-white border-b border-slate-200 flex items-center px-8 gap-4 shrink-0 shadow-sm">
-            <div class="flex-1 bg-slate-100 rounded-xl flex items-center px-6 py-3 border border-transparent focus-within:ring-2 ring-rose-600 transition-all">
-                <i class="fas fa-search text-slate-400 mr-4"></i>
-                <input type="text" id="globalInput" placeholder="Busca país, jugador o mundial (ej: 'Argentina', 'Pelé', '1986')..." 
-                       class="bg-transparent w-full outline-none text-sm font-bold">
-            </div>
-            <button onclick="executeSearch()" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all">
-                Consultar
-            </button>
-        </header>
-
-        <section id="viewport" class="flex-1 overflow-y-auto p-10 bg-slate-50/50 italic">
-            <!-- Cargando Live Center 2026 por defecto -->
-        </section>
-    </main>
-
-    <!-- COLUMNA DERECHA: NOTICIAS (NewsAPI) -->
-    <aside class="sidebar-right flex flex-col shrink-0 overflow-hidden hidden xl:flex">
-        <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-white">
-            <h3 class="text-xs font-black uppercase tracking-[0.2em] text-slate-900">Prensa Internacional</h3>
-            <i class="fas fa-newspaper text-rose-600"></i>
-        </div>
-        <div id="newsFeed" class="flex-1 overflow-y-auto">
-            <div class="p-10 text-center animate-pulse text-slate-300 font-bold uppercase text-[10px]">Actualizando Noticias de Fútbol...</div>
-        </div>
-        <div class="p-4 bg-slate-50 border-t border-slate-100 text-[9px] font-bold text-slate-400 text-center uppercase tracking-tighter">
-            NewsAPI.org | Football Filter Active
-        </div>
-    </aside>
-
-    <script>
-        const NEWS_API_KEY = '77abffd66a8544489beb9dc34972de88';
-        const FOOTBALL_API_KEY = '10e51efe3147485c9a4dcfe12ebfd655';
-
-        // BASE DE DATOS INTERNA (HISTORIA TOTAL)
-        const db = {
-            editions: [
-                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Balón_Oro: "Lionel Messi", Goles: "172" },
-                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Balón_Oro: "Luka Modric", Goles: "169" },
-                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Balón_Oro: "Lionel Messi", Goles: "171" },
-                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Balón_Oro: "Diego Forlán", Goles: "145" },
-                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Balón_Oro: "Diego Maradona", Goles: "132" },
-                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Balón_Oro: "Pelé", Goles: "95" },
-                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Balón_Oro: "José Nasazzi", Goles: "70" }
-            ],
-            players: [
-                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Récord: "Campeón del Mundo 2022" },
-                { Nombre: "Pelé", País: "Brasil", Goles: "12", Récord: "3 Copas del Mundo" },
-                { Nombre: "Diego Maradona", País: "Argentina", Goles: "8", Récord: "Gol del Siglo 1986" }
-            ],
-            records: {
-                fastest: { Título: "Gol más rápido", Sujeto: "Hakan Sukur", Pais: "Turkey", Dato: "11 segundos" },
-                goals: { Título: "Más goles un partido", Sujeto: "Oleg Salenko", Pais: "Russia", Dato: "5 Goles" },
-                keeper: { Título: "Portero imbatido", Sujeto: "Pascal Zuberbühler", Pais: "Switzerland", Dato: "0 Goles recibidos" }
-            }
-        };
-
-        const viewport = document.getElementById('viewport');
-
-        // BUSCADOR UNIVERSAL + API REST COUNTRIES
-        async function executeSearch(forcedQuery) {
-            const query = (forcedQuery || document.getElementById('globalInput').value).trim();
-            if (!query) return;
-
-            viewport.innerHTML = `<div class="p-20 text-center animate-pulse text-slate-400 font-bold uppercase tracking-widest italic">Analizando Base de Datos Mundial...</div>`;
-            let resultsHTML = "";
-            
-            // 1. Llamada a API de Países
-            try {
-                const countryRes = await fetch(`https://restcountries.com/v3.1/name/${query}?fullText=true`);
-                const countryData = await countryRes.json();
-                if (countryData && countryData[0]) {
-                    const c = countryData[0];
-                    resultsHTML += `
-                        <div class="card overflow-hidden mb-10">
-                            <div class="flex items-center p-8 gap-6 bg-slate-900 text-white border-b-8 border-rose-700">
-                                <img src="${c.flags.svg}" class="w-32 shadow-2xl rounded">
-                                <div>
-                                    <h2 class="text-4xl font-black uppercase tracking-tighter">${c.name.common}</h2>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">${c.region} | ${c.capital} | Población: ${c.population.toLocaleString()}</p>
-                                </div>
-                            </div>
-                        </div>`;
-                }
-            } catch (e) {}
-
-            // 2. Búsqueda en DB Interna
-            const q = query.toLowerCase();
-            let found = false;
-            const editions = db.editions.filter(e => JSON.stringify(e).toLowerCase().includes(q));
-            if (editions.length > 0) { found = true; resultsHTML += renderTable(editions, "Resultados Históricos"); }
-
-            viewport.innerHTML = found ? resultsHTML : `<div class="p-20 text-center card italic font-bold text-slate-400 uppercase tracking-widest">No se han encontrado registros para "${query}"</div>`;
-        }
-
-        // NOTICIAS DE FÚTBOL (NEWS API)
-        async function fetchNews() {
-            const feed = document.getElementById('newsFeed');
-            const proxy = 'https://api.allorigins.win/raw?url=';
-            const targetUrl = encodeURIComponent(`https://newsapi.org/v2/everything?q=fútbol+OR+soccer&language=es&sortBy=publishedAt&pageSize=10&apiKey=${NEWS_API_KEY}`);
-
-            try {
-                const response = await fetch(`${proxy}${targetUrl}`);
-                const data = await response.json();
-                if (data.articles) {
-                    feed.innerHTML = data.articles.map(a => `
-                        <div class="news-card">
-                            <span class="text-[8px] font-black text-rose-600 uppercase tracking-widest">${a.source.name}</span>
-                            <h4 class="text-[13px] font-bold leading-tight mt-1">
-                                <a href="${a.url}" target="_blank" class="hover:text-rose-700 transition">${a.title}</a>
-                            </h4>
-                        </div>
-                    `).join('');
-                }
-            } catch (e) {
-                feed.innerHTML = `<div class="p-10 text-center text-slate-400 text-[10px] font-bold uppercase italic">Error al cargar noticias de prensa.</div>`;
-            }
-        }
-
-        // UTILIDADES
-        function linkify(text) {
-            if (!text || typeof text !== 'string' || !isNaN(text) || text.length < 3) return text;
-            return `<span class="entity-link" onclick="executeSearch('${text}')">${text}</span>`;
-        }
-
-        function renderTable(data, title) {
-            const headers = Object.keys(data[0]);
-            let html = `<div class="card overflow-hidden mb-10"><div class="p-4 bg-slate-50 border-b border-slate-100 font-bold uppercase text-[10px] tracking-widest text-slate-400">${title}</div><table class="w-full text-left"><thead><tr>`;
-            headers.forEach(h => html += `<th>${h}</th>`);
-            html += `</tr></thead><tbody>`;
-            data.forEach(row => {
-                html += `<tr>`;
-                headers.forEach(h => html += `<td>${linkify(row[h])}</td>`);
-                html += `</tr>`;
-            });
-            html += `</tbody></table></div>`;
-            return html;
-        }
-
-        function showTab(id) {
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('btn-' + id)?.classList.add('active');
-            if (id === 'history') viewport.innerHTML = `<h2 class="text-3xl font-black italic uppercase mb-8 italic">Archivo Mundial (1930-2022)</h2>` + renderTable(db.editions, "Todas las Ediciones");
-            if (id === 'players') viewport.innerHTML = `<h2 class="text-3xl font-black italic uppercase mb-8 italic">Leyendas del Balón</h2>` + renderTable(db.players, "Enciclopedia de Jugadores");
-            if (id === 'live') viewport.innerHTML = `<div class="p-20 text-center card border-t-8 border-rose-700"><h2 class="text-5xl font-black italic uppercase italic">United 2026</h2><p class="text-rose-600 font-bold uppercase tracking-[0.3em] mt-6 italic">Signal Received | Waiting for Tournament Start</p></div>`;
-        }
-
-        function init() {
-            const menu = document.getElementById('recordsMenu');
-            Object.keys(db.records).forEach((k, i) => {
-                menu.innerHTML += `<div onclick="executeSearch('${db.records[k].Sujeto}')" class="nav-item px-8 py-2 text-[11px] font-bold italic transition-all">#${i+1} ${db.records[k].Título}</div>`;
-            });
-            document.getElementById('globalInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') executeSearch(); });
-            showTab('live');
-            fetchNews();
-            // Actualizar noticias cada 10 minutos
-            setInterval(fetchNews, 600000);
-        }
-
-        init();
-    </script>
-</body>
-</html>
+            <div class="flex-1 bg-slate-100 rounded-xl flex items-center px-6 py-3 border border-transparent focus-within:ring-2 ring-ros
