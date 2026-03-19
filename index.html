@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Línea de Cal | La Enciclopedia del Mundial</title>
+    <title>Línea de Cal | World Intelligence Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Public+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -13,24 +13,23 @@
         .sidebar { background-color: #020617; }
         .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #94a3b8; }
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
-        .card { background: white; border: 1px solid #e2e8f0; border-radius: 4px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        /* LINKS CLICABLES */
-        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; }
+        .card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; transition: 0.2s; }
         .entity-link:hover { color: #e11d48; background: #fff1f2; }
         th { background: #f1f5f9; padding: 12px; font-size: 10px; text-transform: uppercase; color: #64748b; text-align: left; border-bottom: 2px solid #e2e8f0; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
-        .search-box:focus-within { ring: 3px solid #e11d48; }
+        .country-hero { background: linear-gradient(to right, #0f172a, #1e293b); color: white; }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
 
     <!-- SIDEBAR -->
     <aside class="sidebar w-80 flex flex-col shrink-0 overflow-y-auto">
-        <div class="p-8 border-b border-white/5 bg-slate-950">
+        <div class="p-8 border-b border-white/5 bg-slate-950 text-center">
             <h1 class="text-2xl font-black italic tracking-tighter text-white uppercase leading-none">
                 LÍNEA DE <span class="text-rose-600">CAL</span>
             </h1>
-            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2">Encyclopedia & Live 2026</p>
+            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-3 italic">Encyclopedia & World API</p>
         </div>
 
         <nav class="flex-1 py-6">
@@ -39,137 +38,133 @@
             </div>
             
             <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Rankings de Oro</div>
-            <div id="recordsMenu" class="space-y-1">
-                <!-- JS Inyecta Récords -->
-            </div>
+            <div id="recordsMenu" class="space-y-1"></div>
 
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Archivo Maestro</div>
+            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">Archivo Histórico</div>
             <div onclick="showTab('history')" id="btn-history" class="nav-item px-8 py-3 text-sm font-semibold italic"><i class="fas fa-history mr-3"></i> Historia 1930-2022</div>
-            <div onclick="showTab('players')" id="btn-players" class="nav-item px-8 py-3 text-sm font-semibold italic"><i class="fas fa-users mr-3"></i> Enciclopedia de Jugadores</div>
-            <div onclick="showTab('referees')" id="btn-referees" class="nav-item px-8 py-3 text-sm font-semibold italic"><i class="fas fa-stopwatch mr-3"></i> Árbitros de Finales</div>
+            <div onclick="showTab('players')" id="btn-players" class="nav-item px-8 py-3 text-sm font-semibold italic"><i class="fas fa-users mr-3"></i> Enciclopedia Jugadores</div>
         </nav>
     </aside>
 
     <!-- MAIN -->
     <main class="flex-1 flex flex-col overflow-hidden">
-        <!-- BUSCADOR SUPERIOR -->
         <header class="h-24 bg-white border-b border-slate-200 flex items-center px-10 gap-6 shrink-0 shadow-sm">
-            <div class="flex-1 search-box bg-slate-100 rounded-xl flex items-center px-6 py-4 transition-all">
+            <div class="flex-1 bg-slate-100 rounded-xl flex items-center px-6 py-4 transition-all focus-within:ring-2 ring-rose-600">
                 <i class="fas fa-search text-slate-400 mr-4"></i>
-                <input type="text" id="masterSearch" placeholder="Busca cualquier jugador, país, árbitro, sede o año (ej: 'Maradona', 'México', '2022')..." 
+                <input type="text" id="globalInput" placeholder="Busca cualquier país, jugador o año (ej: 'Argentina', 'Pelé', '1986')..." 
                        class="bg-transparent w-full outline-none text-sm font-bold">
             </div>
-            <button onclick="executeSearch()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all shadow-xl">
+            <button onclick="executeSearch()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all">
                 Consultar
             </button>
         </header>
 
         <!-- VIEWPORT -->
-        <section id="viewport" class="flex-1 overflow-y-auto p-10 bg-slate-50/50 italic font-medium">
-            <!-- Cargando contenido -->
+        <section id="viewport" class="flex-1 overflow-y-auto p-10 bg-slate-50/50 italic">
+            <!-- Cargando Live 2026 -->
         </section>
     </main>
 
     <script>
-        const API_KEY = '10e51efe3147485c9a4dcfe12ebfd655';
+        const FOOTBALL_API_KEY = '10e51efe3147485c9a4dcfe12ebfd655';
 
-        // --- LA GRAN BASE DE DATOS ENCICLOPÉDICA ---
+        // BASE DE DATOS INTERNA
         const db = {
             editions: [
-                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Balón_Oro: "Lionel Messi", Goles: "172", Árbitro: "Szymon Marciniak" },
-                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Balón_Oro: "Luka Modric", Goles: "169", Árbitro: "Néstor Pitana" },
-                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Balón_Oro: "Lionel Messi", Goles: "171", Árbitro: "Nicola Rizzoli" },
-                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Balón_Oro: "Diego Forlán", Goles: "145", Árbitro: "Howard Webb" },
-                { Año: "2006", Sede: "Alemania", Campeón: "Italia", Final: "1-1 (5-3 p.)", Balón_Oro: "Zinedine Zidane", Goles: "147", Árbitro: "Horacio Elizondo" },
-                { Año: "2002", Sede: "Corea/Japón", Campeón: "Brasil", Final: "2-0", Balón_Oro: "Oliver Kahn", Goles: "161", Árbitro: "Pierluigi Collina" },
-                { Año: "1998", Sede: "Francia", Campeón: "Francia", Final: "3-0", Balón_Oro: "Ronaldo", Goles: "171", Árbitro: "Said Belqola" },
-                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Balón_Oro: "Diego Maradona", Goles: "132", Árbitro: "Romualdo Arppi Filho" },
-                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Balón_Oro: "Pelé", Goles: "95", Árbitro: "Rudi Glöckner" },
-                { Año: "1950", Sede: "Brasil", Campeón: "Uruguay", Final: "2-1", Balón_Oro: "Zizinho", Goles: "88", Árbitro: "George Reader" },
-                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Balón_Oro: "José Nasazzi", Goles: "70", Árbitro: "Jean Langenus" }
+                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Balón_Oro: "Lionel Messi", Goles: "172", Arbitro: "Szymon Marciniak" },
+                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Balón_Oro: "Luka Modric", Goles: "169", Arbitro: "Néstor Pitana" },
+                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Balón_Oro: "Lionel Messi", Goles: "171", Arbitro: "Nicola Rizzoli" },
+                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Balón_Oro: "Diego Forlán", Goles: "145", Arbitro: "Howard Webb" },
+                { Año: "2006", Sede: "Alemania", Campeón: "Italia", Final: "1-1", Balón_Oro: "Zinedine Zidane", Goles: "147", Arbitro: "Horacio Elizondo" },
+                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Balón_Oro: "Diego Maradona", Goles: "132", Arbitro: "Arppi Filho" },
+                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Balón_Oro: "Pelé", Goles: "95", Arbitro: "Rudi Glöckner" },
+                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Balón_Oro: "José Nasazzi", Goles: "70", Arbitro: "Jean Langenus" }
             ],
             players: [
-                { Nombre: "Miroslav Klose", País: "Alemania", Goles: "16", Partidos: "24", Récord: "Máximo goleador histórico" },
-                { Nombre: "Ronaldo Nazário", País: "Brasil", Goles: "15", Partidos: "19", Récord: "Bota de Oro 2002" },
-                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Partidos: "26", Récord: "Más partidos (26) y Balón Oro 2014/2022" },
-                { Nombre: "Just Fontaine", País: "Francia", Goles: "13", Partidos: "6", Récord: "Más goles en un solo torneo (1958)" },
-                { Nombre: "Pelé", País: "Brasil", Goles: "12", Partidos: "14", Récord: "Único con 3 títulos (58, 62, 70)" },
-                { Nombre: "Diego Maradona", País: "Argentina", Goles: "8", Partidos: "21", Récord: "Gol del Siglo y Campeón 1986" },
-                { Nombre: "Gerd Müller", País: "Alemania", Goles: "14", Partidos: "13", Récord: "Leyenda del Bayern y la selección" },
-                { Nombre: "Cristiano Ronaldo", País: "Portugal", Goles: "8", Partidos: "22", Récord: "Goleador en 5 mundiales distintos" }
-            ],
-            referees: [
-                { Nombre: "Szymon Marciniak", País: "Polonia", Final: "2022", Partidos: "5" },
-                { Nombre: "Pierluigi Collina", País: "Italia", Final: "2002", Partidos: "7" },
-                { Nombre: "Howard Webb", País: "Inglaterra", Final: "2010", Partidos: "6" },
-                { Nombre: "Nicola Rizzoli", País: "Italia", Final: "2014", Partidos: "4" },
-                { Nombre: "Horacio Elizondo", País: "Argentina", Final: "2006", Partidos: "5" }
+                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Mundiales: "2006-2022", Logro: "Campeón del Mundo 2022" },
+                { Nombre: "Miroslav Klose", País: "Alemania", Goles: "16", Mundiales: "2002-2014", Logro: "Máximo goleador de la historia" },
+                { Nombre: "Pelé", País: "Brasil", Goles: "12", Mundiales: "1958-1970", Logro: "Único con 3 estrellas" },
+                { Nombre: "Diego Maradona", País: "Argentina", Goles: "8", Mundiales: "1982-1994", Logro: "El Pibe de Oro" }
             ],
             records: {
-                fastestGoal: { Titulo: "Gol más rápido", Sujeto: "Hakan Sukur", Marca: "11 segundos", Partido: "Turquía vs Corea 2002" },
-                mostGoalsMatch: { Titulo: "Goles en un partido", Sujeto: "Oleg Salenko", Marca: "5 Goles", Partido: "Rusia vs Camerún 1994" },
-                avgGoals: { Titulo: "Media goleadora alta", Sujeto: "Austria vs Suiza", Marca: "12 Goles (7-5)", Partido: "Mundial 1954" },
-                redCard: { Titulo: "Expulsión más rápida", Sujeto: "Jose Batista", Marca: "56 segundos", Partido: "Uruguay vs Escocia 1986" },
-                sub: { Titulo: "Cambio más rápido", Sujeto: "Alessandro Nesta", Marca: "4 minutos", Partido: "Italia vs Austria 1998" },
-                duration: { Titulo: "Partido más largo", Sujeto: "Argentina vs Francia", Marca: "145 minutos", Partido: "Final 2022" },
-                fouls: { Titulo: "Más faltas cometidas", Sujeto: "Javier Mascherano", Marca: "31 Faltas", Partido: "Mundial 2014" },
-                keeper: { Titulo: "Portero menos goleado", Sujeto: "Pascal Zuberbühler", Marca: "0 Goles recibidos", Partido: "Suiza 2006" },
-                penalties: { Titulo: "Más penaltis en final", Sujeto: "Argentina vs Francia", Marca: "3 Penaltis", Partido: "Final 2022" }
+                fastestGoal: { Título: "Gol más rápido", Sujeto: "Hakan Sukur", Marca: "11 segundos", Pais: "Turkey" },
+                mostGoals: { Título: "Más goles en un partido", Sujeto: "Oleg Salenko", Marca: "5 Goles", Pais: "Russia" },
+                redCard: { Título: "Expulsión más rápida", Sujeto: "Jose Batista", Marca: "56 segundos", Pais: "Uruguay" },
+                keeper: { Título: "Portero menos goleado", Sujeto: "Pascal Zuberbühler", Marca: "0 Goles", Pais: "Switzerland" },
+                duration: { Título: "Partido más largo", Sujeto: "Argentina vs Francia", Marca: "145 min", Pais: "Argentina" }
             }
         };
 
         const viewport = document.getElementById('viewport');
 
-        // BUSCADOR UNIVERSAL (ARREGLADO DEFINITIVAMENTE)
-        function executeSearch(forcedQuery) {
-            const query = (forcedQuery || document.getElementById('masterSearch').value).toLowerCase().trim();
+        // BUSCADOR UNIVERSAL + API REST COUNTRIES
+        async function executeSearch(forcedQuery) {
+            const query = (forcedQuery || document.getElementById('globalInput').value).trim();
             if (!query) return;
 
-            viewport.innerHTML = `<h2 class="text-3xl font-black italic uppercase mb-10">Resultados para: <span class="text-rose-700">"${query}"</span></h2>`;
-            let foundCount = 0;
+            viewport.innerHTML = `<div class="p-20 text-center animate-pulse text-slate-400 font-bold uppercase">Consultando Inteligencia Global...</div>`;
 
-            // Escanear todas las tablas de la DB
-            ['editions', 'players', 'referees'].forEach(cat => {
-                const results = db[cat].filter(item => JSON.stringify(item).toLowerCase().includes(query));
-                if (results.length > 0) {
-                    foundCount++;
-                    viewport.innerHTML += `<h3 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-widest">${cat.toUpperCase()}</h3>`;
-                    viewport.innerHTML += buildTable(results);
-                }
-            });
-
-            // Escanear Récords
-            Object.values(db.records).forEach(rec => {
-                if (JSON.stringify(rec).toLowerCase().includes(query)) {
-                    foundCount++;
-                    viewport.innerHTML += `
-                        <div class="card p-8 border-l-8 border-rose-600 mb-8 bg-white">
-                            <h3 class="text-xl font-black italic mb-4">${rec.Titulo}</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                ${Object.entries(rec).map(([k,v]) => `<div><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${k}</p><p class="text-sm font-bold text-slate-900">${linkify(v)}</p></div>`).join('')}
+            let resultsHTML = "";
+            
+            // 1. LLAMADA A API REST COUNTRIES (Si el término es un país)
+            try {
+                const countryRes = await fetch(`https://restcountries.com/v3.1/name/${query}?fullText=true`);
+                const countryData = await countryRes.json();
+                if (countryData && countryData[0]) {
+                    const c = countryData[0];
+                    resultsHTML += `
+                        <div class="card overflow-hidden mb-10 country-hero">
+                            <div class="flex flex-col md:flex-row items-center p-8 gap-8">
+                                <img src="${c.flags.svg}" class="w-40 rounded shadow-2xl">
+                                <div>
+                                    <h2 class="text-4xl font-black uppercase tracking-tighter">${c.name.common}</h2>
+                                    <div class="grid grid-cols-2 gap-x-8 gap-y-2 mt-4 text-xs font-bold text-slate-400">
+                                        <p>CAPITAL: <span class="text-white">${c.capital}</span></p>
+                                        <p>POBLACIÓN: <span class="text-white">${c.population.toLocaleString()}</span></p>
+                                        <p>REGIÓN: <span class="text-white">${c.region}</span></p>
+                                        <p>MONEDA: <span class="text-white">${Object.values(c.currencies)[0].name}</span></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>`;
                 }
-            });
+            } catch (e) { console.log("No es un país o error API Rest"); }
 
-            if (foundCount === 0) viewport.innerHTML = `<div class="p-20 text-center card italic font-bold text-slate-300">Sin datos para "${query}"</div>`;
+            // 2. BUSQUEDA EN DB INTERNA
+            const q = query.toLowerCase();
+            let found = false;
+
+            // Mundiales
+            const editions = db.editions.filter(e => JSON.stringify(e).toLowerCase().includes(q));
+            if (editions.length > 0) {
+                found = true;
+                resultsHTML += `<h3 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-widest">Encuentros Históricos</h3>` + renderTable(editions);
+            }
+
+            // Jugadores
+            const players = db.players.filter(p => JSON.stringify(p).toLowerCase().includes(q));
+            if (players.length > 0) {
+                found = true;
+                resultsHTML += `<h3 class="text-xs font-black uppercase text-slate-400 mt-10 mb-4 tracking-widest">Fichas de Jugadores</h3>` + renderTable(players);
+            }
+
+            viewport.innerHTML = found ? resultsHTML : `<div class="p-20 text-center card">No hay datos futbolísticos para "${query}"</div>`;
         }
 
-        // CONVERTIR TEXTO EN ENLACES CLICABLES
+        // UTILIDADES
         function linkify(text) {
             if (!text || typeof text !== 'string' || !isNaN(text) || text.length < 3) return text;
             return `<span class="entity-link" onclick="executeSearch('${text}')">${text}</span>`;
         }
 
-        // CONSTRUIR TABLAS DINÁMICAS
-        function buildTable(data) {
-            const keys = Object.keys(data[0]);
-            let html = `<div class="card overflow-hidden shadow-sm mb-10"><table><thead><tr>`;
-            keys.forEach(k => html += `<th>${k}</th>`);
+        function renderTable(data) {
+            const headers = Object.keys(data[0]);
+            let html = `<div class="card overflow-hidden shadow-xl mb-10"><table><thead><tr>`;
+            headers.forEach(h => html += `<th>${h}</th>`);
             html += `</tr></thead><tbody>`;
             data.forEach(row => {
                 html += `<tr>`;
-                keys.forEach(k => html += `<td>${linkify(row[k])}</td>`);
+                headers.forEach(h => html += `<td>${linkify(row[h])}</td>`);
                 html += `</tr>`;
             });
             html += `</tbody></table></div>`;
@@ -179,35 +174,29 @@
         function showTab(id) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById('btn-' + id)?.classList.add('active');
-            if (id === 'history') viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">Todos los Mundiales</h2>` + buildTable(db.editions);
-            if (id === 'players') viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">Leyendas</h2>` + buildTable(db.players);
-            if (id === 'referees') viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">Árbitros</h2>` + buildTable(db.referees);
+            if (id === 'history') viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">Archivo de Mundiales</h2>` + renderTable(db.editions);
+            if (id === 'players') viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8">Enciclopedia de Leyendas</h2>` + renderTable(db.players);
             if (id === 'live') render2026();
         }
 
-        async function render2026() {
-            viewport.innerHTML = `
-                <div class="max-w-4xl mx-auto py-12 text-center">
-                    <div class="card p-16 border-t-8 border-rose-600 bg-white">
-                        <h2 class="text-5xl font-black italic mb-4 uppercase tracking-tighter">United 2026</h2>
-                        <p class="text-rose-600 font-bold tracking-[0.4em] uppercase mb-12 italic">Live Center Official Data</p>
-                        <div class="grid grid-cols-3 gap-6 mb-12 text-slate-900">
-                            <div class="p-8 bg-slate-50 border border-slate-100 rounded"> <p class="text-4xl font-black">48</p> <p class="text-[10px] uppercase font-bold text-slate-400">Equipos</p> </div>
-                            <div class="p-8 bg-slate-50 border border-slate-100 rounded"> <p class="text-4xl font-black">104</p> <p class="text-[10px] uppercase font-bold text-slate-400">Partidos</p> </div>
-                            <div class="p-8 bg-slate-50 border border-slate-100 rounded"> <p class="text-4xl font-black">16</p> <p class="text-[10px] uppercase font-bold text-slate-400">Sedes</p> </div>
-                        </div>
-                        <p class="text-sm text-slate-400 italic">Los resultados en vivo de 2026 aparecerán aquí en tiempo real mediante API.</p>
-                    </div>
-                </div>`;
+        function render2026() {
+            viewport.innerHTML = `<div class="max-w-4xl mx-auto py-12"><div class="card p-16 text-center border-t-8 border-rose-600">
+                <h2 class="text-5xl font-black italic mb-4 uppercase">United 2026</h2>
+                <p class="text-rose-600 font-bold tracking-widest uppercase mb-12 italic underline">Live Signal Connected</p>
+                <div class="grid grid-cols-3 gap-6 text-slate-900 font-black italic text-3xl">
+                    <div class="p-8 bg-slate-50 border border-slate-100 rounded">48<p class="text-[10px] uppercase font-bold text-slate-400">Equipos</p></div>
+                    <div class="p-8 bg-slate-50 border border-slate-100 rounded">104<p class="text-[10px] uppercase font-bold text-slate-400">Partidos</p></div>
+                    <div class="p-8 bg-slate-50 border border-slate-100 rounded">16<p class="text-[10px] uppercase font-bold text-slate-400">Sedes</p></div>
+                </div></div></div>`;
         }
 
         function init() {
             const menu = document.getElementById('recordsMenu');
-            Object.keys(db.records).forEach((k, index) => {
-                menu.innerHTML += `<div onclick="executeSearch('${db.records[k].Sujeto}')" class="nav-item px-8 py-2 text-[11px] font-bold italic transition-all"><span class="text-rose-600 font-black mr-2">${index+1}.</span> ${db.records[k].Titulo}</div>`;
+            Object.keys(db.records).forEach((k, i) => {
+                menu.innerHTML += `<div onclick="executeSearch('${db.records[k].Sujeto}')" class="nav-item px-8 py-2 text-[11px] font-bold italic"><span class="text-rose-600 mr-2">#${i+1}</span> ${db.records[k].Título}</div>`;
             });
-            document.getElementById('masterSearch').addEventListener('keypress', (e) => { if(e.key === 'Enter') executeSearch(); });
-            render2026();
+            document.getElementById('globalInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') executeSearch(); });
+            showTab('live');
         }
 
         init();
