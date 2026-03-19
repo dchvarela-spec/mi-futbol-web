@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Línea de Cal | AI Global Football Encyclopedia</title>
+    <title>Línea de Cal | AI World Cup Encyclopedia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Public+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -15,44 +15,44 @@
         .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #94a3b8; }
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
         .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; transition: 0.2s; }
-        .entity-link:hover { color: #e11d48; background: #fff1f2; }
+        .entity-link:hover { color: #e11d48; background: #fff1f2; padding: 0 2px; border-radius: 2px; }
         .card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .ai-content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        .ai-content th { background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b; text-transform: uppercase; font-size: 10px; }
+        .ai-content td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
         .news-card { border-bottom: 1px solid #f1f5f9; padding: 15px; transition: 0.2s; }
         .news-card:hover { background: #f8fafc; }
-        .ai-content table { width: 100%; margin: 15px 0; border-collapse: collapse; font-size: 13px; }
-        .ai-content th { background: #f8fafc; text-align: left; padding: 8px; text-transform: uppercase; font-size: 10px; color: #64748b; border-bottom: 2px solid #e2e8f0; }
-        .ai-content td { padding: 8px; border-bottom: 1px solid #f1f5f9; }
-        .loading-pulse { animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .loader { animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="flex h-screen">
 
-    <!-- SIDEBAR IZQUIERDO: RANKINGS -->
+    <!-- MENÚ IZQUIERDO: RANKINGS -->
     <aside class="sidebar-l flex flex-col overflow-y-auto hidden lg:flex">
         <div class="p-8 border-b border-white/5 bg-slate-950">
-            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none">LINE<span class="text-rose-600">CALL</span></h1>
-            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2 font-mono">AI Intelligence Engine</p>
+            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none italic">LINE<span class="text-rose-600">CALL</span></h1>
+            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2 font-mono">Encyclopedia & AI Search</p>
         </div>
         <nav class="flex-1 py-4">
             <div onclick="location.reload()" class="nav-item active px-8 py-3 text-sm font-bold flex items-center gap-2">
-                <i class="fas fa-home"></i> Inicio / United 2026
+                <i class="fas fa-home"></i> Dashboard United 2026
             </div>
             
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Rankings Top 50</div>
-            <div id="goldRankings" class="space-y-1">
-                <div onclick="askAI('Ranking de los 50 máximos goleadores de la historia de los mundiales')" class="nav-item px-8 py-2 text-[11px] font-medium">1. Máximos Goleadores</div>
-                <div onclick="askAI('Ranking de los 50 jugadores con más partidos jugados en mundiales')" class="nav-item px-8 py-2 text-[11px] font-medium">2. Más Partidos Jugados</div>
-                <div onclick="askAI('Ranking de los 50 goles más rápidos de la historia de los mundiales con segundo exacto y partido')" class="nav-item px-8 py-2 text-[11px] font-medium">3. Goles más rápidos</div>
-                <div onclick="askAI('Ranking de los 50 partidos con más goles de la historia de los mundiales')" class="nav-item px-8 py-2 text-[11px] font-medium">4. Goles por partido</div>
-                <div onclick="askAI('Ranking de los 50 porteros con menos goles recibidos por mundial (mínimo 3 partidos)')" class="nav-item px-8 py-2 text-[11px] font-medium">5. Porteros menos goleados</div>
-                <div onclick="askAI('Ranking de las 50 expulsiones más rápidas de la historia de los mundiales')" class="nav-item px-8 py-2 text-[11px] font-medium">6. Expulsiones rápidas</div>
-                <div onclick="askAI('Ranking de los 50 cambios de jugador más rápidos de los mundiales')" class="nav-item px-8 py-2 text-[11px] font-medium">7. Cambios más rápidos</div>
-                <div onclick="askAI('Ranking de los 50 partidos más largos de la historia (minutos totales)')" class="nav-item px-8 py-2 text-[11px] font-medium">8. Partidos más largos</div>
-                <div onclick="askAI('Ranking de los 50 jugadores con más faltas cometidas en un solo mundial')" class="nav-item px-8 py-2 text-[11px] font-medium">9. Más faltas cometidas</div>
-                <div onclick="askAI('Ranking de los partidos con mayor número de penaltis pitados')" class="nav-item px-8 py-2 text-[11px] font-medium">10. Penaltis por partido</div>
+            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Rankings Maestros (Top 50)</div>
+            <div class="space-y-1">
+                <div onclick="askAI('Ranking de los 50 máximos goleadores de la historia de los mundiales')" class="nav-item px-8 py-2 text-[11px]">1. Máximos Goleadores</div>
+                <div onclick="askAI('Ranking de los 50 jugadores con más partidos jugados en mundiales')" class="nav-item px-8 py-2 text-[11px]">2. Más Partidos</div>
+                <div onclick="askAI('Ranking de los 50 goles más rápidos de los mundiales')" class="nav-item px-8 py-2 text-[11px]">3. Goles más rápidos</div>
+                <div onclick="askAI('Ranking de los 50 porteros con menos goles recibidos')" class="nav-item px-8 py-2 text-[11px]">4. Porteros Imbatidos</div>
+                <div onclick="askAI('Ranking de las 50 expulsiones más rápidas')" class="nav-item px-8 py-2 text-[11px]">5. Expulsiones rápidas</div>
+                <div onclick="askAI('Ranking de los 50 cambios de jugador más rápidos')" class="nav-item px-8 py-2 text-[11px]">6. Cambios rápidos</div>
+                <div onclick="askAI('Ranking de los 50 partidos más largos de la historia')" class="nav-item px-8 py-2 text-[11px]">7. Partidos más largos</div>
+                <div onclick="askAI('Ranking de los 50 jugadores con más faltas')" class="nav-item px-8 py-2 text-[11px]">8. Más faltas cometidas</div>
+                <div onclick="askAI('Ranking partidos con mayor número de penaltis')" class="nav-item px-8 py-2 text-[11px]">9. Más Penaltis</div>
+                <div onclick="askAI('Ranking de los máximos goleadores en un solo partido')" class="nav-item px-8 py-2 text-[11px]">10. Goleadores x Partido</div>
             </div>
         </nav>
     </aside>
@@ -61,54 +61,56 @@
     <main class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
         <header class="h-28 bg-white border-b border-slate-200 flex items-center px-10 gap-4 shrink-0 shadow-sm">
             <div class="flex-1 bg-slate-100 rounded-2xl flex items-center px-6 py-4 border border-transparent focus-within:ring-2 ring-rose-600 transition-all">
-                <i class="fas fa-robot text-rose-600 mr-4 text-xl"></i>
-                <input type="text" id="aiInput" placeholder="Consulta cualquier dato: 'Alineación final 1970', 'Goles de Ronaldo en 2002', 'Sedes 2026'..." 
+                <i class="fas fa-magic text-rose-600 mr-4 text-xl"></i>
+                <input type="text" id="aiInput" placeholder="Busca cualquier dato: 'Brasil vs Italia 1970', 'Suplentes España 2010', 'Récords de Messi'..." 
                        class="bg-transparent w-full outline-none text-base font-bold text-slate-700" onkeypress="if(event.key==='Enter') askAI()">
             </div>
             <button onclick="askAI()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase hover:bg-rose-600 transition-all shadow-xl">
-                Preguntar
+                CONSULTAR IA
             </button>
         </header>
 
         <section id="viewport" class="flex-1 overflow-y-auto p-10 italic">
             <!-- Bienvenida -->
             <div id="welcome" class="max-w-3xl mx-auto py-20 text-center">
-                <div class="w-20 h-20 bg-rose-100 rounded-3xl flex items-center justify-center mx-auto mb-8 text-rose-600 shadow-lg">
-                    <i class="fas fa-brain text-3xl"></i>
+                <div class="w-20 h-20 bg-rose-100 rounded-3xl flex items-center justify-center mx-auto mb-8 text-rose-600 shadow-xl">
+                    <i class="fas fa-database text-3xl"></i>
                 </div>
-                <h2 class="text-4xl font-black italic text-slate-900 uppercase tracking-tighter">AI Football Intelligence</h2>
-                <p class="text-slate-400 mt-4 text-lg leading-relaxed">Conectado a Gemma 3. Consulta partidos, alineaciones, estadísticas y récords de toda la historia de los Mundiales (1930-2026).</p>
+                <h2 class="text-4xl font-black italic text-slate-900 uppercase">Encyclopedia Intelligence</h2>
+                <p class="text-slate-400 mt-4 text-lg font-medium leading-relaxed italic">
+                    Conectado a Gemma 3. Accede a todos los partidos, alineaciones, suplentes y estadísticas desde 1930 hasta 2026.
+                </p>
             </div>
         </section>
     </main>
 
-    <!-- SIDEBAR DERECHO: NOTICIAS -->
+    <!-- DERECHA: NOTICIAS -->
     <aside class="sidebar-r flex flex-col overflow-hidden hidden xl:flex">
         <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-white">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-900">Prensa Internacional</h3>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-900">Actualidad Fútbol</h3>
             <i class="fas fa-newspaper text-rose-600"></i>
         </div>
-        <div id="newsFeed" class="flex-1 overflow-y-auto italic">
-            <div class="p-10 text-center animate-pulse text-slate-300 font-bold uppercase text-[10px]">Sincronizando Noticias...</div>
+        <div id="newsFeed" class="flex-1 overflow-y-auto">
+            <div class="p-10 text-center animate-pulse text-slate-300 font-bold uppercase text-[10px]">Cargando Noticias...</div>
         </div>
     </aside>
 
     <script>
-        // CONFIGURACIÓN DE APIS
-        const GEMINI_API_KEY = 'AIzaSyAdfABMfUNYKCqfhvjP6krn6eyMjs6kuY0';
+        const GEMINI_API_KEY = 'AIzaSyB_b3tnr01RPp-A3W7DF1VQW2a88qwe0bk';
         const NEWS_API_KEY = '77abffd66a8544489beb9dc34972de88';
+
         const viewport = document.getElementById('viewport');
 
-        // FUNCIÓN MAESTRA: PREGUNTAR A LA IA
+        // MOTOR DE INTELIGENCIA ARTIFICIAL
         async function askAI(forcedQuery) {
             const query = (forcedQuery || document.getElementById('aiInput').value).trim();
             if (!query) return;
 
             viewport.innerHTML = `
                 <div class="max-w-3xl mx-auto py-20 text-center">
-                    <div class="loading-pulse inline-block mb-6 text-rose-600"><i class="fas fa-futbol text-6xl fa-spin"></i></div>
-                    <h3 class="text-xl font-black italic uppercase text-slate-400">Escaneando Archivos de la FIFA...</h3>
-                    <p class="text-xs text-slate-400 mt-2">Gemma 3 está analizando partidos, jugadores y alineaciones.</p>
+                    <i class="fas fa-futbol fa-spin text-5xl text-rose-600 mb-6"></i>
+                    <h3 class="text-xl font-black italic uppercase text-slate-400 tracking-widest">Escaneando Base de Datos FIFA...</h3>
+                    <p class="text-xs text-slate-400 mt-2 font-bold italic">Buscando alineaciones, suplentes y estadísticas históricas.</p>
                 </div>`;
 
             try {
@@ -116,67 +118,59 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Eres un historiador experto de los mundiales de fútbol. Responde a la siguiente consulta incluyendo nombres de jugadores, estadísticas, alineaciones (con titulares y suplentes si es un partido) y récords. 
-                        REGLAS DE FORMATO: 
-                        1. Usa HTML (tablas de Tailwind, negritas, listas). 
-                        2. CUALQUIER nombre de jugador, equipo, país o año DEBE ir dentro de: <span class='entity-link' onclick='askAI("nombre")'>Nombre</span>. 
-                        3. Si pido un ranking, dame al menos el top 50. 
-                        Consulta: ${query}` }] }]
+                        contents: [{ parts: [{ text: `Eres un experto historiador de los mundiales de fútbol. 
+                        PROMPT: Responde con máxima precisión a la consulta: "${query}". 
+                        REGLAS:
+                        1. Si es un partido, incluye alineación titular, suplentes que entraron (con minuto) y estadísticas (goles, tarjetas).
+                        2. Si es un ranking, dame el Top 50 en formato tabla HTML.
+                        3. IMPORTANTE: Cada nombre de jugador, país o año DEBE estar envuelto así: <span class='entity-link' onclick='askAI(\"Nombre\")'>Nombre</span>.
+                        4. Usa formato HTML elegante de Tailwind.` }] }]
                     })
                 });
 
                 const data = await response.json();
                 let aiText = data.candidates[0].content.parts[0].text;
-                
-                // Limpiar posibles etiquetas de bloque de código de la IA
-                aiText = aiText.replace(/```html|```/g, '');
+                aiText = aiText.replace(/```html|```/g, ''); 
 
                 viewport.innerHTML = `
                     <div class="max-w-5xl mx-auto ai-content animate-fadeIn">
-                        <div class="card p-10 bg-white shadow-2xl border-t-8 border-rose-600">
-                            <h2 class="text-[10px] font-black uppercase text-rose-600 mb-6 tracking-[0.3em] italic">Informe de Inteligencia LineCall</h2>
-                            <div class="leading-relaxed text-slate-700">${aiText}</div>
+                        <div class="card p-10 bg-white border-t-8 border-rose-600">
+                            <h2 class="text-[10px] font-black uppercase text-rose-600 mb-6 tracking-[0.3em] italic">Reporte de Inteligencia LineCall</h2>
+                            <div class="leading-relaxed text-slate-800">${aiText}</div>
                         </div>
                     </div>`;
 
-            } catch (error) {
-                viewport.innerHTML = `<div class="p-10 card bg-red-50 text-red-700 text-center max-w-xl mx-auto mt-20">Error en la consulta. Verifica la conexión.</div>`;
+            } catch (e) {
+                viewport.innerHTML = `<div class="p-10 card bg-red-50 text-red-700 text-center mx-auto mt-20 max-w-xl">Error de conexión con la IA. Verifica tu límite de uso diario.</div>`;
             }
         }
 
-        // NOTICIAS (NewsAPI con Proxy)
+        // NOTICIAS CON PROXY
         async function fetchNews() {
             const feed = document.getElementById('newsFeed');
-            const apiUrl = `https://newsapi.org/v2/everything?q=fútbol+soccer+mundial&language=es&sortBy=publishedAt&pageSize=15&apiKey=${NEWS_API_KEY}`;
+            const apiUrl = `https://newsapi.org/v2/everything?q=fútbol+mundial&language=es&sortBy=publishedAt&pageSize=10&apiKey=${NEWS_API_KEY}`;
             const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
 
             try {
                 const res = await fetch(proxyUrl);
                 const json = await res.json();
                 const data = JSON.parse(json.contents);
-                
                 if (data.articles) {
                     feed.innerHTML = data.articles.map(a => `
                         <div class="news-card">
                             <span class="text-[8px] font-black text-rose-600 uppercase tracking-widest">${a.source.name}</span>
-                            <h4 class="text-[13px] font-bold leading-tight mt-1 hover:text-rose-700">
+                            <h4 class="text-[13px] font-bold leading-tight mt-1 hover:underline">
                                 <a href="${a.url}" target="_blank">${a.title}</a>
                             </h4>
-                            <p class="text-[10px] text-slate-400 mt-2 italic">${new Date(a.publishedAt).toLocaleDateString()}</p>
                         </div>
                     `).join('');
                 }
             } catch (e) {
-                feed.innerHTML = `<div class="p-10 text-center text-slate-300 font-bold uppercase text-[9px]">Prensa offline momentáneamente.</div>`;
+                feed.innerHTML = `<div class="p-10 text-center text-slate-300 font-bold uppercase text-[9px]">Prensa offline temporalmente</div>`;
             }
         }
 
-        // INICIALIZACIÓN
-        window.onload = () => {
-            fetchNews();
-            // Refrescar noticias cada 15 min
-            setInterval(fetchNews, 900000);
-        };
+        window.onload = () => { fetchNews(); };
     </script>
 </body>
 </html>
