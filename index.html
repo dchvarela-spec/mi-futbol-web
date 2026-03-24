@@ -14,70 +14,69 @@
         .sidebar-r { background-color: white; border-left: 1px solid #e2e8f0; width: 380px; shrink: 0; }
         .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #94a3b8; }
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
-        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; }
+        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; transition: 0.1s; }
         .entity-link:hover { color: #e11d48; background: #fff1f2; padding: 0 2px; border-radius: 4px; }
         .card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .ai-content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
-        .ai-content th { background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b; text-transform: uppercase; font-size: 10px; font-weight: 800; }
-        .ai-content td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+        .ai-output table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        .ai-output th { background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b; text-transform: uppercase; font-size: 10px; font-weight: 800; }
+        .ai-output td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
         .news-card { border-bottom: 1px solid #f1f5f9; padding: 15px; transition: 0.2s; }
         .news-card:hover { background: #f8fafc; }
-        .live-badge { background: #be123c; color: white; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 900; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .loader-icon { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="flex h-screen">
 
-    <!-- IZQUIERDA: MENÚ DE ARCHIVOS Y RANKINGS -->
+    <!-- IZQUIERDA: MENÚ DE ACCESO A ARCHIVOS -->
     <aside class="sidebar-l flex flex-col overflow-y-auto hidden lg:flex">
         <div class="p-8 border-b border-white/5 bg-slate-950">
-            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none">LINE<span class="text-rose-600">CALL</span></h1>
-            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2 font-mono italic">Encyclopedia Station</p>
+            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none italic">LINE<span class="text-rose-600">CALL</span></h1>
+            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-2 font-mono italic">AI Archive Station</p>
         </div>
         <nav class="flex-1 py-4">
             <div onclick="location.reload()" class="nav-item active px-8 py-3 text-sm font-bold flex items-center gap-2">
-                <i class="fas fa-database"></i> Archivo Central
+                <i class="fas fa-home"></i> Inicio
             </div>
             
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest italic border-t border-white/5 mt-4">Rankings Históricos (Top 50)</div>
+            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest italic border-t border-white/5 mt-4">Rankings Top 50</div>
             <div class="space-y-1">
-                <div onclick="askAI('Ranking top 50 goleadores de la historia de los mundiales')" class="nav-item px-8 py-2 text-[11px]">1. Goleadores</div>
-                <div onclick="askAI('Ranking top 50 jugadores con más partidos')" class="nav-item px-8 py-2 text-[11px]">2. Más Partidos</div>
-                <div onclick="askAI('Ranking top 50 goles más rápidos de los mundiales')" class="nav-item px-8 py-2 text-[11px]">3. Gol más rápido</div>
-                <div onclick="askAI('Ranking top 50 partidos con más goles')" class="nav-item px-8 py-2 text-[11px]">4. Goles por partido</div>
-                <div onclick="askAI('Ranking top 50 jugadores con más goles en un solo partido')" class="nav-item px-8 py-2 text-[11px]">5. Goleador en un partido</div>
-                <div onclick="askAI('Ranking top 50 partidos con más penaltis pitados')" class="nav-item px-8 py-2 text-[11px]">6. Más Penaltis</div>
-                <div onclick="askAI('Ranking top 50 expulsiones más rápidas de la historia')" class="nav-item px-8 py-2 text-[11px]">7. Expulsión rápida</div>
-                <div onclick="askAI('Ranking top 50 cambios de jugador más rápidos')" class="nav-item px-8 py-2 text-[11px]">8. Cambio rápido</div>
-                <div onclick="askAI('Ranking top 50 partidos más largos de la historia')" class="nav-item px-8 py-2 text-[11px]">9. Partido más largo</div>
-                <div onclick="askAI('Ranking top 50 porteros con menos goles recibidos')" class="nav-item px-8 py-2 text-[11px]">10. Mejores Porteros</div>
+                <div onclick="askAI('Ranking top 50 máximos goleadores históricos de los mundiales')" class="nav-item px-8 py-2 text-[11px]">1. Goleadores (50)</div>
+                <div onclick="askAI('Ranking top 50 jugadores con más partidos en mundiales')" class="nav-item px-8 py-2 text-[11px]">2. Más Partidos (50)</div>
+                <div onclick="askAI('Ranking top 50 goles más rápidos de los mundiales (segundo exacto y partido)')" class="nav-item px-8 py-2 text-[11px]">3. Goles rápidos (50)</div>
+                <div onclick="askAI('Ranking top 50 porteros con menos goles recibidos por mundial')" class="nav-item px-8 py-2 text-[11px]">4. Porteros Imbatidos (50)</div>
+                <div onclick="askAI('Ranking top 50 expulsiones más rápidas en mundiales')" class="nav-item px-8 py-2 text-[11px]">5. Expulsiones rápidas (50)</div>
+                <div onclick="askAI('Ranking top 50 cambios de jugador más rápidos de los mundiales')" class="nav-item px-8 py-2 text-[11px]">6. Cambios rápidos (50)</div>
+                <div onclick="askAI('Ranking top 50 partidos más largos de la historia (minutos totales)')" class="nav-item px-8 py-2 text-[11px]">7. Partidos largos (50)</div>
+                <div onclick="askAI('Ranking top 50 jugadores con más faltas en un mundial')" class="nav-item px-8 py-2 text-[11px]">8. Más faltas (50)</div>
+                <div onclick="askAI('Ranking top 50 partidos con más penaltis pitados')" class="nav-item px-8 py-2 text-[11px]">9. Más Penaltis (50)</div>
+                <div onclick="askAI('Ranking top 50 estadios con más partidos de mundial')" class="nav-item px-8 py-2 text-[11px]">10. Sedes Históricas (50)</div>
             </div>
         </nav>
     </aside>
 
-    <!-- CENTRO: BUSCADOR Y ENCICLOPEDIA AI -->
+    <!-- CENTRO: BUSCADOR AI -->
     <main class="flex-1 flex flex-col overflow-hidden bg-slate-50/50 italic font-medium">
         <header class="h-28 bg-white border-b border-slate-200 flex items-center px-10 gap-4 shrink-0 shadow-sm z-20">
-            <div class="flex-1 bg-slate-100 rounded-xl flex items-center px-6 py-4 border border-transparent focus-within:ring-2 ring-rose-600 transition-all">
+            <div class="flex-1 bg-slate-100 rounded-2xl flex items-center px-6 py-4 border border-transparent focus-within:ring-2 ring-rose-600 transition-all">
                 <i class="fas fa-magic text-rose-600 mr-4 text-xl"></i>
-                <input type="text" id="aiInput" placeholder="Busca en el archivo: 'Alineación final 1986 con suplentes', 'Estadísticas de Pelé', 'Final 2026'..." 
+                <input type="text" id="aiInput" placeholder="Busca en el archivo: 'Final 1986 alineación y suplentes', 'Estadísticas Pelé'..." 
                        class="bg-transparent w-full outline-none text-base font-bold text-slate-700" onkeypress="if(event.key==='Enter') askAI()">
             </div>
             <button onclick="askAI()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase hover:bg-rose-600 transition-all shadow-xl">
-                Consultar
+                Consultar IA
             </button>
         </header>
 
         <section id="viewport" class="flex-1 overflow-y-auto p-10">
-            <!-- Pantalla Bienvenida -->
             <div id="welcome" class="max-w-3xl mx-auto py-20 text-center">
                 <div class="w-20 h-20 bg-rose-100 rounded-3xl flex items-center justify-center mx-auto mb-8 text-rose-600 shadow-xl">
                     <i class="fas fa-search-plus text-3xl"></i>
                 </div>
                 <h2 class="text-4xl font-black italic text-slate-900 uppercase">Archive Intelligence</h2>
-                <p class="text-slate-400 mt-4 text-lg">Busca cualquier dato, alineación o estadística histórica desde 1930 hasta 2026.</p>
+                <p class="text-slate-400 mt-4 text-lg">Consulta cualquier dato, alineación con suplentes o récord histórico desde 1930 hasta 2026.</p>
             </div>
         </section>
     </main>
@@ -85,65 +84,75 @@
     <!-- DERECHA: NOTICIAS -->
     <aside class="sidebar-r flex flex-col overflow-hidden hidden xl:flex">
         <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-white">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-900">Noticias de Fútbol</h3>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-900">Actualidad Fútbol</h3>
             <i class="fas fa-newspaper text-rose-600"></i>
         </div>
-        <div id="newsFeed" class="flex-1 overflow-y-auto">
-            <div class="p-10 text-center animate-pulse text-slate-300 font-bold uppercase text-[10px]">Actualizando Prensa...</div>
+        <div id="newsFeed" class="flex-1 overflow-y-auto italic">
+            <div class="p-10 text-center animate-pulse text-slate-300 font-bold uppercase text-[10px]">Cargando Noticias...</div>
         </div>
     </aside>
 
     <script>
         const GEMINI_KEY = 'AIzaSyB_b3tnr01RPp-A3W7DF1VQW2a88qwe0bk';
         const NEWS_KEY = '77abffd66a8544489beb9dc34972de88';
-        const SPORTS_API_KEY = 'PON_AQUI_TU_CLAVE_API_SPORTS'; // v3.football.api-sports.io
-
         const viewport = document.getElementById('viewport');
 
-        // MOTOR DE BÚSQUEDA AI (FIXED ENDPOINT V1)
+        // MOTOR DE BÚSQUEDA AI CON AUTO-DETECCIÓN DE MODELO (FIX DEFINITIVO)
         async function askAI(forcedQuery) {
             const query = (forcedQuery || document.getElementById('aiInput').value).trim();
             if (!query) return;
 
-            viewport.innerHTML = `<div class="max-w-3xl mx-auto py-20 text-center"><i class="fas fa-futbol fa-spin text-5xl text-rose-600 mb-6"></i><p class="text-slate-400 font-bold uppercase italic tracking-widest">Escaneando archivos históricos...</p></div>`;
+            viewport.innerHTML = `<div class="max-w-3xl mx-auto py-20 text-center"><i class="fas fa-futbol loader-icon text-5xl text-rose-600 mb-6"></i><p class="text-slate-400 font-bold uppercase italic tracking-widest font-mono text-xs">Accediendo a los Archivos Mundiales...</p></div>`;
 
-            try {
-                // Endpoint corregido a V1 para compatibilidad total con gemini-1.5-flash
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Actúa como el historiador jefe de la FIFA. Responde detalladamente a: "${query}". 
-                        REGLAS OBLIGATORIAS:
-                        1. Si es un partido, incluye alineación titular, suplentes (minuto exacto) y estadísticas.
-                        2. Si es un ranking, dame siempre el TOP 50 en tabla HTML de Tailwind.
-                        3. CUALQUIER nombre de jugador, país o año DEBE ir envuelto así: <span class='entity-link' onclick='askAI(\"Dime todo sobre Nombre\")'>Nombre</span>.
-                        4. Usa HTML puro, sin bloques de código Markdown.` }] }]
-                    })
-                });
+            // Probamos diferentes configuraciones de modelo que Google permite
+            const endpoints = [
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
+                `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_KEY}`,
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_KEY}`
+            ];
 
-                const data = await response.json();
-                if (data.error) throw new Error(data.error.message);
+            let success = false;
 
-                const aiText = data.candidates[0].content.parts[0].text;
+            for (const url of endpoints) {
+                if (success) break;
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: `Eres el historiador oficial de la FIFA. Responde a: "${query}". 
+                            REGLAS:
+                            1. Usa HTML (tablas, negritas). 
+                            2. Si es un partido, incluye alineación completa, suplentes que jugaron y estadísticas. 
+                            3. Si es ranking, dame el Top 50 en tabla. 
+                            4. Cada nombre de jugador o país importante DEBE ir envuelto así: <span class='entity-link' onclick='askAI(\"Dime todo sobre Nombre\")'>Nombre</span>.
+                            No uses Markdown, solo HTML limpio.` }] }]
+                    });
 
-                viewport.innerHTML = `
-                    <div class="max-w-5xl mx-auto animate-fadeIn ai-content">
-                        <div class="card p-10 bg-white border-t-8 border-rose-600 shadow-2xl">
-                            <h2 class="text-[10px] font-black uppercase text-rose-600 mb-6 tracking-widest italic">Informe de Inteligencia LineCall</h2>
-                            <div class="leading-relaxed text-slate-800 font-medium">${aiText}</div>
-                        </div>
-                    </div>`;
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0]) {
+                        const aiText = data.candidates[0].content.parts[0].text.replace(/```html|```/g, '');
+                        viewport.innerHTML = `<div class="max-w-5xl mx-auto animate-fadeIn ai-output"><div class="card p-10 bg-white border-t-8 border-rose-600 leading-relaxed text-slate-800 font-medium italic">${aiText}</div></div>`;
+                        success = true;
+                    }
+                } catch (e) {
+                    console.log("Reintentando con modelo alternativo...");
+                }
+            }
 
-            } catch (e) {
-                viewport.innerHTML = `<div class="p-10 card bg-red-50 text-red-700 text-center mx-auto mt-20 max-w-xl italic font-bold">Error de Conexión: ${e.message}</div>`;
+            if (!success) {
+                viewport.innerHTML = `<div class="p-10 card bg-red-50 text-red-700 text-center mx-auto mt-20 max-w-xl italic">
+                    <i class="fas fa-exclamation-triangle text-3xl mb-4"></i><br>
+                    <strong>Error de Conexión AI.</strong> Los servidores de Google están restringiendo el acceso desde este navegador. 
+                    Prueba a refrescar con CTRL+F5.
+                </div>`;
             }
         }
 
-        // NOTICIAS (Proxy AllOrigins con Clave del Usuario)
+        // NOTICIAS (Proxy AllOrigins)
         async function fetchNews() {
             const feed = document.getElementById('newsFeed');
-            const apiUrl = `https://newsapi.org/v2/everything?q=football+soccer&language=es&sortBy=publishedAt&pageSize=15&apiKey=${NEWS_KEY}`;
+            const apiUrl = `https://newsapi.org/v2/everything?q=football+worldcup&language=es&sortBy=publishedAt&pageSize=15&apiKey=${NEWS_KEY}`;
             const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
 
             try {
@@ -154,12 +163,12 @@
                     feed.innerHTML = data.articles.map(a => `
                         <div class="news-card">
                             <span class="text-[8px] font-black text-rose-600 uppercase tracking-widest">${a.source.name}</span>
-                            <h4 class="text-[13px] font-bold leading-tight mt-1 hover:underline italic"><a href="${a.url}" target="_blank">${a.title}</a></h4>
+                            <h4 class="text-[13px] font-bold leading-tight mt-1 italic"><a href="${a.url}" target="_blank" class="hover:underline">${a.title}</a></h4>
                         </div>
                     `).join('');
                 }
             } catch (e) {
-                feed.innerHTML = `<div class="p-10 text-center text-slate-300 font-bold uppercase text-[9px]">Servicio de prensa offline.</div>`;
+                feed.innerHTML = `<div class="p-10 text-center text-slate-300 font-bold uppercase text-[9px]">Servicio de noticias offline</div>`;
             }
         }
 
