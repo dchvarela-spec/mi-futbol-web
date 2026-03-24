@@ -1,203 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LineCall | FIFA World Cup Archive</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,900;1,900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root { --fifa-navy: #020617; --fifa-green: #00df59; --fifa-red: #ff004c; }
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: var(--fifa-navy); overflow: hidden; }
-        h1, h2, h3, .fifa-font { font-family: 'Montserrat', sans-serif; font-weight: 900; text-transform: uppercase; }
-        .sidebar-l { background-color: #020617; width: 300px; shrink: 0; border-right: 1px solid rgba(255,255,255,0.1); }
-        .sidebar-r { background-color: white; border-left: 1px solid #e2e8f0; width: 360px; shrink: 0; }
-        .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #94a3b8; }
-        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-left-color: var(--fifa-green); color: white; }
-        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; transition: 0.1s; }
-        .entity-link:hover { color: var(--fifa-red); background: #fff1f2; }
-        .card-data { background: white; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b; text-transform: uppercase; font-size: 10px; font-weight: 800; }
-        td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
-        .news-card { border-bottom: 1px solid #f1f5f9; padding: 15px; transition: 0.2s; cursor: pointer; }
-        .news-card:hover { background: #f8fafc; }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Wiki</title>
+    styles.css
 </head>
-<body class="flex h-screen">
+<body>
 
-    <!-- COLUMNA IZQUIERDA: MENÚ Y CATEGORÍAS -->
-    <aside class="sidebar-l flex flex-col overflow-y-auto hidden lg:flex">
-        <div class="p-8 border-b border-white/5 bg-slate-950">
-            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none">
-                LINE<span class="text-rose-600">CALL</span>
-            </h1>
-            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2">World Cup Data Engine</p>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h1>MiWiki</h1>
         </div>
-        <nav class="flex-1 py-4">
-            <div onclick="renderView('editions')" id="btn-history" class="nav-item active px-8 py-3 text-sm font-bold flex items-center gap-3">
-                <i class="fas fa-history"></i> <span data-i18n="nav-history">Archivo de Mundiales</span>
-            </div>
-            
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest italic border-t border-white/5 mt-4">Rankings Top 50</div>
-            <div class="space-y-1">
-                <div onclick="searchData('Máximo Goleador')" class="nav-item px-8 py-2 text-[11px]">Máximos Goleadores</div>
-                <div onclick="searchData('Balón de Oro')" class="nav-item px-8 py-2 text-[11px]">Balones de Oro</div>
-                <div onclick="searchData('Brasil')" class="nav-item px-8 py-2 text-[11px]">Títulos por Selección</div>
-                <div onclick="renderView('records')" class="nav-item px-8 py-2 text-[11px]">Récords Históricos</div>
-            </div>
 
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Idiomas</div>
-            <div class="px-8 grid grid-cols-2 gap-2">
-                <button onclick="setLanguage('es')" class="text-[10px] font-bold bg-white/5 p-1 rounded hover:bg-white/10 text-white">ES</button>
-                <button onclick="setLanguage('en')" class="text-[10px] font-bold bg-white/5 p-1 rounded hover:bg-white/10 text-white">EN</button>
-                <button onclick="setLanguage('fr')" class="text-[10px] font-bold bg-white/5 p-1 rounded hover:bg-white/10 text-white">FR</button>
-                <button onclick="setLanguage('de')" class="text-[10px] font-bold bg-white/5 p-1 rounded hover:bg-white/10 text-white">DE</button>
-                <button onclick="setLanguage('pt')" class="text-[10px] font-bold bg-white/5 p-1 rounded hover:bg-white/10 text-white">PT</button>
-            </div>
+        <nav>
+            <ul>
+                <li>#Portada</a></li>
+                <li><a hrefidad</a></li>
+                <li><a hrefido</a></li>
+                <li>#Aleatorio</a></li>
+                <li>#Ayuda</a></li>
+            </ul>
         </nav>
     </aside>
 
-    <!-- CENTRO: BUSCADOR Y TABLAS DE DATOS -->
-    <main class="flex-1 flex flex-col overflow-hidden bg-white">
-        <header class="h-28 bg-[#020617] flex items-center px-10 gap-6 shrink-0 shadow-sm">
-            <div class="flex-1 bg-white/10 rounded-full flex items-center px-6 py-4 border border-white/20 focus-within:border-emerald-400 transition-all">
-                <i class="fas fa-search text-white/50 mr-4"></i>
-                <input type="text" id="searchInput" placeholder="Busca jugador, selección o año (ej: Messi, 1970, Brasil)..." 
-                       class="bg-transparent w-full outline-none text-white font-bold placeholder:text-white/30"
-                       onkeyup="if(event.key==='Enter') searchData()">
-            </div>
-            <button onclick="searchData()" class="bg-[#00df59] text-slate-900 px-10 py-4 rounded-full font-black text-xs uppercase tracking-widest hover:bg-white transition-all shadow-xl">
-                Consultar
-            </button>
+    <!-- Main content -->
+    <main class="content">
+        <header class="page-header">
+            <h1>Título del Artículo</h1>
+            <hr>
         </header>
 
-        <section id="viewport" class="flex-1 overflow-y-auto p-10 bg-slate-50/50">
-            <!-- Dinámico -->
-        </section>
+        <article>
+            <p>
+                Este es un ejemplo de diseño inspirado en Wikipedia. Incluye una barra lateral,
+                cuerpo centrado, tipografía serif y un estilo limpio.
+            </p>
+
+            <h2>Sección 1</h2>
+            <p>
+                Puedes añadir tablas, imágenes, enlaces y todo tipo de contenido como si fuese una wiki personal.
+            </p>
+
+            <h2>Sección 2</h2>
+            <p>
+                La idea es replicar el diseño general sin copiar contenido. Puedes modificar colores, menú y estructura.
+            </p>
+        </article>
+
+        <footer class="footer">
+            <hr>
+            <p>Contenido creado por ti — Inspirado en Wikipedia</p>
+        </footer>
     </main>
 
-    <!-- DERECHA: NOTICIAS (NewsAPI) -->
-    <aside class="sidebar-r flex flex-col overflow-hidden hidden xl:flex">
-        <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-white">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-900 italic">United 2026 News</h3>
-            <i class="fas fa-newspaper text-rose-600"></i>
-        </div>
-        <div id="newsFeed" class="flex-1 overflow-y-auto italic">
-            <div class="p-10 text-center animate-pulse text-slate-300 font-bold uppercase text-[10px]">Sincronizando Prensa...</div>
-        </div>
-    </aside>
-
-    <script>
-        // BASE DE DATOS ESTATICA REAL (ALMANAQUE FIFA)
-        const database = {
-            editions: [
-                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Goleador: "Kylian Mbappé (8)", MVP: "Lionel Messi" },
-                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Goleador: "Harry Kane (6)", MVP: "Luka Modric" },
-                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Goleador: "James Rodríguez (6)", MVP: "Lionel Messi" },
-                { Año: "2010", Sede: "Sudáfrica", Campeón: "España", Final: "1-0", Goleador: "Thomas Müller (5)", MVP: "Diego Forlán" },
-                { Año: "2006", Sede: "Alemania", Campeón: "Italia", Final: "1-1 (5-3 p.)", Goleador: "Miroslav Klose (5)", MVP: "Zinedine Zidane" },
-                { Año: "2002", Sede: "Corea/Japón", Campeón: "Brasil", Final: "2-0", Goleador: "Ronaldo (8)", MVP: "Oliver Kahn" },
-                { Año: "1998", Sede: "Francia", Campeón: "Francia", Final: "3-0", Goleador: "Davor Šuker (6)", MVP: "Ronaldo" },
-                { Año: "1994", Sede: "EEUU", Campeón: "Brasil", Final: "0-0 (3-2 p.)", Goleador: "Oleg Salenko (6)", MVP: "Romário" },
-                { Año: "1990", Sede: "Italia", Campeón: "Alemania", Final: "1-0", Goleador: "Schillaci (6)", MVP: "Salvatore Schillaci" },
-                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Goleador: "Gary Lineker (6)", MVP: "Diego Maradona" },
-                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Goleador: "Gerd Müller (10)", MVP: "Pelé" },
-                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Goleador: "Guillermo Stábile (8)", MVP: "Nasazzi" }
-            ],
-            records: [
-                { Récord: "Gol más rápido", Sujeto: "Hakan Sukur", Dato: "11 segundos", Año: "2002" },
-                { Récord: "Más goles en un partido", Sujeto: "Oleg Salenko", Dato: "5 goles", Año: "1994" },
-                { Récord: "Partido más largo", Sujeto: "Argentina vs Francia", Dato: "145 min", Año: "2022" },
-                { Récord: "Más títulos (Selección)", Sujeto: "Brasil", Dato: "5 trofeos", Año: "Histórico" }
-            ]
-        };
-
-        const viewport = document.getElementById('viewport');
-
-        // MOTOR DE BÚSQUEDA REAL
-        function searchData(forcedTerm) {
-            const query = (forcedTerm || document.getElementById('searchInput').value).toLowerCase().trim();
-            if (!query) return;
-
-            viewport.innerHTML = `<h2 class="text-3xl font-black italic uppercase mb-8 italic">Resultados para: <span class="text-rose-600">"${query}"</span></h2>`;
-            
-            let html = "";
-            let found = false;
-
-            // Buscar en Ediciones
-            const filteredEditions = database.editions.filter(e => JSON.stringify(e).toLowerCase().includes(query));
-            if (filteredEditions.length > 0) {
-                found = true;
-                html += renderTable(filteredEditions, "Mundiales");
-            }
-
-            // Buscar en Récords
-            const filteredRecords = database.records.filter(r => JSON.stringify(r).toLowerCase().includes(query));
-            if (filteredRecords.length > 0) {
-                found = true;
-                html += renderTable(filteredRecords, "Récords");
-            }
-
-            viewport.innerHTML += found ? html : `<div class="p-20 text-center card-data italic text-slate-300 font-bold uppercase">No se han encontrado registros para "${query}"</div>`;
-        }
-
-        // RENDERIZADOR DE TABLAS CON LINKS
-        function renderTable(data, title) {
-            const headers = Object.keys(data[0]);
-            let html = `<div class="card-data overflow-hidden mb-8"><div class="p-4 bg-slate-900 text-white font-black uppercase text-[10px] tracking-widest">${title}</div><table><thead><tr>`;
-            headers.forEach(h => html += `<th>${h}</th>`);
-            html += `</tr></thead><tbody>`;
-            data.forEach(row => {
-                html += `<tr>`;
-                headers.forEach(h => html += `<td>${linkify(row[h])}</td>`);
-                html += `</tr>`;
-            });
-            html += `</tbody></table></div>`;
-            return html;
-        }
-
-        function linkify(text) {
-            if (!text || typeof text !== 'string' || !isNaN(text) || text.length < 3) return text;
-            return `<span class="entity-link" onclick="searchData('${text}')">${text}</span>`;
-        }
-
-        // NOTICIAS (NEWS API REAL)
-        async function fetchNews() {
-            const NEWS_KEY = '77abffd66a8544489beb9dc34972de88';
-            const feed = document.getElementById('newsFeed');
-            const apiUrl = `https://newsapi.org/v2/everything?q=football+world+cup&language=es&sortBy=publishedAt&pageSize=15&apiKey=${NEWS_KEY}`;
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
-
-            try {
-                const res = await fetch(proxyUrl);
-                const json = await res.json();
-                const data = JSON.parse(json.contents);
-                if (data.articles) {
-                    feed.innerHTML = data.articles.map(a => `
-                        <div class="news-card" onclick="window.open('${a.url}')">
-                            <span class="text-[8px] font-black text-rose-600 uppercase tracking-widest">${a.source.name}</span>
-                            <h4 class="text-[13px] font-bold leading-tight mt-1 hover:text-blue-600 transition">${a.title}</h4>
-                        </div>
-                    `).join('');
-                }
-            } catch (e) {
-                feed.innerHTML = `<div class="p-10 text-center text-slate-300 uppercase text-[9px] font-bold">Prensa offline temporalmente</div>`;
-            }
-        }
-
-        function renderView(type) {
-            viewport.innerHTML = `<h2 class="text-2xl font-black italic uppercase mb-8 italic">${type === 'editions' ? 'Cronología de Mundiales' : 'Récords del Mundo'}</h2>` + renderTable(database[type], type);
-        }
-
-        // INICIO
-        window.onload = () => {
-            renderView('editions');
-            fetchNews();
-        }
-    </script>
 </body>
 </html>
