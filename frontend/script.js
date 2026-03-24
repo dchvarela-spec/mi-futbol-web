@@ -1,0 +1,1 @@
+fetch('/api/noticias').then(r=>r.json()).then(d=>{const c=document.getElementById('noticias');d.forEach(n=>{const div=document.createElement('div');div.innerHTML=`<h2>${n.titulo}</h2><p>${n.texto}</p>`;c.appendChild(div);});});

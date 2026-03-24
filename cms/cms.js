@@ -1,0 +1,1 @@
+function guardar(){fetch('/api/noticias',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({titulo:titulo.value,texto:texto.value})}).then(()=>alert('Publicado'));}
