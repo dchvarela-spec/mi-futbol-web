@@ -3,47 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LineCall | FIFA World Cup Encyclopedia</title>
+    <title>LineCall | Global Football Archive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Public+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --fifa-navy: #020617; --fifa-green: #00df59; --fifa-red: #ff004c; }
-        body { font-family: 'Public Sans', sans-serif; background-color: #f1f5f9; color: var(--fifa-navy); }
+        body { font-family: 'Public Sans', sans-serif; background-color: #f1f5f9; color: var(--fifa-navy); overflow: hidden; }
         h1, h2, h3, .fifa-font { font-family: 'Montserrat', sans-serif; font-weight: 900; text-transform: uppercase; }
-        .sidebar { background-color: white; border-right: 1px solid #e2e8f0; height: calc(100vh - 80px); overflow-y: auto; }
-        .ranking-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; }
-        .ranking-item:hover { background-color: #f8fafc; border-left-color: var(--fifa-green); color: var(--fifa-red); }
-        .news-card { border-bottom: 1px solid #f1f5f9; padding: 12px; transition: 0.2s; cursor: pointer; }
-        .news-card:hover { background-color: #f8fafc; }
-        .bg-fifa-gradient { background: linear-gradient(135deg, var(--fifa-navy) 0%, #0f172a 100%); }
-        ::-webkit-scrollbar { width: 4px; }
+        .sidebar-l { background-color: white; border-right: 1px solid #e2e8f0; width: 300px; shrink: 0; }
+        .sidebar-r { background-color: white; border-left: 1px solid #e2e8f0; width: 380px; shrink: 0; }
+        .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #64748b; }
+        .nav-item:hover, .nav-item.active { background: #f8fafc; border-left-color: var(--fifa-green); color: var(--fifa-red); }
+        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; transition: 0.2s; }
+        .entity-link:hover { color: var(--fifa-red); background: #fff1f2; }
+        .card-main { background: white; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px -5px rgba(0,0,0,0.07); }
+        .ai-content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        .ai-content th { background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 10px; }
+        .ai-content td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+        .news-card { border-bottom: 1px solid #f1f5f9; padding: 15px; transition: 0.2s; }
+        .news-card:hover { background: #f8fafc; }
+        .bg-fifa { background: linear-gradient(135deg, var(--fifa-navy) 0%, #0f172a 100%); }
+        .loading-spin { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="flex flex-col h-screen overflow-hidden">
+<body class="flex flex-col h-screen">
 
-    <!-- NAVBAR SUPERIOR -->
-    <nav class="bg-fifa-gradient text-white h-20 shrink-0 flex items-center shadow-xl z-50">
-        <div class="max-w-[1600px] w-full mx-auto px-6 flex justify-between items-center">
+    <!-- HEADER SUPERIOR -->
+    <nav class="bg-fifa text-white h-20 shrink-0 flex items-center shadow-xl z-50">
+        <div class="max-w-[1800px] w-full mx-auto px-8 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div class="bg-white text-slate-900 px-3 py-1 rounded-sm italic font-black text-xl tracking-tighter">
-                    LINE<span class="text-red-600">CALL</span>
+                <div class="bg-white text-slate-900 px-4 py-1 rounded-sm italic font-black text-2xl tracking-tighter">
+                    LINE<span class="text-rose-600">CALL</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-6">
                 <!-- Selector Idiomas -->
                 <div class="relative group">
-                    <button class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition">
+                    <button class="flex items-center gap-2 bg-white/10 px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-white/20 transition">
                         <i class="fas fa-globe"></i> <span id="langBtn">Español</span>
                     </button>
-                    <div class="absolute right-0 mt-2 w-40 bg-white text-slate-900 rounded-xl shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 border border-slate-200 overflow-hidden">
-                        <button onclick="setLanguage('es')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold border-b">Español</button>
-                        <button onclick="setLanguage('en')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold border-b">English</button>
-                        <button onclick="setLanguage('fr')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold border-b">Français</button>
-                        <button onclick="setLanguage('de')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold border-b">Deutsch</button>
-                        <button onclick="setLanguage('pt')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold">Português</button>
+                    <div class="absolute right-0 mt-2 w-48 bg-white text-slate-900 rounded-xl shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 border border-slate-200 overflow-hidden">
+                        <button onclick="setLanguage('es')" class="w-full text-left px-5 py-3 hover:bg-slate-100 text-[11px] font-bold border-b">Español</button>
+                        <button onclick="setLanguage('en')" class="w-full text-left px-5 py-3 hover:bg-slate-100 text-[11px] font-bold border-b">English</button>
+                        <button onclick="setLanguage('fr')" class="w-full text-left px-5 py-3 hover:bg-slate-100 text-[11px] font-bold border-b">Français</button>
+                        <button onclick="setLanguage('de')" class="w-full text-left px-5 py-3 hover:bg-slate-100 text-[11px] font-bold border-b">Deutsch</button>
+                        <button onclick="setLanguage('pt')" class="w-full text-left px-5 py-3 hover:bg-slate-100 text-[11px] font-bold">Português</button>
                     </div>
                 </div>
             </div>
@@ -53,120 +62,149 @@
     <!-- LAYOUT PRINCIPAL -->
     <div class="flex flex-1 overflow-hidden">
         
-        <!-- COLUMNA IZQUIERDA: RANKINGS -->
-        <aside class="sidebar w-72 shrink-0 hidden lg:block">
-            <div class="p-6 border-b">
-                <h3 class="text-[10px] font-black text-slate-400 tracking-[0.2em]" data-i18n="side-rankings">Top 50 Rankings</h3>
+        <!-- IZQUIERDA: RANKINGS TOP 50 -->
+        <aside class="sidebar-l flex flex-col overflow-y-auto hidden lg:flex shadow-inner">
+            <div class="p-8 border-b">
+                <h3 class="text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase" data-i18n="side-rankings">Top 50 Estadísticas</h3>
             </div>
-            <nav class="py-2">
-                <div onclick="rankingSearch(1)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r1">Gol más rápido</div>
-                <div onclick="rankingSearch(2)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r2">Goles por partido</div>
-                <div onclick="rankingSearch(3)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r3">Goleador en un partido</div>
-                <div onclick="rankingSearch(4)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r4">Penaltis pitados</div>
-                <div onclick="rankingSearch(5)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r5">Expulsión rápida</div>
-                <div onclick="rankingSearch(6)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r6">Cambio rápido</div>
-                <div onclick="rankingSearch(7)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r7">Partido más largo</div>
-                <div onclick="rankingSearch(8)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r8">Más faltas cometidas</div>
-                <div onclick="rankingSearch(9)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r9">Portero menos goleado</div>
-                <div onclick="rankingSearch(10)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r10">Títulos Mundiales</div>
+            <nav class="py-4 space-y-1">
+                <div onclick="askAI('Ranking top 50 goleadores históricos mundiales')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r1">Máximos Goleadores</div>
+                <div onclick="askAI('Ranking top 50 jugadores con más partidos jugados')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r2">Más Partidos</div>
+                <div onclick="askAI('Ranking top 50 goles más rápidos de los mundiales')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r3">Gol más rápido</div>
+                <div onclick="askAI('Ranking top 50 partidos con mayor nº de goles')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r4">Goles por partido</div>
+                <div onclick="askAI('Ranking top 50 goleadores en un solo partido')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r5">Más goles en un partido</div>
+                <div onclick="askAI('Ranking top 50 partidos con más penaltis pitados')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r6">Penaltis en partido</div>
+                <div onclick="askAI('Ranking top 50 expulsiones más rápidas')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r7">Expulsión rápida</div>
+                <div onclick="askAI('Ranking top 50 cambios de jugador más rápidos')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r8">Cambio más rápido</div>
+                <div onclick="askAI('Ranking top 50 partidos más largos de la historia')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r9">Partido más largo</div>
+                <div onclick="askAI('Ranking top 50 porteros con menos goles recibidos')" class="nav-item px-8 py-4 text-xs font-black uppercase italic" data-i18n="r10">Portero menos goleado</div>
             </nav>
         </aside>
 
-        <!-- COLUMNA CENTRAL: BUSCADOR -->
-        <main class="flex-1 overflow-y-auto bg-white flex flex-col">
-            <!-- Hero Search Area -->
-            <div class="bg-fifa-gradient p-12 text-white text-center">
-                <h2 class="text-4xl font-black italic mb-6 tracking-tighter" data-i18n="hero-title">Archivo Histórico Total</h2>
-                <div class="max-w-2xl mx-auto relative">
-                    <input type="text" id="searchInput" class="w-full py-4 pl-12 pr-4 rounded-xl text-slate-900 font-bold outline-none" placeholder="Busca un jugador, país o año..." data-i18n-placeholder="search-placeholder">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
+        <!-- CENTRO: BUSCADOR Y ANALISTA -->
+        <main class="flex-1 overflow-y-auto bg-slate-50/50 flex flex-col">
+            <!-- Hero Search -->
+            <div class="bg-fifa p-12 text-white text-center relative overflow-hidden shrink-0">
+                <div class="relative z-10">
+                    <h2 class="text-4xl font-black italic mb-8 tracking-tighter" data-i18n="hero-title">Centro de Inteligencia Global</h2>
+                    <div class="max-w-3xl mx-auto relative group">
+                        <input type="text" id="aiInput" class="w-full py-5 pl-14 pr-6 rounded-2xl text-slate-900 font-bold outline-none shadow-2xl" 
+                               placeholder="Brasil vs Italia 1970 alineación..." data-i18n-placeholder="search-placeholder"
+                               onkeypress="if(event.key==='Enter') askAI()">
+                        <i class="fas fa-magic absolute left-5 top-1/2 -translate-y-1/2 text-rose-600 text-xl"></i>
+                        <button onclick="askAI()" class="absolute right-3 top-1/2 -translate-y-1/2 bg-fifa-navy bg-slate-900 text-white px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-500 transition-all">
+                            Consultar
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Result Area -->
-            <div id="resultArea" class="p-10 flex-1">
-                <div class="max-w-3xl mx-auto text-center py-20 text-slate-300">
-                    <i class="fas fa-database text-6xl mb-4"></i>
-                    <p class="font-bold uppercase tracking-widest text-xs" data-i18n="ready">Listo para consultar la base de datos</p>
+            <!-- Area de Resultados -->
+            <div id="viewport" class="p-10 flex-1 italic font-medium">
+                <div id="welcome" class="max-w-2xl mx-auto py-20 text-center text-slate-300">
+                    <i class="fas fa-database text-6xl mb-6"></i>
+                    <p class="text-xl font-bold uppercase tracking-widest" data-i18n="ready">Base de Datos 1930 - 2026 Conectada</p>
                 </div>
             </div>
         </main>
 
-        <!-- COLUMNA DERECHA: NOTICIAS -->
-        <aside class="sidebar w-80 shrink-0 hidden xl:block">
+        <!-- DERECHA: NOTICIAS -->
+        <aside class="sidebar-r flex flex-col overflow-hidden hidden xl:flex">
             <div class="p-6 border-b bg-slate-50 flex items-center justify-between">
-                <h3 class="text-[10px] font-black text-slate-900 tracking-[0.2em]" data-i18n="side-news">Noticias Fútbol</h3>
+                <h3 class="text-[10px] font-black text-slate-900 tracking-[0.2em] uppercase" data-i18n="side-news">Prensa Mundial</h3>
                 <span class="bg-red-600 text-white text-[8px] px-2 py-0.5 rounded-full font-bold animate-pulse">LIVE</span>
             </div>
-            <div id="newsFeed" class="p-2 overflow-y-auto">
-                <!-- Inyectado por JS -->
-                <div class="p-10 text-center text-slate-400 italic text-xs">Cargando prensa internacional...</div>
+            <div id="newsFeed" class="flex-1 overflow-y-auto italic">
+                <div class="p-10 text-center text-slate-300 animate-pulse font-bold uppercase text-[10px]">Actualizando Satélites...</div>
             </div>
         </aside>
 
     </div>
 
     <script>
-        const NEWS_API_KEY = '77abffd66a8544489beb9dc34972de88';
-        const currentLang = 'es';
+        const GEMINI_KEY = 'AIzaSyB_b3tnr01RPp-A3W7DF1VQW2a88qwe0bk';
+        const NEWS_KEY = '77abffd66a8544489beb9dc34972de88';
+        let currentLang = 'es';
 
         const translations = {
-            es: {
-                "side-rankings": "Top 50 Rankings", "side-news": "Noticias Fútbol", "hero-title": "Archivo Histórico Total",
-                "search-placeholder": "Busca un jugador, país o año...", "ready": "Listo para consultar la base de datos",
-                "r1": "Gol más rápido", "r2": "Goles por partido", "r3": "Goleador en un partido", "r4": "Penaltis pitados",
-                "r5": "Expulsión rápida", "r6": "Cambio rápido", "r7": "Partido más largo", "r8": "Más faltas cometidas",
-                "r9": "Portero menos goleado", "r10": "Títulos Mundiales", "lang-label": "Español"
-            },
-            en: {
-                "side-rankings": "Top 50 Rankings", "side-news": "Football News", "hero-title": "Total Historical Archive",
-                "search-placeholder": "Search for a player, country or year...", "ready": "Ready to query database",
-                "r1": "Fastest Goal", "r2": "Goals per match", "r3": "Top Scorer in match", "r4": "Penalties awarded",
-                "r5": "Fastest Red Card", "r6": "Fastest Sub", "r7": "Longest Match", "r8": "Most Fouls",
-                "r9": "Clean Sheets", "r10": "World Cup Titles", "lang-label": "English"
-            },
-            // ... (Añadiré el resto de idiomas en el objeto real de la web)
+            es: { "side-rankings": "Top 50 Estadísticas", "side-news": "Prensa Mundial", "hero-title": "Centro de Inteligencia Global", "search-placeholder": "Busca jugador, partido o récord...", "ready": "Base de Datos 1930 - 2026 Conectada", "lang-label": "Español", "r1": "Máximos Goleadores", "r2": "Más Partidos", "r3": "Gol más rápido", "r4": "Goles por partido", "r5": "Goleador en un partido", "r6": "Penaltis en partido", "r7": "Expulsión rápida", "r8": "Cambio más rápido", "r9": "Partido más largo", "r10": "Portero menos goleado" },
+            en: { "side-rankings": "Top 50 Statistics", "side-news": "World Press", "hero-title": "Global Intelligence Hub", "search-placeholder": "Search player, match or record...", "ready": "1930 - 2026 Database Connected", "lang-label": "English", "r1": "Top Scorers", "r2": "Most Apps", "r3": "Fastest Goal", "r4": "Goals per match", "r5": "Top Scorer match", "r6": "Match Penalties", "r7": "Fastest Red Card", "r8": "Fastest Sub", "r9": "Longest Match", "r10": "Clean Sheets" },
+            fr: { "side-rankings": "Top 50 Statistiques", "side-news": "Presse Mondiale", "hero-title": "Hub d'Intelligence Globale", "search-placeholder": "Rechercher joueur, match...", "ready": "Base de données 1930-2026 connectée", "lang-label": "Français", "r1": "Meilleurs Buteurs", "r2": "Plus de Matchs", "r3": "But le plus rapide", "r4": "Buts par match", "r5": "Buteur match", "r6": "Penaltys match", "r7": "Expulsion rapide", "r8": "Remplaçant rapide", "r9": "Match le plus long", "r10": "Gardiens de but" },
+            de: { "side-rankings": "Top 50 Statistiken", "side-news": "Weltpresse", "hero-title": "Globales Intelligenz-Hub", "search-placeholder": "Spieler, Spiel suchen...", "ready": "Datenbank 1930-2026 verbunden", "lang-label": "Deutsch", "r1": "Torschützenkönige", "r2": "Meiste Spiele", "r3": "Schnellstes Tor", "r4": "Tore pro Spiel", "r5": "Torschütze Spiel", "r6": "Elfmeter Spiel", "r7": "Rote Karte", "r8": "Auswechslung", "r9": "Längstes Spiel", "r10": "Torhüter" },
+            pt: { "side-rankings": "Top 50 Estatísticas", "side-news": "Imprensa Mundial", "hero-title": "Centro de Inteligência Global", "search-placeholder": "Procurar jogador, jogo...", "ready": "Base de Dados 1930-2026 Conectada", "lang-label": "Português", "r1": "Melhores Marcadores", "r2": "Mais Jogos", "r3": "Golo mais rápido", "r4": "Golos por jogo", "r5": "Marcador no jogo", "r6": "Penáltis no jogo", "r7": "Expulsão rápida", "r8": "Substituição rápida", "r9": "Jogo mais longo", "r10": "Guarda-redes" }
         };
 
-        function setLanguage(lang) {
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(translations[lang][key]) el.innerHTML = translations[lang][key];
-            });
-            document.getElementById('langBtn').innerText = translations[lang]['lang-label'];
+        // --- MOTOR DE INTELIGENCIA ARTIFICIAL ---
+        async function askAI(forcedQuery) {
+            const query = (forcedQuery || document.getElementById('aiInput').value).trim();
+            if (!query) return;
+
+            const viewport = document.getElementById('viewport');
+            viewport.innerHTML = `<div class="max-w-3xl mx-auto py-20 text-center"><i class="fas fa-futbol loading-spin text-5xl text-rose-600 mb-6"></i><p class="text-slate-400 font-bold uppercase italic tracking-widest">Consultando Archivos Históricos de la FIFA...</p></div>`;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Actúa como historiador de la FIFA. Idioma: ${currentLang}. Responde a: "${query}". REGLAS: 1. Usa HTML (tablas, negritas). 2. Si es partido, incluye alineación completa, suplentes y estadísticas. 3. Si es ranking, dame el Top 50. 4. Nombres de jugadores/países/años DEBEN ir en <span class='entity-link' onclick='askAI(\"Dime todo sobre Nombre\")'>Nombre</span>. No uses Markdown, solo HTML puro.` }] }]
+                    })
+                });
+
+                const data = await response.json();
+                const aiText = data.candidates[0].content.parts[0].text.replace(/```html|```/g, '');
+
+                viewport.innerHTML = `
+                    <div class="max-w-5xl mx-auto animate-fadeIn ai-content">
+                        <div class="card-main p-10 bg-white border-t-8 border-rose-600 shadow-2xl">
+                            <h2 class="text-[10px] font-black uppercase text-rose-600 mb-6 tracking-widest italic">Informe de Inteligencia LineCall</h2>
+                            <div class="leading-relaxed text-slate-800 font-medium">${aiText}</div>
+                        </div>
+                    </div>`;
+
+            } catch (e) {
+                viewport.innerHTML = `<div class="p-10 card-main bg-red-50 text-red-700 text-center max-w-xl mx-auto mt-20 font-bold italic">Error de conexión con la base de datos AI.</div>`;
+            }
         }
 
-        // NOTICIAS REALES (Proxy AllOrigins para evitar CORS)
+        // --- NOTICIAS ---
         async function fetchNews() {
             const feed = document.getElementById('newsFeed');
-            const apiUrl = `https://newsapi.org/v2/everything?q=football+worldcup&language=es&sortBy=publishedAt&pageSize=10&apiKey=${NEWS_API_KEY}`;
+            const apiUrl = `https://newsapi.org/v2/everything?q=football+soccer+fifa&language=${currentLang}&sortBy=publishedAt&pageSize=12&apiKey=${NEWS_KEY}`;
             const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
 
             try {
                 const res = await fetch(proxyUrl);
                 const json = await res.json();
                 const data = JSON.parse(json.contents);
-                
                 if (data.articles) {
                     feed.innerHTML = data.articles.map(a => `
-                        <div class="news-card rounded-lg" onclick="window.open('${a.url}', '_blank')">
-                            <p class="text-[8px] font-black text-rose-600 uppercase mb-1">${a.source.name}</p>
-                            <h4 class="text-[11px] font-bold leading-tight">${a.title}</h4>
-                            <p class="text-[9px] text-slate-400 mt-2">${new Date(a.publishedAt).toLocaleDateString()}</p>
+                        <div class="news-card">
+                            <span class="text-[8px] font-black text-rose-600 uppercase tracking-widest">${a.source.name}</span>
+                            <h4 class="text-[12px] font-bold leading-tight mt-1"><a href="${a.url}" target="_blank" class="hover:underline">${a.title}</a></h4>
                         </div>
                     `).join('');
                 }
             } catch (e) {
-                feed.innerHTML = `<div class="p-10 text-center text-slate-400 text-xs italic">Error de conexión con la prensa internacional.</div>`;
+                feed.innerHTML = `<div class="p-10 text-center text-slate-300 uppercase text-[9px]">Prensa offline temporalmente</div>`;
             }
         }
 
-        function rankingSearch(id) {
-            // Aquí irá el link a la IA en la siguiente fase
-            alert("Consultando ranking ID: " + id);
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.innerHTML = translations[lang][key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if(translations[lang][key]) el.placeholder = translations[lang][key];
+            });
+            document.getElementById('langBtn').innerText = translations[lang]['lang-label'];
+            fetchNews();
         }
 
-        window.onload = fetchNews;
+        window.onload = () => { fetchNews(); };
     </script>
 </body>
 </html>
