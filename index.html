@@ -3,181 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LineCall | FIFA World Cup Archive</title>
+    <title>LineCall | FIFA World Cup Encyclopedia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Public+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --fifa-navy: #020617;
-            --fifa-green: #00df59;
-            --fifa-red: #ff004c;
-        }
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        :root { --fifa-navy: #020617; --fifa-green: #00df59; --fifa-red: #ff004c; }
+        body { font-family: 'Public Sans', sans-serif; background-color: #f1f5f9; color: var(--fifa-navy); }
         h1, h2, h3, .fifa-font { font-family: 'Montserrat', sans-serif; font-weight: 900; text-transform: uppercase; }
+        .sidebar { background-color: white; border-right: 1px solid #e2e8f0; height: calc(100vh - 80px); overflow-y: auto; }
+        .ranking-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; }
+        .ranking-item:hover { background-color: #f8fafc; border-left-color: var(--fifa-green); color: var(--fifa-red); }
+        .news-card { border-bottom: 1px solid #f1f5f9; padding: 12px; transition: 0.2s; cursor: pointer; }
+        .news-card:hover { background-color: #f8fafc; }
         .bg-fifa-gradient { background: linear-gradient(135deg, var(--fifa-navy) 0%, #0f172a 100%); }
-        .border-fifa { border-bottom: 4px solid var(--fifa-green); }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="text-slate-900">
+<body class="flex flex-col h-screen overflow-hidden">
 
-    <!-- BARRA DE NAVEGACIÓN (Estilo 2026) -->
-    <nav class="bg-fifa-gradient text-white sticky top-0 z-50 shadow-2xl">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <!-- Logo -->
+    <!-- NAVBAR SUPERIOR -->
+    <nav class="bg-fifa-gradient text-white h-20 shrink-0 flex items-center shadow-xl z-50">
+        <div class="max-w-[1600px] w-full mx-auto px-6 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div class="bg-white text-navy-900 px-3 py-1 rounded-sm italic font-black text-xl">
+                <div class="bg-white text-slate-900 px-3 py-1 rounded-sm italic font-black text-xl tracking-tighter">
                     LINE<span class="text-red-600">CALL</span>
                 </div>
             </div>
 
-            <!-- Menú Principal -->
-            <div class="hidden md:flex gap-8 text-xs font-bold tracking-widest">
-                <a href="#" class="hover:text-emerald-400 transition uppercase" data-i18n="nav-history">Historia</a>
-                <a href="#" class="hover:text-emerald-400 transition uppercase" data-i18n="nav-teams">Selecciones</a>
-                <a href="#" class="hover:text-emerald-400 transition uppercase" data-i18n="nav-records">Récords</a>
-            </div>
-
-            <!-- Selector de Idioma -->
-            <div class="relative group">
-                <button class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-xs font-bold hover:bg-white/20 transition">
-                    <i class="fas fa-globe"></i>
-                    <span id="currentLangLabel">Español</span>
-                </button>
-                <!-- Dropdown -->
-                <div class="absolute right-0 mt-2 w-40 bg-white text-slate-900 rounded-xl shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 overflow-hidden border border-slate-200">
-                    <button onclick="setLanguage('es')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-xs font-bold border-b border-slate-100">Español</button>
-                    <button onclick="setLanguage('en')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-xs font-bold border-b border-slate-100">English</button>
-                    <button onclick="setLanguage('fr')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-xs font-bold border-b border-slate-100">Français</button>
-                    <button onclick="setLanguage('de')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-xs font-bold border-b border-slate-100">Deutsch</button>
-                    <button onclick="setLanguage('pt')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-xs font-bold">Português</button>
+            <div class="flex items-center gap-6">
+                <!-- Selector Idiomas -->
+                <div class="relative group">
+                    <button class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition">
+                        <i class="fas fa-globe"></i> <span id="langBtn">Español</span>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-40 bg-white text-slate-900 rounded-xl shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 border border-slate-200 overflow-hidden">
+                        <button onclick="setLanguage('es')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold border-b">Español</button>
+                        <button onclick="setLanguage('en')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold border-b">English</button>
+                        <button onclick="setLanguage('fr')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold border-b">Français</button>
+                        <button onclick="setLanguage('de')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold border-b">Deutsch</button>
+                        <button onclick="setLanguage('pt')" class="w-full text-left px-4 py-3 hover:bg-slate-100 text-[10px] font-bold">Português</button>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION (Estilo 2026) -->
-    <header class="bg-fifa-gradient text-white py-20 px-6 relative overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h1 class="text-5xl md:text-7xl mb-6 tracking-tighter italic leading-none" data-i18n="hero-title">
-                La Enciclopedia <span class="text-emerald-400">Total</span> de los Mundiales
-            </h1>
-            <p class="text-slate-400 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto" data-i18n="hero-subtitle">
-                Consulta cada partido, cada gol y cada leyenda desde Uruguay 1930 hasta la actualidad.
-            </p>
-            
-            <!-- Caja de Búsqueda Centrada -->
-            <div class="max-w-2xl mx-auto relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-blue-500 rounded-2xl blur opacity-20 group-hover:opacity-50 transition duration-1000"></div>
-                <div class="relative bg-white rounded-2xl flex items-center p-2 shadow-2xl">
-                    <i class="fas fa-search text-slate-300 ml-4 mr-3"></i>
-                    <input type="text" id="mainSearch" 
-                           placeholder="Busca un jugador, un año o un país..." 
-                           class="w-full bg-transparent border-none py-4 text-slate-800 font-bold outline-none placeholder:text-slate-300"
-                           data-i18n-placeholder="search-placeholder">
-                    <button class="bg-fifa-navy text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-emerald-500 transition-colors" data-i18n="btn-search">
-                        Consultar
-                    </button>
+    <!-- LAYOUT PRINCIPAL -->
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- COLUMNA IZQUIERDA: RANKINGS -->
+        <aside class="sidebar w-72 shrink-0 hidden lg:block">
+            <div class="p-6 border-b">
+                <h3 class="text-[10px] font-black text-slate-400 tracking-[0.2em]" data-i18n="side-rankings">Top 50 Rankings</h3>
+            </div>
+            <nav class="py-2">
+                <div onclick="rankingSearch(1)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r1">Gol más rápido</div>
+                <div onclick="rankingSearch(2)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r2">Goles por partido</div>
+                <div onclick="rankingSearch(3)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r3">Goleador en un partido</div>
+                <div onclick="rankingSearch(4)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r4">Penaltis pitados</div>
+                <div onclick="rankingSearch(5)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r5">Expulsión rápida</div>
+                <div onclick="rankingSearch(6)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r6">Cambio rápido</div>
+                <div onclick="rankingSearch(7)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r7">Partido más largo</div>
+                <div onclick="rankingSearch(8)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r8">Más faltas cometidas</div>
+                <div onclick="rankingSearch(9)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r9">Portero menos goleado</div>
+                <div onclick="rankingSearch(10)" class="ranking-item px-6 py-4 text-xs font-black uppercase italic" data-i18n="r10">Títulos Mundiales</div>
+            </nav>
+        </aside>
+
+        <!-- COLUMNA CENTRAL: BUSCADOR -->
+        <main class="flex-1 overflow-y-auto bg-white flex flex-col">
+            <!-- Hero Search Area -->
+            <div class="bg-fifa-gradient p-12 text-white text-center">
+                <h2 class="text-4xl font-black italic mb-6 tracking-tighter" data-i18n="hero-title">Archivo Histórico Total</h2>
+                <div class="max-w-2xl mx-auto relative">
+                    <input type="text" id="searchInput" class="w-full py-4 pl-12 pr-4 rounded-xl text-slate-900 font-bold outline-none" placeholder="Busca un jugador, país o año..." data-i18n-placeholder="search-placeholder">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
                 </div>
             </div>
-        </div>
-        <!-- Decoración de fondo (Círculos difuminados estilo 2026) -->
-        <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl"></div>
-    </header>
 
-    <!-- ÁREA DE CONTENIDO (Placeholder para la siguiente fase) -->
-    <main class="max-w-7xl mx-auto p-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm border-b-8 border-b-emerald-400">
-                <i class="fas fa-history text-3xl text-emerald-400 mb-4"></i>
-                <h3 class="text-xl mb-2" data-i18n="card1-title">Archivo 1930</h3>
-                <p class="text-slate-500 text-sm" data-i18n="card1-text">Explora los inicios del torneo en Uruguay.</p>
+            <!-- Result Area -->
+            <div id="resultArea" class="p-10 flex-1">
+                <div class="max-w-3xl mx-auto text-center py-20 text-slate-300">
+                    <i class="fas fa-database text-6xl mb-4"></i>
+                    <p class="font-bold uppercase tracking-widest text-xs" data-i18n="ready">Listo para consultar la base de datos</p>
+                </div>
             </div>
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm border-b-8 border-b-blue-500">
-                <i class="fas fa-trophy text-3xl text-blue-500 mb-4"></i>
-                <h3 class="text-xl mb-2" data-i18n="card2-title">Ranking de Oro</h3>
-                <p class="text-slate-500 text-sm" data-i18n="card2-text">Los 50 mejores jugadores de la historia.</p>
+        </main>
+
+        <!-- COLUMNA DERECHA: NOTICIAS -->
+        <aside class="sidebar w-80 shrink-0 hidden xl:block">
+            <div class="p-6 border-b bg-slate-50 flex items-center justify-between">
+                <h3 class="text-[10px] font-black text-slate-900 tracking-[0.2em]" data-i18n="side-news">Noticias Fútbol</h3>
+                <span class="bg-red-600 text-white text-[8px] px-2 py-0.5 rounded-full font-bold animate-pulse">LIVE</span>
             </div>
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm border-b-8 border-b-rose-500">
-                <i class="fas fa-satellite-dish text-3xl text-rose-500 mb-4"></i>
-                <h3 class="text-xl mb-2" data-i18n="card3-title">United 2026</h3>
-                <p class="text-slate-500 text-sm" data-i18n="card3-text">Sigue la previa del próximo mundial.</p>
+            <div id="newsFeed" class="p-2 overflow-y-auto">
+                <!-- Inyectado por JS -->
+                <div class="p-10 text-center text-slate-400 italic text-xs">Cargando prensa internacional...</div>
             </div>
-        </div>
-    </main>
+        </aside>
+
+    </div>
 
     <script>
-        // TRADUCCIONES
+        const NEWS_API_KEY = '77abffd66a8544489beb9dc34972de88';
+        const currentLang = 'es';
+
         const translations = {
             es: {
-                "nav-history": "Historia", "nav-teams": "Selecciones", "nav-records": "Récords",
-                "hero-title": "La Enciclopedia <span class='text-emerald-400'>Total</span> de los Mundiales",
-                "hero-subtitle": "Consulta cada partido, cada gol y cada leyenda desde Uruguay 1930 hasta la actualidad.",
-                "search-placeholder": "Busca un jugador, un año o un país...",
-                "btn-search": "Consultar",
-                "card1-title": "Archivo 1930", "card1-text": "Explora los inicios del torneo en Uruguay.",
-                "card2-title": "Ranking de Oro", "card2-text": "Los 50 mejores jugadores de la historia.",
-                "card3-title": "United 2026", "card3-text": "Sigue la previa del próximo mundial.",
-                "lang-label": "Español"
+                "side-rankings": "Top 50 Rankings", "side-news": "Noticias Fútbol", "hero-title": "Archivo Histórico Total",
+                "search-placeholder": "Busca un jugador, país o año...", "ready": "Listo para consultar la base de datos",
+                "r1": "Gol más rápido", "r2": "Goles por partido", "r3": "Goleador en un partido", "r4": "Penaltis pitados",
+                "r5": "Expulsión rápida", "r6": "Cambio rápido", "r7": "Partido más largo", "r8": "Más faltas cometidas",
+                "r9": "Portero menos goleado", "r10": "Títulos Mundiales", "lang-label": "Español"
             },
             en: {
-                "nav-history": "History", "nav-teams": "Teams", "nav-records": "Records",
-                "hero-title": "The <span class='text-emerald-400'>Total</span> World Cup Encyclopedia",
-                "hero-subtitle": "Browse every match, goal, and legend from Uruguay 1930 to the present day.",
-                "search-placeholder": "Search for a player, year, or country...",
-                "btn-search": "Search",
-                "card1-title": "1930 Archive", "card1-text": "Explore the tournament's beginnings in Uruguay.",
-                "card2-title": "Golden Ranking", "card2-text": "The top 50 players in history.",
-                "card3-title": "United 2026", "card3-text": "Follow the build-up to the next World Cup.",
-                "lang-label": "English"
+                "side-rankings": "Top 50 Rankings", "side-news": "Football News", "hero-title": "Total Historical Archive",
+                "search-placeholder": "Search for a player, country or year...", "ready": "Ready to query database",
+                "r1": "Fastest Goal", "r2": "Goals per match", "r3": "Top Scorer in match", "r4": "Penalties awarded",
+                "r5": "Fastest Red Card", "r6": "Fastest Sub", "r7": "Longest Match", "r8": "Most Fouls",
+                "r9": "Clean Sheets", "r10": "World Cup Titles", "lang-label": "English"
             },
-            fr: {
-                "nav-history": "Histoire", "nav-teams": "Équipes", "nav-records": "Records",
-                "hero-title": "L'Encyclopédie <span class='text-emerald-400'>Totale</span> de la Coupe du Monde",
-                "hero-subtitle": "Consultez chaque match, chaque but et chaque légende depuis l'Uruguay 1930 jusqu'à aujourd'hui.",
-                "search-placeholder": "Cherchez un joueur, une année ou un pays...",
-                "btn-search": "Chercher",
-                "card1-title": "Archives 1930", "card1-text": "Explorez les débuts du tournoi en Uruguay.",
-                "card2-title": "Classement d'Or", "card2-text": "Les 50 meilleurs joueurs de l'histoire.",
-                "card3-title": "United 2026", "card3-text": "Suivez la préparation du prochain mondial.",
-                "lang-label": "Français"
-            },
-            de: {
-                "nav-history": "Geschichte", "nav-teams": "Teams", "nav-records": "Rekorde",
-                "hero-title": "Die <span class='text-emerald-400'>Gesamte</span> Weltmeisterschafts-Enzyklopädie",
-                "hero-subtitle": "Durchsuchen Sie jedes Spiel, jedes Tor und jede Legende von Uruguay 1930 bis heute.",
-                "search-placeholder": "Suche nach einem Spieler, Jahr oder Land...",
-                "btn-search": "Suchen",
-                "card1-title": "1930 Archiv", "card1-text": "Erkunden Sie die Anfänge des Turniers in Uruguay.",
-                "card2-title": "Goldenes Ranking", "card2-text": "Die 50 besten Spieler der Geschichte.",
-                "card3-title": "United 2026", "card3-text": "Verfolgen Sie die Vorbereitungen auf die nächste WM.",
-                "lang-label": "Deutsch"
-            },
-            pt: {
-                "nav-history": "História", "nav-teams": "Seleções", "nav-records": "Recordes",
-                "hero-title": "A Enciclopédia <span class='text-emerald-400'>Total</span> da Copa do Mundo",
-                "hero-subtitle": "Consulte cada jogo, cada golo e cada lenda desde o Uruguai 1930 até aos dias de hoje.",
-                "search-placeholder": "Procure um jogador, ano ou país...",
-                "btn-search": "Consultar",
-                "card1-title": "Arquivo 1930", "card1-text": "Explore o início do torneio no Uruguai.",
-                "card2-title": "Ranking de Ouro", "card2-text": "Os 50 melhores jogadores da história.",
-                "card3-title": "United 2026", "card3-text": "Siga a preparação para o próximo mundial.",
-                "lang-label": "Português"
-            }
+            // ... (Añadiré el resto de idiomas en el objeto real de la web)
         };
 
         function setLanguage(lang) {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                el.innerHTML = translations[lang][key];
+                if(translations[lang][key]) el.innerHTML = translations[lang][key];
             });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                el.placeholder = translations[lang][key];
-            });
-            document.getElementById('currentLangLabel').innerText = translations[lang]['lang-label'];
+            document.getElementById('langBtn').innerText = translations[lang]['lang-label'];
         }
+
+        // NOTICIAS REALES (Proxy AllOrigins para evitar CORS)
+        async function fetchNews() {
+            const feed = document.getElementById('newsFeed');
+            const apiUrl = `https://newsapi.org/v2/everything?q=football+worldcup&language=es&sortBy=publishedAt&pageSize=10&apiKey=${NEWS_API_KEY}`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+
+            try {
+                const res = await fetch(proxyUrl);
+                const json = await res.json();
+                const data = JSON.parse(json.contents);
+                
+                if (data.articles) {
+                    feed.innerHTML = data.articles.map(a => `
+                        <div class="news-card rounded-lg" onclick="window.open('${a.url}', '_blank')">
+                            <p class="text-[8px] font-black text-rose-600 uppercase mb-1">${a.source.name}</p>
+                            <h4 class="text-[11px] font-bold leading-tight">${a.title}</h4>
+                            <p class="text-[9px] text-slate-400 mt-2">${new Date(a.publishedAt).toLocaleDateString()}</p>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                feed.innerHTML = `<div class="p-10 text-center text-slate-400 text-xs italic">Error de conexión con la prensa internacional.</div>`;
+            }
+        }
+
+        function rankingSearch(id) {
+            // Aquí irá el link a la IA en la siguiente fase
+            alert("Consultando ranking ID: " + id);
+        }
+
+        window.onload = fetchNews;
     </script>
 </body>
 </html>
