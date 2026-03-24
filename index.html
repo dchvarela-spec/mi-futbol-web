@@ -3,57 +3,257 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mi Wiki</title>
-    styles.css
+    <title>LineCall | Wiki de los Mundiales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Public+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fifa-navy: #020617;
+            --fifa-green: #00df59;
+            --fifa-red: #ff004c;
+            --wiki-border: #a2a9b1;
+        }
+        body { font-family: 'Public Sans', sans-serif; background-color: #f6f6f6; color: #202122; margin: 0; display: flex; }
+        
+        /* Sidebar Estilo Wiki + FIFA */
+        .sidebar { width: 250px; background-color: #f6f6f6; border-right: 1px solid var(--wiki-border); height: 100vh; position: fixed; padding: 15px; overflow-y: auto; }
+        .logo { padding: 10px 0 20px 0; border-bottom: 1px solid var(--wiki-border); margin-bottom: 15px; }
+        .logo h1 { font-family: 'Montserrat'; font-weight: 900; italic; font-size: 24px; color: var(--fifa-navy); }
+        .logo span { color: var(--fifa-red); }
+        
+        nav ul { list-style: none; padding: 0; }
+        nav li { margin-bottom: 8px; font-size: 13px; }
+        nav a { color: #0645ad; text-decoration: none; cursor: pointer; }
+        nav a:hover { text-decoration: underline; }
+        .nav-title { font-weight: bold; font-size: 12px; color: #54595d; text-transform: uppercase; margin-top: 20px; display: block; border-bottom: 1px solid #eaecf0; padding-bottom: 5px; margin-bottom: 10px; }
+
+        /* Contenido Principal */
+        .content { margin-left: 250px; flex: 1; padding: 40px; min-height: 100vh; background: white; }
+        .page-header h1 { font-family: 'Montserrat'; font-size: 32px; font-weight: 700; margin-bottom: 0; }
+        hr { border: 0; border-top: 1px solid var(--wiki-border); margin-top: 5px; margin-bottom: 20px; }
+        
+        /* Tablas e Info */
+        .wiki-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        .wiki-table th { background-color: #eaecf0; border: 1px solid var(--wiki-border); padding: 8px; text-align: left; }
+        .wiki-table td { border: 1px solid var(--wiki-border); padding: 8px; }
+        .entity-link { color: #0645ad; font-weight: bold; cursor: pointer; }
+        .entity-link:hover { text-decoration: underline; }
+
+        /* Caja de Búsqueda Superior */
+        .search-container { position: fixed; top: 0; right: 0; left: 250px; background: #f6f6f6; padding: 10px 40px; display: flex; justify-content: flex-end; gap: 10px; border-bottom: 1px solid var(--wiki-border); z-index: 100; }
+        .search-input { border: 1px solid var(--wiki-border); padding: 5px 10px; font-size: 13px; width: 300px; outline: none; }
+        .search-input:focus { border-color: var(--fifa-green); }
+        .btn-fifa { background: var(--fifa-navy); color: white; padding: 5px 15px; font-size: 12px; font-weight: bold; text-transform: uppercase; border-radius: 3px; }
+
+        /* Columna de Noticias (Dentro de la Wiki) */
+        .news-box { float: right; width: 300px; border: 1px solid var(--wiki-border); background: #f8f9fa; padding: 15px; margin-left: 20px; border-radius: 2px; }
+        .news-box h3 { font-size: 14px; border-bottom: 1px solid var(--wiki-border); padding-bottom: 5px; margin-bottom: 10px; color: var(--fifa-red); }
+    </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="logo">
-            <h1>MiWiki</h1>
+            <h1>Line<span>Call</span></h1>
+            <p style="font-size: 9px; font-weight: bold; color: #a2a9b1;">LA WIKI DEL MUNDIAL</p>
         </div>
 
         <nav>
+            <span class="nav-title">Navegación</span>
             <ul>
-                <li>#Portada</a></li>
-                <li><a hrefidad</a></li>
-                <li><a hrefido</a></li>
-                <li>#Aleatorio</a></li>
-                <li>#Ayuda</a></li>
+                <li><a onclick="location.reload()">Portada</a></li>
+                <li><a onclick="renderView('editions')">Cronología Mundiales</a></li>
+                <li><a onclick="renderView('players')">Goleadores Históricos</a></li>
+            </ul>
+
+            <span class="nav-title">Idiomas</span>
+            <div class="flex gap-2 flex-wrap">
+                <a onclick="setLanguage('es')">ES</a> | <a onclick="setLanguage('en')">EN</a> | 
+                <a onclick="setLanguage('fr')">FR</a> | <a onclick="setLanguage('de')">DE</a> | 
+                <a onclick="setLanguage('pt')">PT</a>
+            </div>
+
+            <span class="nav-title">Rankings Top 50</span>
+            <ul id="goldMenu">
+                <!-- Inyectado por JS -->
             </ul>
         </nav>
     </aside>
 
-    <!-- Main content -->
+    <!-- TOP SEARCH -->
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar en LineCall..." onkeypress="if(event.key==='Enter') executeSearch()">
+        <button onclick="executeSearch()" class="btn-fifa">Buscar</button>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <main class="content">
-        <header class="page-header">
-            <h1>Título del Artículo</h1>
+        <div id="newsPanel" class="news-box">
+            <h3>Noticias de Fútbol</h3>
+            <div id="newsFeed" class="text-xs space-y-3">
+                Cargando prensa internacional...
+            </div>
+        </div>
+
+        <header class="page-header mt-10">
+            <h1 id="articleTitle">Portada del Mundial</h1>
             <hr>
         </header>
 
-        <article>
+        <article id="mainArticle">
             <p>
-                Este es un ejemplo de diseño inspirado en Wikipedia. Incluye una barra lateral,
-                cuerpo centrado, tipografía serif y un estilo limpio.
+                Bienvenido a <b>LineCall</b>, la enciclopedia estadística definitiva sobre la Copa del Mundo de la FIFA. 
+                Aquí puedes consultar datos desde Uruguay 1930 hasta la previa de United 2026.
             </p>
+            <div class="bg-blue-50 p-4 border border-blue-200 mt-5">
+                <i class="fas fa-info-circle text-blue-500"></i> 
+                <b>Consejo:</b> Haz clic en cualquier país o jugador resaltado para abrir su ficha técnica completa.
+            </div>
 
-            <h2>Sección 1</h2>
+            <h2 class="font-bold text-xl mt-10 mb-2">United 2026</h2>
             <p>
-                Puedes añadir tablas, imágenes, enlaces y todo tipo de contenido como si fuese una wiki personal.
+                El próximo mundial se celebrará en Norteamérica. Será la primera edición con 48 selecciones y 104 partidos.
             </p>
-
-            <h2>Sección 2</h2>
-            <p>
-                La idea es replicar el diseño general sin copiar contenido. Puedes modificar colores, menú y estructura.
-            </p>
+            <div class="grid grid-cols-3 gap-4 mt-5 text-center">
+                <div class="border p-4 bg-gray-50"><b>48</b><br><small>Equipos</small></div>
+                <div class="border p-4 bg-gray-50"><b>16</b><br><small>Sedes</small></div>
+                <div class="border p-4 bg-gray-50"><b>104</b><br><small>Partidos</small></div>
+            </div>
         </article>
 
-        <footer class="footer">
+        <footer class="footer mt-20 text-xs text-gray-400 italic">
             <hr>
-            <p>Contenido creado por ti — Inspirado en Wikipedia</p>
+            <p>Última modificación: 24 marzo 2024. Los datos estadísticos provienen de registros oficiales históricos.</p>
         </footer>
     </main>
 
+    <script>
+        const NEWS_API_KEY = '77abffd66a8544489beb9dc34972de88';
+
+        // BASE DE DATOS ESTATICA
+        const db = {
+            editions: [
+                { Año: "2022", Sede: "Qatar", Campeón: "Argentina", Final: "3-3 (4-2 p.)", Goleador: "Kylian Mbappé", Balón_Oro: "Lionel Messi" },
+                { Año: "2018", Sede: "Rusia", Campeón: "Francia", Final: "4-2", Goleador: "Harry Kane", Balón_Oro: "Luka Modric" },
+                { Año: "2014", Sede: "Brasil", Campeón: "Alemania", Final: "1-0", Goleador: "James Rodríguez", Balón_Oro: "Lionel Messi" },
+                { Año: "1986", Sede: "México", Campeón: "Argentina", Final: "3-2", Goleador: "Gary Lineker", Balón_Oro: "Diego Maradona" },
+                { Año: "1970", Sede: "México", Campeón: "Brasil", Final: "4-1", Goleador: "Gerd Müller", Balón_Oro: "Pelé" },
+                { Año: "1930", Sede: "Uruguay", Campeón: "Uruguay", Final: "4-2", Goleador: "Guillermo Stábile", Balón_Oro: "Nasazzi" }
+            ],
+            players: [
+                { Nombre: "Lionel Messi", País: "Argentina", Goles: "13", Partidos: "26", Mundiales: "5" },
+                { Nombre: "Miroslav Klose", País: "Alemania", Goles: "16", Partidos: "24", Mundiales: "4" },
+                { Nombre: "Pelé", País: "Brasil", Goles: "12", Partidos: "14", Mundiales: "4" },
+                { Nombre: "Cristiano Ronaldo", País: "Portugal", Goles: "8", Partidos: "22", Mundiales: "5" }
+            ],
+            records: [
+                { Ranking: "Gol más rápido", Autor: "Hakan Sukur", Marca: "11 segundos", Año: "2002" },
+                { Ranking: "Expulsión rápida", Autor: "Jose Batista", Marca: "56 segundos", Año: "1986" },
+                { Ranking: "Más Mundiales", Autor: "Antonio Carbajal", Marca: "5 ediciones", Año: "1950-1966" }
+            ]
+        };
+
+        const articleArea = document.getElementById('mainArticle');
+        const titleArea = document.getElementById('articleTitle');
+
+        // BUSCADOR UNIVERSAL
+        async function executeSearch(forcedQuery) {
+            const query = (forcedQuery || document.getElementById('searchInput').value).trim();
+            if (!query) return;
+
+            titleArea.innerText = `Resultados para: ${query}`;
+            articleArea.innerHTML = `<p class="italic text-gray-500">Buscando en los archivos de LineCall...</p>`;
+
+            let resultsHTML = "";
+            let found = false;
+
+            // API DE PAÍSES
+            try {
+                const res = await fetch(`https://restcountries.com/v3.1/name/${query}`);
+                const country = await res.json();
+                if (country && country[0]) {
+                    found = true;
+                    resultsHTML += `
+                        <div class="border p-4 bg-gray-50 flex items-center gap-5 mb-10">
+                            <img src="${country[0].flags.svg}" width="80" class="border">
+                            <div>
+                                <h2 class="text-xl font-bold uppercase">${country[0].name.common}</h2>
+                                <p class="text-xs">Capital: ${country[0].capital} | Población: ${country[0].population.toLocaleString()}</p>
+                            </div>
+                        </div>`;
+                }
+            } catch (e) {}
+
+            // BUSCAR EN DB INTERNA
+            const q = query.toLowerCase();
+            const editions = db.editions.filter(e => JSON.stringify(e).toLowerCase().includes(q));
+            if (editions.length > 0) { found = true; resultsHTML += `<h3>Mundiales relacionados</h3>` + generateTable(editions); }
+
+            const players = db.players.filter(p => JSON.stringify(p).toLowerCase().includes(q));
+            if (players.length > 0) { found = true; resultsHTML += `<h3>Jugadores encontrados</h3>` + generateTable(players); }
+
+            articleArea.innerHTML = found ? resultsHTML : `<p>No se han encontrado registros estadísticos para "${query}".</p>`;
+        }
+
+        // UTILIDADES
+        function linkify(text) {
+            if (!text || typeof text !== 'string' || !isNaN(text) || text.length < 3) return text;
+            return `<span class="entity-link" onclick="executeSearch('${text}')">${text}</span>`;
+        }
+
+        function generateTable(data) {
+            const headers = Object.keys(data[0]);
+            let html = `<table class="wiki-table"><thead><tr>`;
+            headers.forEach(h => html += `<th>${h}</th>`);
+            html += `</tr></thead><tbody>`;
+            data.forEach(row => {
+                html += `<tr>`;
+                headers.forEach(h => html += `<td>${linkify(row[h])}</td>`);
+                html += `</tr>`;
+            });
+            html += `</tbody></table><br>`;
+            return html;
+        }
+
+        // NOTICIAS (Proxy AllOrigins)
+        async function fetchNews() {
+            const feed = document.getElementById('newsFeed');
+            const apiUrl = `https://newsapi.org/v2/everything?q=fútbol+mundial&language=es&sortBy=publishedAt&pageSize=8&apiKey=${NEWS_API_KEY}`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+
+            try {
+                const res = await fetch(proxyUrl);
+                const json = await res.json();
+                const data = JSON.parse(json.contents);
+                if (data.articles) {
+                    feed.innerHTML = data.articles.map(a => `
+                        <div>
+                            <a href="${a.url}" target="_blank" class="block font-bold leading-tight hover:underline text-blue-700">${a.title}</a>
+                            <p class="text-[10px] text-gray-400 mt-1">${a.source.name}</p>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                feed.innerHTML = `<p class="text-gray-400">Noticias temporalmente no disponibles.</p>`;
+            }
+        }
+
+        function renderView(key) {
+            titleArea.innerText = key === 'editions' ? 'Cronología de los Mundiales' : 'Base de Jugadores';
+            articleArea.innerHTML = generateTable(db[key]);
+        }
+
+        function init() {
+            const goldMenu = document.getElementById('goldMenu');
+            db.records.forEach(r => {
+                goldMenu.innerHTML += `<li><a onclick="executeSearch('${r.Autor}')">${r.Ranking}</a></li>`;
+            });
+            fetchNews();
+        }
+
+        init();
+    </script>
 </body>
 </html>
