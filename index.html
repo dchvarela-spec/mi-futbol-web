@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Línea de Cal | AI Football Master Encyclopedia</title>
+    <title>LineCall | AI Master Encyclopedia v11</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Public+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -14,15 +14,15 @@
         .sidebar-r { background-color: white; border-left: 1px solid #e2e8f0; width: 380px; shrink: 0; }
         .nav-item { border-left: 4px solid transparent; transition: 0.2s; cursor: pointer; color: #94a3b8; }
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-left-color: #e11d48; color: white; }
-        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; transition: 0.2s; }
-        .entity-link:hover { color: #e11d48; background: #fff1f2; padding: 0 2px; border-radius: 2px; }
+        .entity-link { color: #2563eb; font-weight: 700; text-decoration: underline; cursor: pointer; }
+        .entity-link:hover { color: #e11d48; background: #fff1f2; }
         .card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .ai-response table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
         .ai-response th { background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b; text-transform: uppercase; font-size: 10px; }
         .ai-response td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
         .news-card { border-bottom: 1px solid #f1f5f9; padding: 15px; transition: 0.2s; }
         .news-card:hover { background: #f8fafc; }
-        .loading-icon { animation: spin 1s linear infinite; }
+        .spin { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -30,43 +30,43 @@
 </head>
 <body class="flex h-screen">
 
-    <!-- SIDEBAR IZQUIERDO: RANKINGS -->
-    <aside class="sidebar-l flex flex-col overflow-y-auto hidden lg:flex shadow-2xl z-30">
+    <!-- SIDEBAR IZQUIERDO -->
+    <aside class="sidebar-l flex flex-col overflow-y-auto hidden lg:flex z-30">
         <div class="p-8 border-b border-white/5 bg-slate-950">
-            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase leading-none">LINE<span class="text-rose-600">CALL</span></h1>
-            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2 font-mono italic">AI Encyclopedia 10.0</p>
+            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase italic leading-none">LINE<span class="text-rose-600">CALL</span></h1>
+            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-2 font-mono">Full AI History Engine</p>
         </div>
         <nav class="flex-1 py-4">
             <div onclick="location.reload()" class="nav-item active px-8 py-3 text-sm font-bold flex items-center gap-2">
-                <i class="fas fa-home"></i> Dashboard Principal
+                <i class="fas fa-home"></i> Inicio / United 2026
             </div>
             
-            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest italic border-t border-white/5 mt-4">Top 50 Rankings Históricos</div>
+            <div class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest italic border-t border-white/5 mt-4">Rankings Top 50 (FIFA Official)</div>
             <div class="space-y-1">
-                <div onclick="askAI('Ranking top 50 máximos goleadores de la historia de los mundiales con goles y país en tabla HTML')" class="nav-item px-8 py-2 text-[11px] font-medium">1. Goleadores (50)</div>
-                <div onclick="askAI('Ranking top 50 jugadores con más partidos jugados en mundiales en tabla HTML')" class="nav-item px-8 py-2 text-[11px] font-medium">2. Partidos Jugados (50)</div>
-                <div onclick="askAI('Ranking de los 50 goles más rápidos de los mundiales indicando segundos y partido')" class="nav-item px-8 py-2 text-[11px] font-medium">3. Goles más rápidos (50)</div>
-                <div onclick="askAI('Ranking de los 50 porteros con menos goles recibidos por mundial (min 3 partidos)')" class="nav-item px-8 py-2 text-[11px] font-medium">4. Porteros Imbatidos (50)</div>
-                <div onclick="askAI('Ranking de las 50 expulsiones más rápidas en mundiales con minuto y jugador')" class="nav-item px-8 py-2 text-[11px] font-medium">5. Expulsiones rápidas (50)</div>
-                <div onclick="askAI('Ranking de los 50 cambios de jugador más rápidos de la historia de los mundiales')" class="nav-item px-8 py-2 text-[11px] font-medium">6. Cambios rápidos (50)</div>
-                <div onclick="askAI('Ranking de los 50 partidos más largos de la historia (minutos totales)')" class="nav-item px-8 py-2 text-[11px] font-medium">7. Partidos más largos (50)</div>
-                <div onclick="askAI('Ranking de los 50 jugadores con más faltas cometidas en un mundial')" class="nav-item px-8 py-2 text-[11px] font-medium">8. Más faltas (50)</div>
-                <div onclick="askAI('Ranking de los 50 partidos con más penaltis pitados en la historia')" class="nav-item px-8 py-2 text-[11px] font-medium">9. Más Penaltis (50)</div>
-                <div onclick="askAI('Ranking de los 50 máximos asistentes de la historia de los mundiales')" class="nav-item px-8 py-2 text-[11px] font-medium">10. Asistencias (50)</div>
+                <div onclick="askAI('Ranking de los 50 máximos goleadores de la historia de los mundiales')" class="nav-item px-8 py-2 text-[11px]">1. Goleadores (Top 50)</div>
+                <div onclick="askAI('Ranking de los 50 jugadores con más partidos jugados en los mundiales')" class="nav-item px-8 py-2 text-[11px]">2. Más Partidos (Top 50)</div>
+                <div onclick="askAI('Ranking de los 50 goles más rápidos de los mundiales con segundo exacto')" class="nav-item px-8 py-2 text-[11px]">3. Goles rápidos (Top 50)</div>
+                <div onclick="askAI('Ranking de los 50 porteros con menos goles recibidos por mundial')" class="nav-item px-8 py-2 text-[11px]">4. Porteros (Top 50)</div>
+                <div onclick="askAI('Ranking de las 50 expulsiones más rápidas en mundiales')" class="nav-item px-8 py-2 text-[11px]">5. Expulsiones (Top 50)</div>
+                <div onclick="askAI('Ranking de los 50 cambios más rápidos de los mundiales')" class="nav-item px-8 py-2 text-[11px]">6. Cambios (Top 50)</div>
+                <div onclick="askAI('Ranking de los 50 partidos más largos de la historia')" class="nav-item px-8 py-2 text-[11px]">7. Tiempo (Top 50)</div>
+                <div onclick="askAI('Ranking de los 50 jugadores con más faltas en un mundial')" class="nav-item px-8 py-2 text-[11px]">8. Faltas (Top 50)</div>
+                <div onclick="askAI('Ranking de los 50 partidos con más penaltis de la historia')" class="nav-item px-8 py-2 text-[11px]">9. Penaltis (Top 50)</div>
+                <div onclick="askAI('Ranking selecciones con más partidos ganados en mundiales')" class="nav-item px-8 py-2 text-[11px]">10. Victorias (Top 50)</div>
             </div>
         </nav>
     </aside>
 
-    <!-- CUERPO CENTRAL: BUSCADOR AI -->
+    <!-- CENTRO: BUSCADOR AI -->
     <main class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
         <header class="h-28 bg-white border-b border-slate-200 flex items-center px-10 gap-4 shrink-0 shadow-sm z-20">
             <div class="flex-1 bg-slate-100 rounded-2xl flex items-center px-6 py-4 border border-transparent focus-within:ring-2 ring-rose-600 transition-all">
-                <i class="fas fa-magic text-rose-600 mr-4 text-xl"></i>
-                <input type="text" id="aiInput" placeholder="Busca alineaciones, suplentes, partidos... ej: 'Final 2010 España alineación completa con suplentes'" 
+                <i class="fas fa-robot text-rose-600 mr-4 text-xl"></i>
+                <input type="text" id="aiInput" placeholder="Busca alineaciones, suplentes, minutos... ej: 'Brasil vs Italia 1970 alineación completa'" 
                        class="bg-transparent w-full outline-none text-base font-bold text-slate-700" onkeypress="if(event.key==='Enter') askAI()">
             </div>
             <button onclick="askAI()" class="bg-slate-900 text-white px-10 py-4 rounded-xl font-black text-xs uppercase hover:bg-rose-600 transition-all shadow-xl">
-                Consultar AI
+                CONSULTAR IA
             </button>
         </header>
 
@@ -75,8 +75,8 @@
                 <div class="w-20 h-20 bg-rose-100 rounded-3xl flex items-center justify-center mx-auto mb-8 text-rose-600 shadow-xl">
                     <i class="fas fa-brain text-3xl"></i>
                 </div>
-                <h2 class="text-4xl font-black italic text-slate-900 uppercase">AI World Cup Hub</h2>
-                <p class="text-slate-400 mt-4 text-lg leading-relaxed">Conexión inteligente con Gemma 3 / Gemini. Consulta cualquier estadística, alineación con suplentes o récord desde 1930 a 2026.</p>
+                <h2 class="text-4xl font-black italic text-slate-900 uppercase">AI World Cup Intelligence</h2>
+                <p class="text-slate-400 mt-4 text-lg font-medium leading-relaxed">Conexión con el archivo histórico total. Alineaciones, suplentes y estadísticas desde 1930 a 2026.</p>
             </div>
         </section>
     </main>
@@ -84,77 +84,66 @@
     <!-- SIDEBAR DERECHO: NOTICIAS -->
     <aside class="sidebar-r flex flex-col overflow-hidden hidden xl:flex z-30">
         <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-white">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-900">Última Hora Fútbol</h3>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-900">Actualidad Mundial</h3>
             <i class="fas fa-newspaper text-rose-600"></i>
         </div>
-        <div id="newsFeed" class="flex-1 overflow-y-auto italic font-medium">
-            <div class="p-10 text-center animate-pulse text-slate-300 font-bold uppercase text-[10px]">Sincronizando Prensa...</div>
+        <div id="newsFeed" class="flex-1 overflow-y-auto italic font-medium text-slate-600">
+            <div class="p-10 text-center animate-pulse text-slate-300 font-bold uppercase text-[10px]">Cargando Prensa...</div>
         </div>
     </aside>
 
     <script>
-        const GEMINI_API_KEY = 'AIzaSyB_b3tnr01RPp-A3W7DF1VQW2a88qwe0bk';
-        const NEWS_API_KEY = '77abffd66a8544489beb9dc34972de88';
+        const GEMINI_KEY = 'AIzaSyB_b3tnr01RPp-A3W7DF1VQW2a88qwe0bk';
+        const NEWS_KEY = '77abffd66a8544489beb9dc34972de88';
         const viewport = document.getElementById('viewport');
 
-        // MOTOR DE IA CON FALLBACK DE VERSIÓN (FIXED ERROR)
+        // MOTOR AI CON MULTI-MODEL FALLBACK (EVITA EL ERROR "NOT FOUND")
         async function askAI(forcedQuery) {
             const query = (forcedQuery || document.getElementById('aiInput').value).trim();
             if (!query) return;
 
-            viewport.innerHTML = `
-                <div class="max-w-3xl mx-auto py-20 text-center">
-                    <i class="fas fa-futbol loading-icon text-5xl text-rose-600 mb-6"></i>
-                    <h3 class="text-xl font-black italic uppercase text-slate-400 tracking-widest">Analizando Historia FIFA...</h3>
-                </div>`;
+            viewport.innerHTML = `<div class="max-w-3xl mx-auto py-20 text-center"><i class="fas fa-futbol spin text-5xl text-rose-600 mb-6"></i><p class="text-slate-400 font-bold uppercase italic">Accediendo al Archivo Histórico Maestro...</p></div>`;
 
-            // Intentamos con la versión v1 que es la estable para Gemini 1.5 Flash
-            const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-            
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Eres el historiador jefe de la FIFA. Responde a: "${query}". 
-                        INSTRUCCIONES OBLIGATORIAS:
-                        1. Usa HTML (tablas, negritas, listas).
-                        2. Si es un partido, DEBES incluir: alineación titular, suplentes que jugaron (con minuto) y estadísticas detalladas.
-                        3. Si es un ranking, dame siempre el TOP 50.
-                        4. CADA nombre de jugador, país o año DEBE ir dentro de: <span class='entity-link' onclick='askAI(\"Dime todo sobre Nombre\")'>Nombre</span>.
-                        5. No uses Markdown (\`\`\`), solo HTML puro.` }] }]
-                    })
-                });
+            // Probamos primero el endpoint estable
+            const models = ['gemini-1.5-flash', 'gemini-pro'];
+            let success = false;
 
-                const data = await response.json();
+            for (let modelName of models) {
+                if (success) break;
                 
-                if (data.error) throw new Error(data.error.message);
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${GEMINI_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: `Eres un experto historiador de la FIFA. Responde a: "${query}". 
+                            REGLAS:
+                            1. Usa HTML (tablas, negritas). 
+                            2. Si es un partido, incluye alineación, suplentes y estadísticas. 
+                            3. Si es ranking, dame el Top 50. 
+                            4. CUALQUIER nombre de jugador o país DEBE ir en: <span class='entity-link' onclick='askAI(\"Nombre\")'>Nombre</span>.
+                            No uses Markdown, solo HTML puro.` }] }]
+                        })
+                    });
 
-                let aiText = data.candidates[0].content.parts[0].text;
-                aiText = aiText.replace(/```html|```/g, ''); 
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0]) {
+                        const aiText = data.candidates[0].content.parts[0].text.replace(/```html|```/g, '');
+                        viewport.innerHTML = `<div class="max-w-5xl mx-auto ai-response animate-fadeIn"><div class="card p-10 border-t-8 border-rose-600 leading-relaxed text-slate-800 font-medium">${aiText}</div></div>`;
+                        success = true;
+                    }
+                } catch (e) { console.log(`Fallo con ${modelName}, reintentando...`); }
+            }
 
-                viewport.innerHTML = `
-                    <div class="max-w-5xl mx-auto animate-fadeIn">
-                        <div class="card p-10 bg-white border-t-8 border-rose-600 shadow-2xl ai-response">
-                            <h2 class="text-[10px] font-black uppercase text-rose-600 mb-6 tracking-widest italic">Reporte de Inteligencia LineCall</h2>
-                            <div class="leading-relaxed text-slate-800 font-medium">${aiText}</div>
-                        </div>
-                    </div>`;
-
-            } catch (e) {
-                viewport.innerHTML = `
-                    <div class="max-w-xl mx-auto mt-20 card p-10 bg-red-50 border-red-200 text-center text-red-700">
-                        <i class="fas fa-exclamation-triangle text-3xl mb-4"></i>
-                        <h3 class="font-black uppercase text-sm mb-2">Error de Conexión AI</h3>
-                        <p class="text-xs italic">El modelo gemini-1.5-flash no responde. Verifica si tu API KEY tiene permisos o prueba de nuevo en unos segundos.</p>
-                    </div>`;
+            if (!success) {
+                viewport.innerHTML = `<div class="p-10 card bg-red-50 text-red-700 text-center mx-auto mt-20 max-w-xl">Error de Conexión. Prueba a refrescar la página o verifica tu API Key.</div>`;
             }
         }
 
-        // NOTICIAS (NewsAPI con Proxy)
+        // NOTICIAS (Proxy Corregido)
         async function fetchNews() {
             const feed = document.getElementById('newsFeed');
-            const apiUrl = `https://newsapi.org/v2/everything?q=fútbol+mundial+fifa&language=es&sortBy=publishedAt&pageSize=15&apiKey=${NEWS_API_KEY}`;
+            const apiUrl = `https://newsapi.org/v2/everything?q=football+worldcup&language=es&sortBy=publishedAt&pageSize=15&apiKey=${NEWS_KEY}`;
             const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
 
             try {
@@ -165,14 +154,12 @@
                     feed.innerHTML = data.articles.map(a => `
                         <div class="news-card">
                             <span class="text-[8px] font-black text-rose-600 uppercase tracking-widest">${a.source.name}</span>
-                            <h4 class="text-[13px] font-bold leading-tight mt-1 hover:underline">
-                                <a href="${a.url}" target="_blank">${a.title}</a>
-                            </h4>
+                            <h4 class="text-[13px] font-bold leading-tight mt-1 hover:underline"><a href="${a.url}" target="_blank">${a.title}</a></h4>
                         </div>
                     `).join('');
                 }
             } catch (e) {
-                feed.innerHTML = `<div class="p-10 text-center text-slate-300 font-bold uppercase text-[9px]">Prensa offline temporalmente</div>`;
+                feed.innerHTML = `<div class="p-10 text-center text-slate-300 font-bold uppercase text-[9px]">Prensa temporalmente offline</div>`;
             }
         }
 
